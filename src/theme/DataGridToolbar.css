@@ -1,0 +1,47 @@
+.btn-file {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-file input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 100px;
+  text-align: right;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  outline: none;
+  cursor: inherit;
+  display: block;
+}
+
+.react-grid-Container .react-grid-Toolbar {
+    background-color: #ffffff;
+    border-color: transparent;
+    border-image: none;
+    border-style: solid solid none;
+    border-width: 0px;
+    color: inherit;
+    margin-bottom: 0;
+    padding: 15px 0 0 0;
+    height: 48px;
+}
+
+.react-grid-Toolbar .btn {
+  background-color: snow;
+}
+
+.react-grid-Toolbar .btn.btn-success {
+  color: #fff;
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+}
+
+.react-grid-Toolbar .btn.btn-success:hover,
+.react-grid-Toolbar .btn.btn-success:focus {
+  background-color: #449d44;
+  border-color: #398439;
+}

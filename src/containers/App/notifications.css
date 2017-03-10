@@ -1,0 +1,46 @@
+.meme-notifications {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  z-index: 5000;
+  font-size: 20px;
+  width:auto;
+  overflow:hidden;
+}
+
+.meme-notification {
+  position: absolute;
+  font-size: 16px;
+  bottom: 0;
+  right: 10px;
+  padding: 10px 20px 10px 20px;
+  border-radius: 4px;
+  opacity: 0.7;
+  -webkit-box-shadow: 2px 2px 9px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 2px 2px 9px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 2px 2px 9px 0px rgba(0, 0, 0, 0.75);
+}
+
+.meme-notification-info {
+    color: #31708f;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+}
+
+.meme-notification-success {
+  color: DarkGreen;
+  background-color: DarkSeaGreen;
+  border-color: SeaGreen;
+}
+
+.meme-notification-danger {
+  color: DarkRed;
+  background-color: LightCoral;
+  border-color: IndianRed;
+}
+
+.meme-notification-warning {
+  color: #8a6d3b;
+  background-color: #fcf8e3;
+  border-color: #faebcc;
+}

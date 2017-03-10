@@ -1,0 +1,49 @@
+/**
+ * Override Bootstrap styles that you can't modify via variables here.
+ *
+ */
+
+ $grid-gutter-width: 50px;
+
+.navbar-brand {
+  position: relative;
+  padding-left: 50px;
+}
+
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+  color: #33e0ff;
+  background-color: transparent;
+}
+
+@media screen and (min-width: 1200px) {
+    .container {
+         width: calc(100% - #{$grid-gutter-width});
+    }
+}
+
+.form-pale {
+    background-color: snow;
+}
+
+pre {
+  background-color: transparent;
+  border: none;
+}
+
+.list-group-item:hover {
+  background-color: snow;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.panel-title a {
+  cursor: pointer;
+}
+
+.modal-lg {
+  width: 90%;
+}

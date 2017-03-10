@@ -1,0 +1,36 @@
+.article-list {
+  margin-top: 5px;
+  height: 200px;
+  overflow-y: scroll;
+}
+
+.article-list-wrapper {
+  margin-top: 15px;
+  margin-top: 15px;
+}
+
+.article-preview {
+  min-height: 150px;
+  height: 200px;
+  overflow-y: scroll;
+}
+
+.query-manager-list {
+  margin-top:15px;
+  margin-bottom:15px;
+  max-height: 180px;
+  min-height: 180px;
+  overflow-y: auto;
+}
+
+.article-list .centeredSpinner {
+   min-height: 180px
+}
+
+.query-add-dropdown {
+  width: 95%;
+}
+
+.pointer {
+  cursor: pointer;
+}

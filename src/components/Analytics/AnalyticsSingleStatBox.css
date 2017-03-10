@@ -1,0 +1,81 @@
+
+.stat-box {
+  text-align: center;
+  height: 118px;
+  border-radius: 10px;
+  padding: 15px;
+  color: white;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.stat-number {
+  font-size: 40px;
+}
+
+.stat-label {
+  font-size: 22px;
+}
+
+.stat-sent {
+  background-color: rgb(27, 193, 171);
+}
+
+.stat-delivered {
+  background-color: rgb(131, 255, 114);
+}
+
+.stat-dr {
+  background-color: rgb(85, 204, 69);
+}
+
+.stat-unique-unsubscribe {
+  background-color: rgb(244, 66, 116);
+}
+
+.stat-unsubscribe-rate {
+  background-color: rgb(255, 109, 109);
+}
+
+.stat-unique-open {
+  background-color: rgb(136, 132, 255);
+}
+
+.stat-or {
+  background-color: rgb(167, 109, 255);
+}
+
+.stat-unique-click {
+  background-color: rgb(85, 228, 244);
+}
+
+.stat-ctr {
+  background-color: rgb(79,193,233);
+}
+
+.stat-bounce {
+  background-color: red;
+}
+
+.stat-spam-complaint {
+  background-color: rgb(204,51,153);
+}
+
+.stat-summary {
+  line-height: 1.4;
+  font-size: 16px;
+  border: 1px solid grey;
+  color: grey;
+}
+
+.stat-short-string {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stat-drill-down {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}

@@ -1,0 +1,101 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "email",
+  "description": "A Meme email",
+  "type": "object",
+  "properties": {
+    "_id": {
+      "description": "Email id (guid)",
+      "type": "string"
+    },
+    "name": {
+      "description": "Name",
+      "type": "string",
+      "minLength": 1
+    },
+    "description": {
+      "description": "Description",
+      "type": "string",
+      "minLength": 1
+    },
+    "subject": {
+      "description": "Subject",
+      "type": "string",
+      "minLength": 1
+    },
+    "htmlBody": {
+      "description": "HTML body",
+      "type": "string",
+      "minLength": 1
+    },
+    "campaign": {
+      "description": "Campaign",
+      "type": ["string", "null"]
+    },
+    "segmentId": {
+      "description": "Segment Id",
+      "type": "string",
+      "minLength": 0
+    },
+    "plainBody": {
+      "description": "Plain text body",
+      "type": "string",
+      "minLength": 1
+    },
+    "replyTo": {
+      "description": "reply to email",
+      "type": "string"
+    },
+    "from": {
+      "description": "Name and Address used in `from` field",
+      "type": "object",
+      "properties": {
+        "address": {
+          "description": "Category (from domain)",
+          "type": "string",
+          "pattern": ".+@.+"
+        },
+        "name": {
+          "description": "From friendly name",
+          "type": "string"
+        }
+      },
+      "required": ["address", "name"]
+    },
+    "autogeneratePlain": {
+      "description": "Generate plain body from html",
+      "type": "boolean"
+    },
+    "queries": {
+      "description": "queries for enrichment",
+      "title": "CAPI Searches",
+      "properties": {
+        "activated": {
+          "type": "boolean"
+        },
+        "list": {
+          "type": "array",
+          "items": {
+            "variableName": {
+              "type": "string",
+              "minLength": 2
+            },
+            "query": {
+              "type": "string",
+              "minLength": 3
+            },
+            "limit": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "name",
+    "subject",
+    "description"
+  ]
+}

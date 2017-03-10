@@ -1,0 +1,12 @@
+.image-list-wrapper {
+  overflow: hidden;
+}
+
+.image-wrap-thumbnail {
+  height: 100px;
+  cursor: pointer;
+}
+
+.image-wrap-thumbnail:hover {
+  background-color: lightgrey;
+}

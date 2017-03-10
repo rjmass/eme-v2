@@ -1,0 +1,40 @@
+{
+  "name":"ft-email-meme",
+  "scripts":{},
+  "env":{
+    "NODE_ENV":{
+      "required":true
+    },
+    "URL_INFIX": {
+      "required": true
+    },
+    "ESP_INTERCEPTOR_USERNAME":{
+      "required":true
+    },
+    "ESP_INTERCEPTOR_PASSWORD":{
+      "required":true
+    },
+    "CAMPAIGNS_USERNAME":{
+      "required":true
+    },
+    "CAMPAIGNS_PASSWORD":{
+      "required":true
+    },
+    "SESSION_SECRET":{
+      "required":true
+    },
+    "AWS_ACCESS_KEY_ID":{
+      "required":true
+    },
+    "AWS_SECRET_ACCESS_KEY":{
+      "required":true
+    },
+    "AWS_BUCKET":{
+      "required":true
+    }
+  },
+  "addons":[
+    "papertrail",
+    "mongohq"
+  ]
+}

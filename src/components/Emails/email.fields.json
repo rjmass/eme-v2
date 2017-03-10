@@ -1,0 +1,15 @@
+[
+  "name",
+  "description",
+  "from.address",
+  "from.name",
+  "subject",
+  "htmlFields",
+  "campaign",
+  "segmentId",
+  "htmlBody",
+  "plainBody",
+  "replyTo",
+  "autogeneratePlain",
+  "queries"
+]

@@ -1,0 +1,8 @@
+.timezone-picker .timezone-picker-list {
+  position: absolute;
+  z-index: 10;
+}
+
+.timezone-picker .timezone-picker-list-item {
+  background-color: white;
+}

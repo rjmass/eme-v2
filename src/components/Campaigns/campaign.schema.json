@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Campaign",
+  "description": "A Meme Campaign",
+  "type": "object",
+  "properties": {
+    "_id": {
+      "description": "guid id of campaign",
+      "type": "string"
+    },
+    "name": {
+      "description": "Name of the campaign",
+      "type": "string",
+      "minLength": 1
+    },
+    "archived": {
+      "description": "Archiving campaign",
+      "type": "boolean"
+    },
+    "required": [
+      "name"
+    ]
+  }
+}

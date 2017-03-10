@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "User",
+  "description": "A User",
+  "type": "object",
+  "properties": {
+    "username": {
+      "description": "Username (must be an email address)",
+      "type": "string",
+      "minLength": 5,
+      "pattern": "^[\\w.]+@[\\w.]+$"
+    },
+    "name": {
+      "description": "Name (3 chars min)",
+      "type": "string",
+      "minLength": 3
+    },
+    "admin": {
+      "description": "User is admin",
+      "type": "boolean",
+      "default": false
+    },
+    "active": {
+      "description": "User is active",
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "name",
+    "username",
+    "admin",
+    "active"
+  ]
+}

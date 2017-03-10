@@ -1,0 +1,64 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Template",
+  "description": "A Meme Template",
+  "type": "object",
+  "properties": {
+    "_id": {
+      "description": "guid id of template",
+      "type": "string"
+    },
+    "name": {
+      "description": "Name",
+      "type": "string",
+      "minLength": 1
+    },
+    "description": {
+      "description": "Description",
+      "type": "string",
+      "minLength": 1
+    },
+    "subject": {
+      "description": "Subject",
+      "type": "string",
+      "minLength": 1
+    },
+    "htmlBody": {
+      "description": "Html body",
+      "type": "string",
+      "minLength": 1
+    },
+    "plainBody": {
+      "description": "Plain text body",
+      "type": "string",
+      "minLength": 1
+    },
+    "replyTo": {
+      "description": "reply to email",
+      "type": "string"
+    },
+    "from": {
+      "description": "Name and Address used in `from` field",
+      "type": "object",
+      "properties": {
+        "address": {
+          "description": "Category (from domain)",
+          "type": "string",
+          "pattern": ".+@.+"
+        },
+        "name": {
+          "description": "From friendly name",
+          "type": "string"
+        }
+      },
+      "required": ["address", "name"]
+    }
+  },
+  "required": [
+    "name",
+    "subject",
+    "description",
+    "htmlBody",
+    "plainBody"
+  ]
+}

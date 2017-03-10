@@ -1,0 +1,27 @@
+.drop-zone {
+  height: 150px;
+  line-height: 150px;
+  background-color: snow;
+  border: 1px dashed lightgray;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.drop-zone.active {
+  border: 2px dashed lightgray;
+}
+
+
+.drop-zone span {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: normal;
+  color: lightgrey;
+  font-size: 2em;
+}
+
+.drop-zone img {
+  height: 130px;
+  box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.75);
+  border-radius: 2px;
+}

@@ -1,0 +1,26 @@
+{
+  "presets": [["es2015"], "react", "es2017", "stage-1"],
+
+  "plugins": [
+    "add-module-exports",
+    "transform-runtime",
+    "transform-decorators-legacy",
+    "transform-react-display-name",
+    "transform-class-properties"
+  ],
+
+  "env": {
+    "development": {
+      "plugins": [
+        "typecheck",
+        ["react-transform", {
+            "transforms": [{
+                "transform": "react-transform-catch-errors",
+                "imports": ["react", "redbox-react"]
+              }
+            ]
+        }]
+      ]
+    }
+  }
+}

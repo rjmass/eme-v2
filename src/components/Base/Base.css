@@ -1,0 +1,19 @@
+.form-collapsible {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.filter-list-search {
+  padding-top: 20px;
+}
+
+iframe {
+  width: 100%;
+  border: 0;
+  height: 10000px;
+}
+
+.truncate {
+  word-break: break-all;
+}

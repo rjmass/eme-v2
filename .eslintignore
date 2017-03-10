@@ -1,0 +1,4 @@
+webpack/*
+tests.webpack.js
+src/test/helpers/*
+src/components/Analytics/popover.js

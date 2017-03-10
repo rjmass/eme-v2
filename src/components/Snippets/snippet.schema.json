@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Snippet",
+  "description": "A Meme Snippet",
+  "type": "object",
+  "properties": {
+    "_id": {
+      "description": "guid id of snippet",
+      "type": "string"
+    },
+    "name": {
+      "description": "Name of the snippet",
+      "type": "string",
+      "minLength": 1
+    },
+    "description": {
+      "description": "Description of the snippet",
+      "type": "string",
+      "minLength": 1
+    },
+    "body": {
+      "description": "body of the snippet",
+      "type": "string",
+      "minLength": 1
+    },
+    "isHtml": {
+      "description": "is snippet in HTML format",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "name",
+    "description",
+    "body",
+    "isHtml"
+  ]
+}

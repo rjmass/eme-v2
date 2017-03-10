@@ -1,0 +1,11 @@
+[
+  "name",
+  "description",
+  "from.address",
+  "from.name",
+  "subject",
+  "htmlBody",
+  "plainBody",
+  "htmlFields",
+  "replyTo"
+]

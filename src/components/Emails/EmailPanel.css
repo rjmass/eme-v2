@@ -1,0 +1,8 @@
+.panel-title > a {
+  width: 100%;
+  display: block;
+}
+
+.panel-body .alert {
+  margin-bottom: 0;
+}
