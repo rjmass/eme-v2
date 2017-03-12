@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { BaseList } from 'components/Base';
 import { createPagingButton } from 'components/PagingButton';
 import { CampaignPicker } from 'components/Campaigns';
@@ -8,11 +8,6 @@ import config from 'config';
 const pagingButton = createPagingButton(eventKey => `${config.urlInfix}/emails/list/${eventKey}`);
 
 export default class EmailsList extends BaseList {
-  static propTypes = {
-    checkedBoxes: PropTypes.object.isRequired,
-    handleChecked: PropTypes.func.isRequired
-  }
-
   handleCampaignFilter(campaignId) {
     const { onFilter } = this.props;
     onFilter({ campaignId });
@@ -43,8 +38,6 @@ export default class EmailsList extends BaseList {
         <EmailItem
           email={email}
           key={email._id}
-          checked={this.props.checkedBoxes[email._id]}
-          handleChange={this.props.handleChecked}
         />
       );
     };
@@ -52,6 +45,6 @@ export default class EmailsList extends BaseList {
   }
 
   get headers() {
-    return ['Select', 'Name', 'Subject', 'Campaign', 'Updated'];
+    return ['Name', 'Subject', 'Briefing', 'Updated'];
   }
 }

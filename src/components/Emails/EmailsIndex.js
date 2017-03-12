@@ -1,6 +1,5 @@
 import { emailsLoadThunk, getEmails, emailsFilter, emailsSort } from 'redux/modules/emails';
 import EmailCreateDialog from './EmailCreateDialog';
-import EmailLabelDialog from './EmailLabelDialog';
 import { Row, Col, Button } from 'react-bootstrap';
 import React, { Component, PropTypes } from 'react';
 import { Spinner } from 'components/Spinner';
@@ -25,9 +24,6 @@ export class EmailsIndex extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      checkedBoxes: { }
-    };
   }
 
   componentDidMount() {
@@ -74,12 +70,6 @@ export class EmailsIndex extends Component {
           show={this.state.dialogs.new}
           onHide={() => this.closeDialog('new')}
         />
-        <EmailLabelDialog
-          show={this.state.dialogs.relabel}
-          onHide={() => this.closeDialog('relabel')}
-          emailIds={Object.keys(this.state.checkedBoxes)}
-          onRelabel={() => this.setState({ checkedBoxes: { } })}
-        />
         <Spinner text={"Loading emails..."} isVisible={isSpinning} />
         <div className="help-block"></div>
         <Row>
@@ -91,15 +81,6 @@ export class EmailsIndex extends Component {
             >
               <i className="fa fa-plus" /> New
             </Button>
-            &nbsp;
-            <Button
-              bsStyle="info"
-              bsSize="small"
-              onClick={() => this.openDialog('relabel')}
-            >
-              <i className="glyphicon glyphicon-tags" /> Relabel
-            </Button>
-
             <EmailsList
               list={this.getEmailsPage()}
               sort={emails.sort}
@@ -107,13 +88,6 @@ export class EmailsIndex extends Component {
               onFilter={(filter) => this.handleFilter(filter)}
               onSort={(key) => this.handleSort(key)}
               totalCount={totalCount}
-              handleChecked={(emailId) => {
-                const checked = this.state.checkedBoxes[emailId];
-                checked ?
-                  this.setState({ checkedBoxes: omit(this.state.checkedBoxes, emailId) }) :
-                  this.setState({ checkedBoxes: { ...this.state.checkedBoxes, [emailId]: true } });
-              }}
-              checkedBoxes={this.state.checkedBoxes}
               page={page}
               perPage={PER_PAGE}
             />

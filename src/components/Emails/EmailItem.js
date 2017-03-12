@@ -12,7 +12,7 @@ export default class EmailItem extends Component {
 
 
   render() {
-    const { email, handleChange, checked } = this.props;
+    const { email } = this.props;
     const { campaignDetails = {} } = email;
     const atMoment = moment(new Date(email.updatedAt)).format('Do MMM YYYY h:mma');
     const truncateHeader = (text = '', maxLength) => {
@@ -24,13 +24,10 @@ export default class EmailItem extends Component {
 
     return (
       <tr>
-        <td className="col-xs-1 col-sm-1 col-md-1 col-lg-1">
-          <input type="checkbox" checked={checked} onChange={() => handleChange(email._id)} />
-        </td>
-        <td className="col-xs-4 col-sm-4 col-md-4 col-lg-4 truncate">
+        <td className="col-xs-5 col-sm-5 col-md-5 col-lg-5 truncate">
           <i className="fa fa-envelope-o" /> &nbsp;
           <Link to={`${config.urlInfix}/emails/${email._id}`}>
-            {truncateHeader(`${email.name}`, 40)}...
+            {email.name}
           </Link>
         </td>
         <td className="col-xs-3 col-sm-3 col-md-3 col-lg-3 truncate">

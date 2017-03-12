@@ -46,10 +46,10 @@ module.exports = Object.assign({
   'email-platform-ftcom-permalink/substitution',
   emailSigningKey: process.env.EMAIL_SIGNING_KEY,
   app: {
-    title: 'MeMe',
-    description: 'Marketing Email Editor',
+    title: 'EmE',
+    description: 'Email Manual Editor',
     head: {
-      titleTemplate: 'MeMe: %s',
+      titleTemplate: 'EmE: %s',
       meta: [
         { name: 'Toolset', content: 'Financial Times' },
         { charset: 'utf-8' },

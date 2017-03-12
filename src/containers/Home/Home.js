@@ -26,7 +26,7 @@ export default class Home extends Component {
             <h1>{config.app.title}</h1>
             <h2>{config.app.description}</h2>
             <p className="humility">
-              Curation and Sending
+              Brought to you by Andrew J and Mus
             </p>
           </div>
         </div>

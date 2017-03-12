@@ -2,10 +2,8 @@ import { emailLoadThunk, emailUpdateThunk,
   emailValidationErrorThunk, emailDeleteThunk,
   emailCloneThunk, emailReimportThunk
 } from 'redux/modules/emails';
-import { getSubstitutionData } from 'redux/modules/substitutions';
 import EmailConfirmDeleteDialog from './EmailConfirmDeleteDialog';
 import EmailConfirmCloneDialog from './EmailConfirmCloneDialog';
-import { SubstitutionsPicker } from 'components/Substitutions';
 import EmailSendPreviewDialog from './EmailSendPreviewDialog';
 import EmailSendConfirmationDialog from './EmailSendConfirmationDialog';
 import EmailConfirmSendDialog from './EmailConfirmSendDialog';
@@ -24,7 +22,6 @@ import { Message } from 'components/Message';
 import { Spinner } from 'components/Spinner';
 import { Row, Col } from 'react-bootstrap';
 import EmailActions from './EmailActions';
-import EmailHistory from './EmailHistory';
 import { push } from 'react-router-redux';
 import React, { PropTypes } from 'react';
 import { ConfirmDialog } from '../Modal';
@@ -177,11 +174,10 @@ class EmailDetails extends BaseComponent {
   }
 
   render() {
-    const { params: { id }, error, substitutions, form, emailLoading } = this.props;
+    const { params: { id }, error, form, emailLoading } = this.props;
     const email = this.props.list[id] || {};
     const { tab } = this.state;
     const { emailForm: { htmlFields = {}, plainBody = {} } = {} } = form;
-    const substitutionData = getSubstitutionData(substitutions);
     const isSpinning = !email.htmlBody && emailLoading;
     return (
       <Row>
@@ -194,8 +190,9 @@ class EmailDetails extends BaseComponent {
                 <Col xs={8}>
                   <h4>Editing: {email.name}</h4>
                   <p>
-                    <strong>Template: </strong>
+                    <strong>Briefing: </strong>
                     {email.template && email.template._id ?
+                      /// think about adding campaign/briefing to template
                       <Link
                         to={`${config.urlInfix}/templates/${email.template._id}`}
                       >
@@ -280,7 +277,7 @@ class EmailDetails extends BaseComponent {
               <div className="help-block" />
             </Col>
             <Col xs={12} sm={12} md={6} lg={6}>
-              <SubstitutionsPicker />
+              Placeholder
             </Col>
           </Row>
           <Row>
@@ -309,14 +306,7 @@ class EmailDetails extends BaseComponent {
                 html={email.htmlBody}
                 plain={plainBody.value}
                 htmlFields={htmlFields.value}
-                substitutionData={substitutionData}
-                substitutionEnabled={substitutions.enabled}
               />
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={12}>
-              <EmailHistory parentEmailId={id} />
             </Col>
           </Row>
         </Col>
@@ -330,7 +320,6 @@ class EmailDetails extends BaseComponent {
   user: state.auth.user,
   list: state.emails.list,
   error: state.emails.error,
-  substitutions: state.substitutions,
   emailLoading: state.emails.emailLoading
 }))
 export default class EmailDetailsConnected

@@ -21,8 +21,8 @@ class CampaignPicker extends Component {
 
     const active = !value || options.find(o => o.value === value);
     const placeholder = active ?
-      `Select a campaign.. (${options.length})` :
-      'Inactive campaign';
+      `Select a briefing.. (${options.length})` :
+      'Inactive briefing';
 
     return (
       <Select
