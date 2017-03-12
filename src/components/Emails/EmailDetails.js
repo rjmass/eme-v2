@@ -190,8 +190,8 @@ class EmailDetails extends BaseComponent {
                   <h4>Editing: {email.name}</h4>
                   <p>
                     <strong>Briefing: </strong>
-                    {email.campaign && email.campaign._id ?
-                        email.template.name
+                    {email.campaignName ?
+                        email.campaignName
                       : ''}
                   </p>
                 </Col>

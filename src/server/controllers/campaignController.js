@@ -26,8 +26,9 @@ function* read(req, res, next) {
 }
 
 function* create(req, res, next) {
+  const body = Object.assign({}, req.body, { type: 'EME' });
   try {
-    const campaign = yield campaignService.createCampaign(req.body);
+    const campaign = yield campaignService.createCampaign(body);
     res.json(campaign);
   } catch (err) {
     next(handleError(err.message, err.status));
@@ -36,8 +37,9 @@ function* create(req, res, next) {
 
 function* patch(req, res, next) {
   const campaignId = req.params.campaignId;
+  const body = Object.assign({}, req.body, { type: 'EME' });
   try {
-    const campaign = yield campaignService.patchCampaign(campaignId, req.body);
+    const campaign = yield campaignService.patchCampaign(campaignId, body);
     res.json(campaign);
   } catch (err) {
     next(handleError(err.message, err.status));

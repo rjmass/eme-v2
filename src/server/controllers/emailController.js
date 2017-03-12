@@ -29,8 +29,9 @@ function* read(req, res, next) {
 }
 
 function* create(req, res, next) {
+  const body = Object.assign({}, req.body, { type: 'EME' });
   try {
-    const email = yield emailService.createEmail(req.body);
+    const email = yield emailService.createEmail(body);
     res.json(email);
   } catch (err) {
     next(handleError(err.message, err.status));
@@ -39,8 +40,9 @@ function* create(req, res, next) {
 
 function* patch(req, res, next) {
   const emailId = req.params.emailId;
+  const body = Object.assign({}, req.body, { type: 'EME' });
   try {
-    const email = yield emailService.patchEmail(emailId, req.body);
+    const email = yield emailService.patchEmail(emailId, body);
     res.json(email);
   } catch (err) {
     next(handleError(err.message, err.status));

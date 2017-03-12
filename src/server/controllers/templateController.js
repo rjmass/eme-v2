@@ -26,8 +26,9 @@ function* read(req, res, next) {
 }
 
 function* create(req, res, next) {
+  const body = Object.assign({}, req.body, { type: 'EME' });
   try {
-    const template = yield templateService.createTemplate(req.body);
+    const template = yield templateService.createTemplate(body);
     res.json(template);
   } catch (err) {
     next(handleError(err.message, err.status));
@@ -36,8 +37,9 @@ function* create(req, res, next) {
 
 function* patch(req, res, next) {
   const templateId = req.params.templateId;
+  const body = Object.assign({}, req.body, { type: 'EME' });
   try {
-    const template = yield templateService.patchTemplate(templateId, req.body);
+    const template = yield templateService.patchTemplate(templateId, body);
     res.json(template);
   } catch (err) {
     next(handleError(err.message, err.status));

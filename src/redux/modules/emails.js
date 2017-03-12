@@ -90,6 +90,7 @@ export default function reducer(state = initialState, action = {}) {
       const [field = {}] = getOrderedHtmlFields(action.email);
       const loadedEmail = { ...action.email };
       if (loadedEmail.campaign) {
+        loadedEmail.campaignName = loadedEmail.campaign.name;
         loadedEmail.campaign = loadedEmail.campaign._id;
       }
       return {
