@@ -21,7 +21,7 @@ export const menuItems = [
   { url: `${config.urlInfix}/emails`, title: 'Emails', key: 'emails' },
   { url: `${config.urlInfix}/snippets`, title: 'Snippets', key: 'snippets' },
   { url: `${config.urlInfix}/analytics`, title: 'Analytics', key: 'analytics' },
-  { url: `${config.urlInfix}/campaigns`, title: 'Campaigns', key: 'campaigns' },
+  { url: `${config.urlInfix}/campaigns`, title: 'Briefings', key: 'campaigns' },
   { url: `${config.urlInfix}/images`, title: 'Images', key: 'images' },
   { url: `${config.urlInfix}/users`, title: 'Users', key: 'users', admin: true },
 ];

@@ -9,7 +9,6 @@ import {
   templateDeleteThunk, templateCloneThunk
 } from 'redux/modules/templates';
 import { createEmailFromTemplateThunk } from 'redux/modules/emails';
-import { getSubstitutionData } from 'redux/modules/substitutions';
 import { Row, Col } from 'react-bootstrap';
 import TemplateForm from './TemplateForm';
 import { Preview } from 'components/Preview';
@@ -17,7 +16,6 @@ import schema from './template.schema';
 import fields from './template.fields';
 import { Spinner } from 'components/Spinner';
 import { Message } from 'components/Message';
-import { SubstitutionsPicker } from 'components/Substitutions';
 import TemplateBase from './TemplateBase';
 import TemplateActions from './TemplateActions';
 import TemplateConfirmCloneDialog from './TemplateConfirmCloneDialog';
@@ -31,7 +29,6 @@ export class TemplateDetails extends TemplateBase {
   static propTypes = {
     list: PropTypes.object.isRequired,
     form: PropTypes.object.isRequired,
-    substitutions: PropTypes.object.isRequired
   }
 
   static get contextTypes() {
@@ -134,10 +131,9 @@ export class TemplateDetails extends TemplateBase {
   }
 
   render() {
-    const { error, form, substitutions, params: { id }, templateLoading } = this.props;
+    const { error, form, params: { id }, templateLoading } = this.props;
     const { templateForm = { htmlBody: '', plainBody: '' } } = form;
     const template = this.props.list[id] || {};
-    const substitutionData = getSubstitutionData(substitutions);
     const isSpinning = !template._id && templateLoading;
 
     return (
@@ -181,7 +177,7 @@ export class TemplateDetails extends TemplateBase {
               <div className="help-block" />
             </Col>
             <Col xs={12} sm={12} md={6} lg={6}>
-              <SubstitutionsPicker />
+              placeholder
             </Col>
           </Row>
           <Row>
@@ -192,7 +188,6 @@ export class TemplateDetails extends TemplateBase {
                 onTabSelect={(key) => this.handleTabSelect(key)}
                 template={template}
                 onSubmit={(templateData) => this.handleFormSave(templateData)}
-                substitutionEnabled={substitutions.enabled}
               />
             </Col>
             <Col xs={12} sm={12} md={6} lg={6}>
@@ -201,8 +196,6 @@ export class TemplateDetails extends TemplateBase {
                 onTabSelect={(key) => this.handleTabSelect(key)}
                 html={templateForm.htmlBody.value}
                 plain={templateForm.plainBody.value}
-                substitutionData={substitutionData}
-                substitutionEnabled={substitutions.enabled}
               />
             </Col>
           </Row>
@@ -216,7 +209,6 @@ export class TemplateDetails extends TemplateBase {
   list: state.templates.list,
   error: state.templates.error,
   form: state.form,
-  substitutions: state.substitutions,
   templateLoading: state.templates.templateLoading
 
 }))

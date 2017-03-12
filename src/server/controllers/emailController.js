@@ -1,9 +1,12 @@
 const url = require('url');
+const qs = require('querystring');
 const emailService = require('../services/emailService');
 const handleError = require('../utils/handleError');
 
 function* list(req, res, next) {
-  const query = url.parse(req.originalUrl).query;
+  const parsedQuery = url.parse(req.originalUrl, true).query;
+  const query = qs.stringify(Object.assign({}, parsedQuery, { type: 'EME' }));
+
   try {
     const emails = yield emailService.fetchEmails(query, res);
     res.json(emails);
@@ -13,8 +16,10 @@ function* list(req, res, next) {
 }
 
 function* read(req, res, next) {
-  const query = url.parse(req.originalUrl).query;
+  const parsedQuery = url.parse(req.originalUrl, true).query;
+  const query = qs.stringify(Object.assign({}, parsedQuery, { type: 'EME' }));
   const emailId = req.params.emailId;
+
   try {
     const email = yield emailService.fetchEmail(emailId, query);
     res.json(email);

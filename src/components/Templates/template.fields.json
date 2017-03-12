@@ -1,11 +1,8 @@
 [
   "name",
-  "description",
-  "from.address",
-  "from.name",
   "subject",
   "htmlBody",
+  "campaign",
   "plainBody",
-  "htmlFields",
-  "replyTo"
+  "htmlFields"
 ]

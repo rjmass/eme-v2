@@ -30,7 +30,6 @@ import EmailForm from './EmailForm';
 import isEqual from 'lodash/isEqual';
 import fields from './email.fields';
 import schema from './email.schema';
-import { Link } from 'react-router';
 import config from 'config';
 
 const FORM_NAME = 'emailForm';
@@ -191,13 +190,8 @@ class EmailDetails extends BaseComponent {
                   <h4>Editing: {email.name}</h4>
                   <p>
                     <strong>Briefing: </strong>
-                    {email.template && email.template._id ?
-                      /// think about adding campaign/briefing to template
-                      <Link
-                        to={`${config.urlInfix}/templates/${email.template._id}`}
-                      >
-                        {` ${email.template.name}`}
-                      </Link>
+                    {email.campaign && email.campaign._id ?
+                        email.template.name
                       : ''}
                   </p>
                 </Col>

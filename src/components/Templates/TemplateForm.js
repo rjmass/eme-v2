@@ -6,7 +6,7 @@ import {
 } from 'react-bootstrap';
 import fields from './template.fields';
 import { RichEditor } from 'components/Editor';
-import { CategoryPicker } from 'components/Categories';
+import { CampaignPicker } from 'components/Campaigns';
 import debounce from 'lodash/debounce';
 
 const FORM_NAME = 'templateForm';
@@ -39,15 +39,15 @@ export default class TemplateForm extends Component {
     dispatch(changeField(FORM_NAME, 'plainBody', newPlainText));
   }
 
-  handleCategorySelect(domain) {
+  handleCampaignSelect(campaignId) {
     const { dispatch } = this.props;
-    dispatch(changeField(FORM_NAME, 'from.address', domain));
+    dispatch(changeField(FORM_NAME, 'campaign', campaignId));
   }
 
   render() {
     const { fields: {
-      name, description, subject,
-      htmlBody, plainBody, from, replyTo
+      name, subject, campaign,
+      htmlBody, plainBody
     },
     handleSubmit, onTabSelect, activeTab } = this.props;
     return (
@@ -75,31 +75,17 @@ export default class TemplateForm extends Component {
                         <ControlLabel>Name</ControlLabel>
                         <FormControl type="text" placeholder="Name" {...name} />
                       </Col>
-                      <Col xs={6}>
-                        <ControlLabel>Description</ControlLabel>
-                        <FormControl type="text" placeholder="Description" {...description} />
-                      </Col>
-                    </FormGroup>
-
-                    <FormGroup>
-                      <Col xs={6}>
-                        <ControlLabel>From Name</ControlLabel>
-                        <FormControl type="text" placeholder="From: Name" {...from.name} />
-                      </Col>
-                      <Col xs={6}>
-                        <ControlLabel>Category</ControlLabel>
-                        <CategoryPicker
-                          onSelect={(domain) => this.handleCategorySelect(domain)}
-                          {...from.address}
+                      <Col sm={6}>
+                        <ControlLabel>Briefing</ControlLabel>
+                        <CampaignPicker
+                          editable
+                          value={campaign && campaign.value}
+                          onSelect={(id) => this.handleCampaignSelect(id)}
                         />
                       </Col>
                     </FormGroup>
 
                     <FormGroup>
-                      <Col xs={6}>
-                        <ControlLabel>Reply Address</ControlLabel>
-                        <FormControl type="email" placeholder="Reply address" {...replyTo} />
-                      </Col>
                       <Col xs={6}>
                         <ControlLabel>Subject</ControlLabel>
                         <FormControl type="text" placeholder="Subject" {...subject} />
@@ -110,7 +96,7 @@ export default class TemplateForm extends Component {
 
                 <FormGroup>
                   <Col sm={12}>
-                    <ControlLabel>Body</ControlLabel>
+                    <ControlLabel />
                     <Tabs
                       id="body-type-tabs"
                       defaultActiveKey={'html'}

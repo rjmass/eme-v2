@@ -1,9 +1,12 @@
 const url = require('url');
+const qs = require('querystring');
 const templateService = require('../services/templateService');
 const handleError = require('../utils/handleError');
 
 function* list(req, res, next) {
-  const query = url.parse(req.originalUrl).query;
+  const parsedQuery = url.parse(req.originalUrl, true).query;
+  const query = qs.stringify(Object.assign({}, parsedQuery, { type: 'EME' }));
+
   try {
     const templates = yield templateService.fetchTemplates(query, res);
     res.json(templates);
