@@ -4,8 +4,6 @@ import AutosizeInput from 'react-input-autosize';
 import { connect } from 'react-redux';
 import { Modal, Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
 import { sendEmailPreviewThunk } from 'redux/modules/send';
-import { substitutionLoadThunk } from 'redux/modules/substitutions';
-import { ListPicker } from 'components/Substitutions';
 import { notifications } from 'redux/modules/notifications';
 import { Message } from 'components/Message';
 import some from 'lodash/some/';
@@ -21,8 +19,7 @@ class EmailSendPreviewDialog extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      emails: store.get(storeKey) || [],
-      listId: null
+      emails: store.get(storeKey) || []
     };
   }
 
@@ -31,35 +28,11 @@ class EmailSendPreviewDialog extends Component {
     this.setState({ emails });
   }
 
-  handleListSelect(listId) {
-    if (listId) {
-      const { dispatch } = this.props;
-      dispatch(substitutionLoadThunk(listId));
-    }
-    this.setState({ listId });
-  }
-
-  areEmailsInSelectedList() {
-    const { substitutions } = this.props;
-    const list = substitutions.list[this.state.listId] || {};
-    const data = list.data || [];
-
-    let valid = true;
-
-    if (data.length) {
-      this.state.emails.forEach(email => {
-        valid = valid && some(data, { email });
-      });
-    }
-
-    return valid;
-  }
-
   async handleSendPreviewConfirm(e) {
     e.preventDefault();
     this.props.onHide();
     const { id, dispatch } = this.props;
-    const { emails, listId } = this.state;
+    const { emails } = this.state;
     dispatch(notifications.info(
       <span><i className="fa fa-envelope-o faa-passing animated" />&nbsp;&nbsp;Sending</span>
     ));
@@ -70,7 +43,7 @@ class EmailSendPreviewDialog extends Component {
         }
       };
     });
-    return await dispatch(sendEmailPreviewThunk(id, recipients, listId));
+    return await dispatch(sendEmailPreviewThunk(id, recipients));
   }
 
   get sendDisabled() {
@@ -113,16 +86,6 @@ class EmailSendPreviewDialog extends Component {
                 inputProps={{ placeholder: 'Add email address' }}
               />
             </FormGroup>
-            <FormGroup controlId="emailText">
-              <ControlLabel>Substitute user data from list:</ControlLabel>
-              <ListPicker
-                value={listId}
-                onSelect={(lId) => this.handleListSelect(lId)}
-              />
-            </FormGroup>
-            {!this.areEmailsInSelectedList()
-            ? <Message type="danger" text="Email address must exist in selected list" />
-            : null}
           </Modal.Body>
           <Modal.Footer>
             <Button key={'cancel'} onClick={() => this.props.onHide()}>Cancel</Button>
@@ -141,7 +104,4 @@ class EmailSendPreviewDialog extends Component {
   }
 }
 
-@connect((state) => ({
-  substitutions: state.substitutions
-}))
 export default class ConnectedEmailSendPreviewDialog extends EmailSendPreviewDialog {}

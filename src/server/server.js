@@ -24,7 +24,6 @@ const emailAPIRoutes = require('./routes/emailRoutes');
 const sendAPIRoutes = require('./routes/sendRoutes');
 const savedEmailRoutes = require('./routes/savedEmailRoutes');
 const imagesAPIRoutes = require('./routes/imagesRoutes');
-const substitutionsAPIRoutes = require('./routes/substitutionsRoutes');
 const newsAPIRoutes = require('./routes/newsRoutes');
 const campaignAPIRoutes = require('./routes/campaignRoutes');
 
@@ -67,7 +66,6 @@ emailAPIRoutes(app);
 campaignAPIRoutes(app);
 sendAPIRoutes(app);
 savedEmailRoutes(app);
-substitutionsAPIRoutes(app);
 imagesAPIRoutes(app);
 newsAPIRoutes(app);
 authAPIRoutes(app);

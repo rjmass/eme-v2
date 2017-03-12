@@ -17,6 +17,7 @@ import validator from 'components/Validator/validator';
 import { initialize, getValues } from 'redux-form';
 import EmailSendDialog from './EmailSendDialog';
 import { BaseComponent } from 'components/Base';
+import stringToColor from 'helpers/stringToColor';
 import { Preview } from 'components/Preview';
 import { Message } from 'components/Message';
 import { Spinner } from 'components/Spinner';
@@ -189,9 +190,16 @@ class EmailDetails extends BaseComponent {
                 <Col xs={8}>
                   <h4>Editing: {email.name}</h4>
                   <p>
-                    <strong>Briefing: </strong>
                     {email.campaignName ?
-                        email.campaignName
+                      <div>
+                        <h4>
+                          <i
+                            className="fa fa-bookmark fa-lg"
+                            style={{ color: stringToColor(email.campaign) }}
+                          />&nbsp;
+                          {email.campaignName}
+                        </h4>
+                      </div>
                       : ''}
                   </p>
                 </Col>

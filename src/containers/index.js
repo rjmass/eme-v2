@@ -2,7 +2,6 @@ export App from './App/App';
 export Analytics from './Analytics/Analytics';
 export Home from './Home/Home';
 export Emails from './Emails/Emails';
-export Substitutions from './Substitutions/Substitutions';
 export Templates from './Templates/Templates';
 export Snippets from './Snippets/Snippets';
 export NotFound from './NotFound/NotFound';

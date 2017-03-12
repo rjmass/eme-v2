@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Modal, Form, FormGroup, ControlLabel, Button, Row, Col } from 'react-bootstrap';
 import { sendLoaded } from 'redux/modules/send';
-import { ListPicker } from 'components/Substitutions';
 import DateTime from 'react-datetime';
 import Switch from 'react-bootstrap-switch';
 import moment from 'moment';
@@ -83,7 +82,7 @@ class EmailSendDialog extends Component {
   render() {
     // adddd onConfirm
     const { show, onHide } = this.props;
-    const { listId, now, date, tz } = this.state;
+    const { now, date, tz } = this.state;
     return (
       <Modal show={show} onHide={onHide}>
         <Form onSubmit={(e) => this.handleSendConfirm(e)}>
@@ -119,13 +118,6 @@ class EmailSendDialog extends Component {
                   />
                 </Col> : null}
               </Row>
-
-              <div className="help-block" />
-              <ControlLabel>Select Recipient List</ControlLabel>
-              <ListPicker
-                value={listId}
-                onSelect={(lId) => this.handleListSelect(lId)}
-              />
             </FormGroup>
             You can confirm the details on the next page prior to sending.
           </Modal.Body>

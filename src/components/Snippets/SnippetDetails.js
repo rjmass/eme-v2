@@ -11,8 +11,6 @@ import {
 import { Row, Col } from 'react-bootstrap';
 import SnippetForm from './SnippetForm';
 import { Preview } from 'components/Preview';
-import { getSubstitutionData } from 'redux/modules/substitutions';
-import { SubstitutionsPicker } from 'components/Substitutions';
 import schema from './snippet.schema';
 import fields from './snippet.fields';
 import { Message } from 'components/Message';
@@ -27,7 +25,6 @@ const FORM_NAME = 'snippetForm';
 @connect((state) => ({
   list: state.snippets.list,
   error: state.snippets.error,
-  substitutions: state.substitutions,
   form: state.form,
 }))
 export default class SnippetDetails extends SnippetBase {
@@ -108,10 +105,9 @@ export default class SnippetDetails extends SnippetBase {
   }
 
   render() {
-    const { error, form, params: { id }, substitutions } = this.props;
+    const { error, form, params: { id } } = this.props;
     const { snippetForm = { body: '', isHtml: '' } } = form;
     const snippet = this.props.list[id] || {};
-    const substitutionData = getSubstitutionData(substitutions);
     const previewActiveTab = snippetForm.isHtml.value ? 'html' : 'plain';
 
     if (snippet) {
@@ -148,7 +144,7 @@ export default class SnippetDetails extends SnippetBase {
                 <div className="help-block" />
               </Col>
               <Col xs={12} sm={12} md={6} lg={6}>
-                <SubstitutionsPicker />
+                placeholder
               </Col>
             </Row>
             <Row>
@@ -167,8 +163,6 @@ export default class SnippetDetails extends SnippetBase {
                   activeTab={previewActiveTab}
                   html={snippetForm.body.value}
                   plain={snippetForm.body.value}
-                  substitutionData={substitutionData}
-                  substitutionEnabled={substitutions.enabled}
                 />
               </Col>
             </Row>
