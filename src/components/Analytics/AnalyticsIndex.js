@@ -10,6 +10,7 @@ import AnalyticsDateFormatter from './AnalyticsDateFormatter';
 import AnalyticsLinkFormatter from './AnalyticsLinkFormatter';
 import AnalyticsCampaignColorFormatter from './AnalyticsCampaignColorFormatter';
 import AnalyticsPercentFormatter from './AnalyticsPercentFormatter';
+import 'react-data-grid/themes/react-data-grid.css';
 
 const roundRate = num => {
   return Math.round(num * 10000) / 100;
