@@ -97,14 +97,17 @@ export default class TemplateForm extends Component {
                 <FormGroup>
                   <Col sm={12}>
                     <ControlLabel />
-                    <TemplateDragContainer />
+                    <TemplateDragContainer
+                      htmlString={htmlBody.value}
+                      onChange={this.htmlUpdateHandler}
+                    />
                     <ControlLabel />
                     <RichEditor
                       name="htmlBodyEditor"
                       articles={false}
                       contentArea
                       value={htmlBody.value}
-                      onChange={this.htmlUpdateHandler}
+                      onChange={() => {}}
                     />
                   </Col>
                 </FormGroup>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import update from 'react/lib/update';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
@@ -10,25 +10,34 @@ const style = {
 
 @DragDropContext(HTML5Backend)
 export default class TemplateDragContainer extends Component {
+  static propTypes = {
+    htmlString: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
       cards: [
         {
           id: 1,
-          text: 'First Component'
+          text: 'First Component',
+          value: '<p>First Component</p>'
         },
         {
           id: 2,
-          text: 'Second Component'
+          text: 'Second Component',
+          value: '<p>Second Component</p>'
         },
         {
           id: 3,
-          text: 'Third Component'
+          text: 'Third Component',
+          value: '<p>Third Component</p>'
         },
         {
           id: 4,
-          text: 'Fourth Component'
+          text: 'Fourth Component',
+          value: '<p>Fourth Component</p>'
         }
       ]
     };
@@ -45,7 +54,19 @@ export default class TemplateDragContainer extends Component {
           [hoverIndex, 0, dragCard]
         ]
       }
-    }));
+    }), this.insertContent);
+  }
+
+  insertContent() {
+    const { htmlString, onChange } = this.props;
+    const parser = new DOMParser();
+    const components = this.state.cards.reduce((acc, card) => {
+      acc += card.value;
+      return acc;
+    }, '');
+    const html = parser.parseFromString(htmlString, 'text/html');
+    html.getElementById('email-body').innerHTML = components;
+    onChange(html.documentElement.innerHTML);
   }
 
   render() {
