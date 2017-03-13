@@ -10,7 +10,6 @@ import EmailsList from './EmailsList';
 import { connect } from 'react-redux';
 import { dialogs } from 'decorators';
 import config from 'config';
-import omit from 'lodash/omit';
 
 const PER_PAGE = 20;
 
@@ -20,10 +19,6 @@ export class EmailsIndex extends Component {
     emails: PropTypes.shape({
       list: PropTypes.array.isRequired
     }).isRequired
-  }
-
-  constructor(props) {
-    super(props);
   }
 
   componentDidMount() {

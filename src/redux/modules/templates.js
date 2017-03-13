@@ -238,10 +238,18 @@ export const templateLoadThunk = (id) => (dispatch) => {
   })();
 };
 
-export const getTemplates = (state) => {
+export const getTemplates = (state, campaigns = {}) => {
   const { sort: { sortFunc }, filter: { name = '' } } = state;
   return Object.keys(state.list)
-    .map(_id => state.list[_id])
+    .map((_id) => {
+      const template = state.list[_id];
+      const { campaign: cId } = template;
+      if (cId) {
+        template.campaignDetails = campaigns[cId] || {};
+      }
+      console.log(template);
+      return template;
+    })
     .filter((item) => item.name.toLowerCase().includes(name.toLowerCase()))
     .sort(sortFunc);
 };

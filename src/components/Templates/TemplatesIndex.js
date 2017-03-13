@@ -92,7 +92,8 @@ export class TemplatesIndex extends Component {
 }
 
 const templates = state => state.templates;
-const list = createSelector(templates, getTemplates);
+const campaignsList = state => state.campaigns.list;
+const list = createSelector(templates, campaignsList, getTemplates);
 
 @connect((state) => ({ templates: { ...state.templates, list: list(state) } }))
 export default class TemplatesIndexConnected extends TemplatesIndex { }

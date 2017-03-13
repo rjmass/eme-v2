@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { Badge } from 'react-bootstrap';
 import stringToColor from 'helpers/stringToColor';
+import truncateHeader from 'helpers/truncateText';
 import config from 'config';
 import moment from 'moment';
 
@@ -10,17 +11,10 @@ export default class EmailItem extends Component {
     email: PropTypes.object.isRequired
   }
 
-
   render() {
     const { email } = this.props;
     const { campaignDetails = {} } = email;
     const atMoment = moment(new Date(email.updatedAt)).format('Do MMM YYYY h:mma');
-    const truncateHeader = (text = '', maxLength) => {
-      if (text.length > maxLength) {
-        return `${text.substr(0, maxLength)}`;
-      }
-      return text;
-    };
 
     return (
       <tr>
