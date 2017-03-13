@@ -35,6 +35,7 @@ export default class TemplateForm extends Component {
     dispatch(changeField(FORM_NAME, 'htmlBody', newHtml));
   }
 
+
   _plainTextUpdateHandler(newPlainText) {
     const { dispatch } = this.props;
     dispatch(changeField(FORM_NAME, 'plainBody', newPlainText));
@@ -45,11 +46,17 @@ export default class TemplateForm extends Component {
     dispatch(changeField(FORM_NAME, 'campaign', campaignId));
   }
 
+  handleComponentChange(components) {
+    const { dispatch } = this.props;
+    dispatch(changeField(FORM_NAME, 'components', components));
+  }
+
   render() {
     const { fields: {
       name, subject, campaign,
-      htmlBody
+      htmlBody, components
     }, handleSubmit } = this.props;
+
     return (
       <Row>
         <Col sm={12}>
@@ -99,7 +106,11 @@ export default class TemplateForm extends Component {
                     <ControlLabel />
                     <TemplateDragContainer
                       htmlString={htmlBody.value}
-                      onChange={this.htmlUpdateHandler}
+                      cards={components.value}
+                      onChange={(newHTML, newComponents) => {
+                        this.htmlUpdateHandler(newHTML);
+                        this.handleComponentChange(newComponents);
+                      }}
                     />
                     <ControlLabel />
                     <RichEditor

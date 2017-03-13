@@ -15,7 +15,7 @@ const style = {
 const cardSource = {
   beginDrag(props) {
     return {
-      id: props.id,
+      id: props._id,
       index: props.index
     };
   }
@@ -78,7 +78,7 @@ export default class Card extends Component {
     onSnippetSelect: PropTypes.func.isRequired,
     index: PropTypes.number.isRequired,
     isDragging: PropTypes.bool.isRequired,
-    id: PropTypes.any.isRequired,
+    _id: PropTypes.any.isRequired,
     name: PropTypes.string.isRequired,
     moveCard: PropTypes.func.isRequired,
   };
