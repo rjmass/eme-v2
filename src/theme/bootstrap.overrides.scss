@@ -5,9 +5,10 @@
 
  $grid-gutter-width: 50px;
 
-.navbar-brand {
+.navbar-default .navbar-brand {
   position: relative;
   padding-left: 50px;
+  color: #d66d07;
 }
 
 .navbar-default .navbar-nav > .active > a,

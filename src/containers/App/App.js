@@ -76,7 +76,7 @@ export class App extends Component {
             <Navbar.Brand>
               <IndexLink to={`${config.urlInfix}/`} activeStyle={{ color: '#33e0ff' }}>
                 <div className="brand" />
-                <span>{config.app.title}</span>
+                <strong>{config.app.title}</strong>
               </IndexLink>
             </Navbar.Brand>
             <Navbar.Toggle />
