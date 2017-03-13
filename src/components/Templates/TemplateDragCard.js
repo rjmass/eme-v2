@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { findDOMNode } from 'react-dom';
 import { DragSource, DropTarget } from 'react-dnd';
 import ItemTypes from './TemplateDragItemTypes';
+import { SnippetPicker } from 'components/Snippets';
 
 const style = {
   border: '1px dashed grey',
@@ -74,20 +75,33 @@ export default class Card extends Component {
   static propTypes = {
     connectDragSource: PropTypes.func.isRequired,
     connectDropTarget: PropTypes.func.isRequired,
+    onSnippetSelect: PropTypes.func.isRequired,
     index: PropTypes.number.isRequired,
     isDragging: PropTypes.bool.isRequired,
     id: PropTypes.any.isRequired,
-    text: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
     moveCard: PropTypes.func.isRequired,
   };
 
+  handleOnSnippetSelect(snippet) {
+    const { onSnippetSelect } = this.props;
+    onSnippetSelect(snippet);
+  }
+
   render() {
-    const { text, isDragging, connectDragSource, connectDropTarget } = this.props;
+    const { name, isDragging, connectDragSource, connectDropTarget } = this.props;
     const opacity = isDragging ? 0 : 1;
+    const handleSnippetSelect = (s) => this.handleOnSnippetSelect(s);
 
     return connectDragSource(connectDropTarget(
       <div style={{ ...style, opacity }}>
-        {text}
+        <strong>{name}</strong>
+        <div className="help-block" />
+        <SnippetPicker
+          html
+          value={name}
+          onSelect={handleSnippetSelect}
+        />
       </div>
     ));
   }

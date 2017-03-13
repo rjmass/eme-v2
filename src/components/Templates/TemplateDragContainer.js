@@ -5,7 +5,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import Card from './TemplateDragCard';
 
 const style = {
-  width: 400
+  width: '100%'
 };
 
 @DragDropContext(HTML5Backend)
@@ -21,27 +21,60 @@ export default class TemplateDragContainer extends Component {
       cards: [
         {
           id: 1,
-          text: 'First Component',
+          name: 'First Component',
           value: '<p>First Component</p>'
         },
         {
           id: 2,
-          text: 'Second Component',
+          name: 'Second Component',
           value: '<p>Second Component</p>'
         },
         {
           id: 3,
-          text: 'Third Component',
+          name: 'Third Component',
           value: '<p>Third Component</p>'
         },
         {
           id: 4,
-          text: 'Fourth Component',
+          name: 'Fourth Component',
           value: '<p>Fourth Component</p>'
-        }
+        },
+        {
+          id: 5,
+          name: 'Fifth Component',
+          value: '<p>Fifth Component</p>'
+        },
+        {
+          id: 6,
+          name: 'Sixth Component',
+          value: '<p>Sixth Component</p>'
+        },
+        {
+          id: 7,
+          name: 'Seventh Component',
+          value: '<p>Seventh Component</p>'
+        },
+        {
+          id: 8,
+          name: 'Eighth Component',
+          value: '<p>Eighth Component</p>'
+        },
       ]
     };
   }
+
+  insertContent() {
+    const { htmlString, onChange } = this.props;
+    const parser = new DOMParser();
+    const components = this.state.cards.reduce((acc, card) => {
+      acc += card.value;
+      return acc;
+    }, '');
+    const html = parser.parseFromString(htmlString, 'name/html');
+    html.getElementById('email-body').innerHTML = components;
+    onChange(html.documentElement.innerHTML);
+  }
+
 
   moveCard(dragIndex, hoverIndex) {
     const { cards } = this.state;
@@ -57,16 +90,15 @@ export default class TemplateDragContainer extends Component {
     }), this.insertContent);
   }
 
-  insertContent() {
-    const { htmlString, onChange } = this.props;
-    const parser = new DOMParser();
-    const components = this.state.cards.reduce((acc, card) => {
-      acc += card.value;
-      return acc;
-    }, '');
-    const html = parser.parseFromString(htmlString, 'text/html');
-    html.getElementById('email-body').innerHTML = components;
-    onChange(html.documentElement.innerHTML);
+  handleSnippetSelect(snippet, idx) {
+    const cards = this.state.cards.slice();
+    if (!snippet) {
+      cards.splice(idx, 1);
+    } else {
+      cards[idx].value = snippet.body;
+      cards[idx].name = snippet.name;
+    }
+    this.setState({ cards }, this.insertContent);
   }
 
   render() {
@@ -79,8 +111,10 @@ export default class TemplateDragContainer extends Component {
             key={card.id}
             index={i}
             id={card.id}
-            text={card.text}
+            name={card.name}
+            value={card.value}
             moveCard={(dragIdx, hoverIdx) => this.moveCard(dragIdx, hoverIdx)}
+            onSnippetSelect={(snippet) => this.handleSnippetSelect(snippet, i)}
           />
         ))}
       </div>

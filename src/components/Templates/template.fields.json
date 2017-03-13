@@ -4,5 +4,6 @@
   "htmlBody",
   "campaign",
   "plainBody",
-  "htmlFields"
+  "htmlFields",
+  "components"
 ]
