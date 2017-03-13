@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { reduxForm, change as changeField } from 'redux-form';
 import {
   Form, FormGroup, Row, Col, FormControl, Button,
-  ControlLabel, Tabs, Tab, Collapse
+  ControlLabel, Collapse
 } from 'react-bootstrap';
 import fields from './template.fields';
 import { RichEditor } from 'components/Editor';
 import { CampaignPicker } from 'components/Campaigns';
+import TemplateDragContainer from './TemplateDragContainer';
 import debounce from 'lodash/debounce';
 
 const FORM_NAME = 'templateForm';
@@ -47,9 +48,8 @@ export default class TemplateForm extends Component {
   render() {
     const { fields: {
       name, subject, campaign,
-      htmlBody, plainBody
-    },
-    handleSubmit, onTabSelect, activeTab } = this.props;
+      htmlBody
+    }, handleSubmit } = this.props;
     return (
       <Row>
         <Col sm={12}>
@@ -97,33 +97,15 @@ export default class TemplateForm extends Component {
                 <FormGroup>
                   <Col sm={12}>
                     <ControlLabel />
-                    <Tabs
-                      id="body-type-tabs"
-                      defaultActiveKey={'html'}
-                      activeKey={activeTab}
-                      onSelect={onTabSelect}
-                    >
-                      <Tab eventKey={'html'} title="HTML">
-                        <RichEditor
-                          name="htmlBodyEditor"
-                          articles={false}
-                          contentArea
-                          value={htmlBody.value}
-                          onChange={this.htmlUpdateHandler}
-                        />
-                      </Tab>
-                      <Tab eventKey={'plain'} title="Plain Text">
-                        <RichEditor
-                          html={false}
-                          articles={false}
-                          images={false}
-                          fromHtmlSource={htmlBody.value}
-                          name="plainBodyEditor"
-                          value={plainBody.value}
-                          onChange={this.plainTextUpdateHandler}
-                        />
-                      </Tab>
-                    </Tabs>
+                    <TemplateDragContainer />
+                    <ControlLabel />
+                    <RichEditor
+                      name="htmlBodyEditor"
+                      articles={false}
+                      contentArea
+                      value={htmlBody.value}
+                      onChange={this.htmlUpdateHandler}
+                    />
                   </Col>
                 </FormGroup>
 
