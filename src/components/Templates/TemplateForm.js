@@ -112,6 +112,7 @@ export default class TemplateForm extends Component {
                         this.handleComponentChange(newComponents);
                       }}
                     />
+
                     <ControlLabel />
                     <RichEditor
                       name="htmlBodyEditor"

@@ -3,6 +3,7 @@ import update from 'react/lib/update';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import Card from './TemplateDragCard';
+import { Button, ControlLabel } from 'react-bootstrap';
 
 const style = {
   width: '100%'
@@ -28,7 +29,7 @@ export default class TemplateDragContainer extends Component {
   }
 
 
-  moveCard(dragIndex, hoverIndex) {
+  handleMoveComponent(dragIndex, hoverIndex) {
     const { cards } = this.props;
     const dragCard = cards[dragIndex];
 
@@ -38,6 +39,12 @@ export default class TemplateDragContainer extends Component {
         [hoverIndex, 0, dragCard]
       ]
     });
+    this.insertContent(components);
+  }
+
+  handleAddComponent() {
+    const components = this.props.cards.slice();
+    components.push({ name: 'New Component', value: '' });
     this.insertContent(components);
   }
 
@@ -66,10 +73,14 @@ export default class TemplateDragContainer extends Component {
             id={card._id}
             name={card.name}
             value={card.value}
-            moveCard={(dragIdx, hoverIdx) => this.moveCard(dragIdx, hoverIdx)}
+            moveCard={(dragIdx, hoverIdx) => this.handleMoveComponent(dragIdx, hoverIdx)}
             onSnippetSelect={(snippet) => this.handleSnippetSelect(snippet, i)}
           />
         ))}
+        <div className="pull-right">
+          <ControlLabel />
+          <Button onClick={() => this.handleAddComponent()}>Add</Button>
+        </div>
       </div>
     );
   }
