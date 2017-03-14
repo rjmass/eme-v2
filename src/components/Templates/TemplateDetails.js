@@ -120,14 +120,13 @@ export class TemplateDetails extends TemplateBase {
   }
 
   async handleFormSave(template) {
-    const newTemplate = { ...template, components: template.components.map(t => t._id) }
-    // need to turn components into snippet IDS
+    const newTemplate = { ...template,
+      components: template.components.map(t => ({ _id: t._id, snippet: t.snippet._id })) };
     const { dispatch } = this.props;
     const valid = validator.validate(newTemplate, schema);
     if (valid) {
       const { params: { id } } = this.props;
       const updated = await dispatch(templateUpdateThunk(id, newTemplate));
-      console.log(updated);
       return this.props.dispatch(initialize(FORM_NAME, updated, fields));
     }
     return dispatch(templateValidationError(validator.error));

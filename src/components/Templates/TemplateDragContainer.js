@@ -20,7 +20,7 @@ export default class TemplateDragContainer extends Component {
     const { htmlString, onChange } = this.props;
     const parser = new DOMParser();
     const componentString = components.reduce((acc, card) => {
-      acc += card.value;
+      acc += card.snippet.body || '';
       return acc;
     }, '');
     const html = parser.parseFromString(htmlString, 'text/html');
@@ -44,7 +44,7 @@ export default class TemplateDragContainer extends Component {
 
   handleAddComponent() {
     const components = this.props.cards.slice();
-    components.push({ name: 'New Component', value: '' });
+    components.push({ _id: Date.now().toString(), snippet: {} });
     this.insertContent(components);
   }
 
@@ -54,9 +54,7 @@ export default class TemplateDragContainer extends Component {
     if (!snippet) {
       components.splice(idx, 1);
     } else {
-      newComponent.name = snippet.name;
-      newComponent.value = snippet.body;
-      newComponent._id = snippet._id;
+      newComponent.snippet = snippet;
       components.splice(idx, 1, newComponent);
     }
     this.insertContent(components);
@@ -71,9 +69,9 @@ export default class TemplateDragContainer extends Component {
           <Card
             key={card._id}
             index={i}
-            id={card._id}
-            name={card.name}
-            value={card.value}
+            _id={card._id}
+            name={card.snippet.name}
+            value={card.snippet.body}
             moveCard={(dragIdx, hoverIdx) => this.handleMoveComponent(dragIdx, hoverIdx)}
             onSnippetSelect={(snippet) => this.handleSnippetSelect(snippet, i)}
           />
