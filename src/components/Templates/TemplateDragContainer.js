@@ -56,6 +56,7 @@ export default class TemplateDragContainer extends Component {
     } else {
       newComponent.name = snippet.name;
       newComponent.value = snippet.body;
+      newComponent._id = snippet._id;
       components.splice(idx, 1, newComponent);
     }
     this.insertContent(components);
@@ -79,7 +80,7 @@ export default class TemplateDragContainer extends Component {
         ))}
         <div className="pull-right">
           <ControlLabel />
-          <Button onClick={() => this.handleAddComponent()}>Add</Button>
+          <Button onClick={() => this.handleAddComponent()}>Add Component</Button>
         </div>
       </div>
     );

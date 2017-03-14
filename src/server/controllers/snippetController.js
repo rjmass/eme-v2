@@ -1,70 +1,64 @@
-const mongoose = require('mongoose');
+const url = require('url');
+const qs = require('querystring');
+const snippetService = require('../services/snippetService');
 const handleError = require('../utils/handleError');
-const dbErrorCheck = require('../utils/dbErrorCheck');
-
-const Snippet = mongoose.model('Snippet');
-
-function* snippetById(req, res, next, _id) {
-  try {
-    const snippet = yield Snippet.findOne({ _id });
-    if (snippet) {
-      req.snippet = snippet;
-      return next();
-    }
-    return next(handleError('Snippet not found', 404));
-  } catch (err) {
-    return next(dbErrorCheck(err));
-  }
-}
 
 function* list(req, res, next) {
+  const parsedQuery = url.parse(req.originalUrl, true).query;
+  const query = qs.stringify(Object.assign({}, parsedQuery, { type: 'EME' }));
+
   try {
-    const snippets = yield Snippet.list();
+    const snippets = yield snippetService.fetchSnippets(query, res);
     res.json(snippets);
   } catch (err) {
-    next(dbErrorCheck(err));
+    next(handleError(err.message, err.status));
   }
 }
 
-function* read(req, res) {
-  res.json(req.snippet);
+function* read(req, res, next) {
+  const snippetId = req.params.snippetId;
+  try {
+    const snippet = yield snippetService.fetchSnippet(snippetId);
+    res.json(snippet);
+  } catch (err) {
+    next(handleError(err.message, err.status));
+  }
 }
 
 function* create(req, res, next) {
+  const body = Object.assign({}, req.body, { type: 'EME' });
   try {
-    const snippet = yield Snippet.create(req.body);
-    res.status(201).json(snippet);
+    const snippet = yield snippetService.createSnippet(body);
+    res.json(snippet);
   } catch (err) {
-    next(dbErrorCheck(err));
+    next(handleError(err.message, err.status));
   }
 }
 
 function* patch(req, res, next) {
-  const snippetObj = req.snippet.toObject();
-  Object.assign(snippetObj, req.body);
+  const snippetId = req.params.snippetId;
+  const body = Object.assign({}, req.body, { type: 'EME' });
   try {
-    const snippet = yield Snippet.findOneAndUpdate({ _id: snippetObj._id },
-      snippetObj,
-      { runValidators: true, new: true });
+    const snippet = yield snippetService.patchSnippet(snippetId, body);
     res.json(snippet);
   } catch (err) {
-    next(dbErrorCheck(err));
+    next(handleError(err.message, err.status));
   }
 }
 
 function* deleteSnippet(req, res, next) {
+  const snippetId = req.params.snippetId;
   try {
-    yield Snippet.findOneAndRemove({ _id: req.snippet._id });
-    res.json(req.snippet);
+    const snippet = yield snippetService.deleteSnippet(snippetId);
+    res.json(snippet);
   } catch (err) {
-    next(dbErrorCheck(err));
+    next(handleError(err.message, err.status));
   }
 }
 
 module.exports = {
   list,
   read,
-  snippetById,
   create,
   patch,
   deleteSnippet

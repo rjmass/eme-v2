@@ -20,6 +20,5 @@ module.exports = (app) => {
   router
     .use(notFound);
 
-  router.param('snippetId', coExpress(snippets.snippetById));
   app.use(`${config.urlInfix}/api/snippets`, router);
 };
