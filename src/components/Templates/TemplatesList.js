@@ -11,8 +11,7 @@ const pagingButton = createPagingButton((eventKey) => {
 });
 const renderItem = (template) => <TemplateItem template={template} key={template._id} />;
 
-@connect()
-export default class TemplatesList extends BaseList {
+export class TemplatesList extends BaseList {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch(campaignsLoadThunk());
@@ -30,3 +29,6 @@ export default class TemplatesList extends BaseList {
     return ['Name', 'Briefing', 'Updated'];
   }
 }
+
+@connect()
+export default class TemplatesListConnected extends TemplatesList { }

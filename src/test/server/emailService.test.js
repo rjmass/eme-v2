@@ -41,7 +41,7 @@ describe('Email Service', () => {
     it('returns an array of emails', done => {
       setNockGet('/emails').reply(200, validEmail);
       co(function* () {
-        const email = yield emailService.fetchEmails({});
+        const email = yield emailService.fetchEmails('', {});
         expect(email.name).to.eql(validEmail.name);
         done();
       }).catch(done);
@@ -51,7 +51,7 @@ describe('Email Service', () => {
       setNockGet('/emails').reply(500, {});
       co(function* () {
         try {
-          yield emailService.fetchEmails({});
+          yield emailService.fetchEmails('', {});
         } catch (err) {
           expect(err).to.exist;
           expect(err.status).to.eql(500);

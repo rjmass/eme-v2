@@ -64,23 +64,16 @@ const cardTarget = {
   }
 };
 
-@DropTarget(ItemTypes.CARD, cardTarget, connect => ({
-  connectDropTarget: connect.dropTarget()
-}))
-@DragSource(ItemTypes.CARD, cardSource, (connect, monitor) => ({
-  connectDragSource: connect.dragSource(),
-  isDragging: monitor.isDragging()
-}))
-export default class Card extends Component {
+export class Card extends Component {
   static propTypes = {
     connectDragSource: PropTypes.func.isRequired,
     connectDropTarget: PropTypes.func.isRequired,
     onSnippetSelect: PropTypes.func.isRequired,
+    moveCard: PropTypes.func.isRequired,
     index: PropTypes.number.isRequired,
     isDragging: PropTypes.bool.isRequired,
     _id: PropTypes.any.isRequired,
     name: PropTypes.string.isRequired,
-    moveCard: PropTypes.func.isRequired,
   };
 
   handleOnSnippetSelect(snippet) {
@@ -106,3 +99,12 @@ export default class Card extends Component {
     ));
   }
 }
+
+@DropTarget(ItemTypes.CARD, cardTarget, connect => ({
+  connectDropTarget: connect.dropTarget()
+}))
+@DragSource(ItemTypes.CARD, cardSource, (connect, monitor) => ({
+  connectDragSource: connect.dragSource(),
+  isDragging: monitor.isDragging()
+}))
+export default class CardConnected extends Card { }

@@ -14,6 +14,7 @@ export default class TemplateDragContainer extends Component {
   static propTypes = {
     htmlString: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
+    cards: PropTypes.array
   };
 
   insertContent(components) {

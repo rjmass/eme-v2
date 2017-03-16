@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import TagsInput from 'react-tagsinput';
 import AutosizeInput from 'react-input-autosize';
-import { connect } from 'react-redux';
 import { Modal, Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
 import { sendEmailPreviewThunk } from 'redux/modules/send';
 import { notifications } from 'redux/modules/notifications';
-import { Message } from 'components/Message';
-import some from 'lodash/some/';
 import store from 'store';
 
 import './EmailSendPreview.css';
@@ -64,7 +61,6 @@ class EmailSendPreviewDialog extends Component {
       );
     }
     const { show, onHide } = this.props;
-    const { listId } = this.state;
     return (
       <Modal show={show} onHide={onHide}>
         <Form onSubmit={(e) => this.handleSendPreviewConfirm(e)}>

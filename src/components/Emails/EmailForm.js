@@ -111,7 +111,7 @@ export class EmailFieldForm extends Component {
   render() {
     const { handleSubmit, fields: {
       name, subject,
-      htmlFields, segmentId, queries,
+      htmlFields, segmentId,
       plainBody, htmlBody, autogeneratePlain },
       onContentTabSelect, activeContentTab } = this.props;
     return (

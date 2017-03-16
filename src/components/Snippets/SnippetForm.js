@@ -8,6 +8,7 @@ import fields from './snippet.fields';
 import { RichEditor } from 'components/Editor';
 import Switch from 'react-bootstrap-switch';
 import debounce from 'lodash/debounce';
+import SnippetTypeSelector from './SnippetTypeSelector';
 
 const FORM_NAME = 'snippetForm';
 
@@ -65,16 +66,10 @@ export default class SnippetForm extends Component {
                       <FormControl type="text" placeholder="Description" {...description} />
                     </Col>
                   </FormGroup>
-
                   <FormGroup>
-                    <Col sm={12}>
-                      <ControlLabel>Is HTML</ControlLabel>
-                      <div>
-                        <Switch
-                          state={isHtml.value}
-                          onChange={this.isHtmlUpdateHandler}
-                        />
-                      </div>
+                    <Col sm={6}>
+                      <ControlLabel>Snippet Type</ControlLabel>
+                      <SnippetTypeSelector />
                     </Col>
                   </FormGroup>
                 </div>

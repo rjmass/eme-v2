@@ -1,5 +1,5 @@
 import React from 'react';
-import { TemplatesList } from 'components/Templates';
+import { TemplatesList } from 'components/Templates/TemplatesList';
 import { Pagination } from 'react-bootstrap';
 import { expectComponentsToExist } from 'test/helpers/reactTestUtils';
 import templates from 'test/fixtures/templates';

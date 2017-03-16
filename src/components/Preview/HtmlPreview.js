@@ -10,7 +10,7 @@ export default class HtmlPreview extends Component {
     const htmlBody = { __html: body };
     return (
       <Resizable
-        height={750}
+        height={1500}
         width={'auto'}
         isResizable={{
           top: false,
