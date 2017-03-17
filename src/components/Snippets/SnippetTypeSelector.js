@@ -16,6 +16,7 @@ class SnippetTypeSelector extends Component {
   render() {
     const { onSelect, list, value } = this.props;
     const options = list
+      .filter(s => s.isTemplate)
       .map((snippet) => ({
         label: snippet.name,
         value: snippet

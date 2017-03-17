@@ -6,9 +6,9 @@ import {
 } from 'react-bootstrap';
 import fields from './snippet.fields';
 import { RichEditor } from 'components/Editor';
-import Switch from 'react-bootstrap-switch';
 import debounce from 'lodash/debounce';
 import SnippetTypeSelector from './SnippetTypeSelector';
+import getLodashVars from 'helpers/getLodashVars';
 
 const FORM_NAME = 'snippetForm';
 
@@ -18,7 +18,7 @@ export default class SnippetForm extends Component {
     super(...params);
     this.bodyUpdateHandler = debounce((body) => this._bodyUpdateHandler(body), 100);
     this.isHtmlUpdateHandler = debounce((v) => this._isHtmlUpdateHandler(v), 100);
-    this.state = {};
+    this.state = { snippetFields: {} };
   }
 
   componentDidMount() {
@@ -34,6 +34,27 @@ export default class SnippetForm extends Component {
   _isHtmlUpdateHandler(val) {
     const { dispatch } = this.props;
     dispatch(changeField(FORM_NAME, 'isHtml', val));
+  }
+
+  handleSnippetTypeSelect(snippet) {
+    const snippetFields = {};
+    for (const field of getLodashVars(snippet.body)) {
+      snippetFields[field.replace(/_/g, ' ')] = '';
+    }
+    this.setState({ snippetFields });
+  }
+
+  get snippetFields() {
+    return Object.keys(this.state.snippetFields).map((snip, i) => {
+      return (
+        <FormGroup key={i}>
+          <Col sm={6}>
+            <ControlLabel>{snip}</ControlLabel>
+            <FormControl type="text" placeholder={snip} />
+          </Col>
+        </FormGroup>
+      );
+    });
   }
 
   render() {
@@ -69,9 +90,12 @@ export default class SnippetForm extends Component {
                   <FormGroup>
                     <Col sm={6}>
                       <ControlLabel>Snippet Type</ControlLabel>
-                      <SnippetTypeSelector />
+                      <SnippetTypeSelector
+                        onSelect={(s) => this.handleSnippetTypeSelect(s)}
+                      />
                     </Col>
                   </FormGroup>
+                  {this.snippetFields}
                 </div>
 
               </Collapse>
