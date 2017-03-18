@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import template from 'lodash/template';
 import { reduxForm, change as changeField } from 'redux-form';
 import {
   Form, FormGroup, Row, Col, FormControl, Button,
@@ -18,7 +19,7 @@ export default class SnippetForm extends Component {
     super(...params);
     this.bodyUpdateHandler = debounce((body) => this._bodyUpdateHandler(body), 100);
     this.isHtmlUpdateHandler = debounce((v) => this._isHtmlUpdateHandler(v), 100);
-    this.state = { snippetFields: {} };
+    this.state = { snippetType: null, snippetFields: {} };
   }
 
   componentDidMount() {
@@ -38,19 +39,35 @@ export default class SnippetForm extends Component {
 
   handleSnippetTypeSelect(snippet) {
     const snippetFields = {};
-    for (const field of getLodashVars(snippet.body)) {
-      snippetFields[field.replace(/_/g, ' ')] = '';
+    if (snippet) {
+      for (const field of getLodashVars(snippet.body)) {
+        snippetFields[field] = '';
+      }
     }
+    this.setState({ snippetType: snippet, snippetFields });
+  }
+
+  handleSnippetFieldChange(v, snip) {
+    const { dispatch } = this.props;
+    const snippetFields = { ...this.state.snippetFields, [snip]: v };
+    const templateFunc = template(this.state.snippetType.body);
+    const newBody = templateFunc(snippetFields);
     this.setState({ snippetFields });
+    dispatch(changeField(FORM_NAME, 'body', newBody));
   }
 
   get snippetFields() {
     return Object.keys(this.state.snippetFields).map((snip, i) => {
+      const snipDisplay = snip.replace(/_/g, ' ');
       return (
         <FormGroup key={i}>
           <Col sm={6}>
-            <ControlLabel>{snip}</ControlLabel>
-            <FormControl type="text" placeholder={snip} />
+            <ControlLabel>{snipDisplay}</ControlLabel>
+            <FormControl
+              type="text"
+              placeholder={snipDisplay}
+              onChange={(v) => this.handleSnippetFieldChange(v.target.value, snip)}
+            />
           </Col>
         </FormGroup>
       );
@@ -60,6 +77,8 @@ export default class SnippetForm extends Component {
   render() {
     const { fields: { name, description, body, isHtml },
       handleSubmit } = this.props;
+    const { snippetType } = this.state;
+
     return (
       <Row>
         <Col sm={12}>
@@ -92,6 +111,7 @@ export default class SnippetForm extends Component {
                       <ControlLabel>Snippet Type</ControlLabel>
                       <SnippetTypeSelector
                         onSelect={(s) => this.handleSnippetTypeSelect(s)}
+                        value={snippetType}
                       />
                     </Col>
                   </FormGroup>
@@ -129,5 +149,4 @@ export default class SnippetForm extends Component {
 
     );
   }
-
 }

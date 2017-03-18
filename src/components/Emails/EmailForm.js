@@ -10,11 +10,9 @@ import { RichEditor } from 'components/Editor';
 import EmailFieldEditor from './EmailFieldEditor';
 import { Message } from 'components/Message';
 import debounce from 'lodash/debounce';
-import { notifications } from 'redux/modules/notifications';
 import './EmailPanel.css';
 
 const FORM_NAME = 'emailForm';
-const QUERY_LIMIT = 20;
 
 export default class EmailForm extends Component {
   render() {
@@ -57,40 +55,6 @@ export class EmailFieldForm extends Component {
     const { fields: { htmlFields } } = this.props;
     dispatch(changeField(FORM_NAME, 'htmlFields',
       { ...htmlFields.value, [fieldName]: fieldValue }));
-  }
-
-  handleRemoveQuery(i) {
-    const { dispatch, fields: { queries } } = this.props;
-    const newQuery = queries.value.list.slice();
-    newQuery.splice(i, 1);
-    if (!newQuery.length) {
-      return dispatch(changeField(FORM_NAME, 'queries',
-        { ...queries.value, activated: false, list: newQuery }));
-    }
-    return dispatch(changeField(FORM_NAME, 'queries', { ...queries.value, list: newQuery }));
-  }
-
-  handleUpdateQuery(i, q) {
-    const { dispatch, fields: { queries } } = this.props;
-    const newQuery = queries.value.list.slice();
-    newQuery[i] = Object.assign({}, newQuery[i], q);
-    dispatch(changeField(FORM_NAME, 'queries', { ...queries.value, list: newQuery }));
-  }
-
-  handleActivateQuery(val) {
-    const { dispatch, fields: { queries } } = this.props;
-    dispatch(changeField(FORM_NAME, 'queries', { ...queries.value, activated: val }));
-  }
-
-  handleAddQuery() {
-    const { dispatch } = this.props;
-    const { fields: { queries } } = this.props;
-    const newQuery = queries.value.list.slice();
-    if (newQuery.length === QUERY_LIMIT) {
-      return dispatch(notifications.danger(`Maximum of ${QUERY_LIMIT} queries`));
-    }
-    newQuery.push({ type: 'CAPI', variableName: '', query: '', limit: '1DAYS' });
-    return dispatch(changeField(FORM_NAME, 'queries', { ...queries.value, list: newQuery }));
   }
 
   handleCampaignSelect(campaignId) {
