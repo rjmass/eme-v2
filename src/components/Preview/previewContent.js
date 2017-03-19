@@ -3,11 +3,9 @@ import he from 'he';
 
 import emptyPlaceholderTemplate from './templates/placeholder.html';
 import replacementContainerTemplate from './templates/replacement.html';
-import newsFeedPlaceholderTemplate from './templates/newsfeed.html';
 
 const emptyPlaceholder = template(emptyPlaceholderTemplate);
 const replacementContainer = template(replacementContainerTemplate);
-const newsFeedContainer = template(newsFeedPlaceholderTemplate);
 
 const defaultContentExtractor = (htmlFields, fieldName) => {
   const htmlField = htmlFields[fieldName] || {};
@@ -34,17 +32,8 @@ export const replaceCustomTags = (htmlBody = '', htmlFields = {},
     if (content) {
       const container = document.createElement('div');
       container.innerHTML = content;
-      //  replace newsfeed tags
-      const newsFeedElements = container.querySelectorAll('newsfeed');
-      for (const newsFeedElement of newsFeedElements) {
-        const query = newsFeedElement.getAttribute('query');
-        const limit = newsFeedElement.getAttribute('limit');
-        const markup = newsFeedElement.innerHTML;
-        newsFeedElement.innerHTML
-          = newsFeedContainer({ query: decodeURIComponent(query), limit, markup });
-      }
-      const contentWithNewsfeeds = he.decode(container.innerHTML);
-      contentElement.textContent = replacementContainer({ name, content: contentWithNewsfeeds });
+      const decodedContent = he.decode(container.innerHTML);
+      contentElement.textContent = replacementContainer({ name, content: decodedContent });
     } else {
       contentElement.textContent = emptyPlaceholder({ name });
     }
