@@ -4,8 +4,6 @@ import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import Card from './TemplateDragCard';
 import { Button, ControlLabel } from 'react-bootstrap';
-import getLodashVars from 'helpers/getLodashVars';
-import template from 'lodash/template';
 
 const style = {
   width: '100%'
@@ -19,18 +17,16 @@ export default class TemplateDragContainer extends Component {
     cards: PropTypes.array
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      contentAreaCount: 0
-    };
-  }
-
   insertContent(components) {
     const { htmlString, onChange } = this.props;
+    let areaCount = 0;
     const parser = new DOMParser();
+    const contentReplacer = () => {
+      ++areaCount;
+      return `Comment ${areaCount}`;
+    };
     const componentString = components.reduce((acc, card) => {
-      acc += card.snippet.body || '';
+      acc += (card.snippet.body || '').replace(/COMMENT_AREA/g, contentReplacer);
       return acc;
     }, '');
     const html = parser.parseFromString(htmlString, 'text/html');
@@ -56,22 +52,7 @@ export default class TemplateDragContainer extends Component {
     this.insertContent(components);
   }
 
-  checkContentArea(snippet, idx) {
-    const body = snippet ? snippet.body : this.props.cards[idx].snippet.body;
-    const isContentArea = getLodashVars(body).includes('Content_Area');
-    if (isContentArea) {
-      const areaCount = snippet ? this.state.contentAreaCount - 1 : this.state.contentAreaCount - 1;
-      const name = `Comment ${areaCount + 1}`;
-      const templateFunc = template(body);
-      if (snippet) {
-        snippet.body = templateFunc({ Content_Area: name });
-      }
-      this.setState({ contentAreaCount: areaCount });
-    }
-  }
-
   handleSnippetSelect(snippet, idx) {
-    this.checkContentArea(snippet, idx);
     const components = this.props.cards.slice();
     const newComponent = {};
     if (!snippet) {

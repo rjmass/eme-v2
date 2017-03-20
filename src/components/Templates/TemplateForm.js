@@ -35,7 +35,6 @@ export default class TemplateForm extends Component {
     dispatch(changeField(FORM_NAME, 'htmlBody', newHtml));
   }
 
-
   _plainTextUpdateHandler(newPlainText) {
     const { dispatch } = this.props;
     dispatch(changeField(FORM_NAME, 'plainBody', newPlainText));
@@ -139,5 +138,4 @@ export default class TemplateForm extends Component {
       </Row>
     );
   }
-
 }
