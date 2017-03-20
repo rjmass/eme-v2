@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
 import { reduxForm, change as changeField } from 'redux-form';
 import {
-  Form, FormGroup, Row, Col, FormControl, Button,
+  Tab, Tabs, Form, FormGroup, Row, Col, FormControl, Button,
   ControlLabel, Collapse
 } from 'react-bootstrap';
 import fields from './template.fields';
 import { RichEditor } from 'components/Editor';
+import { notifications } from 'redux/modules/notifications';
 import { CampaignPicker } from 'components/Campaigns';
 import TemplateDragContainer from './TemplateDragContainer';
+import TemplateAuthors from './TemplateAuthors';
 import debounce from 'lodash/debounce';
 
 const FORM_NAME = 'templateForm';
+const AUTHOR_LIMIT = 20;
 
 @reduxForm({ form: FORM_NAME, fields })
 export default class TemplateForm extends Component {
@@ -50,11 +53,26 @@ export default class TemplateForm extends Component {
     dispatch(changeField(FORM_NAME, 'components', components));
   }
 
+  handleAddAuthor() {
+    const { dispatch } = this.props;
+    const { fields: templateFields } = this.props.fields;
+    const authors = templateFields.value && templateFields.value.authors || [];
+    const newAuthors = authors.slice();
+    if (newAuthors.length === AUTHOR_LIMIT) {
+      return dispatch(notifications.danger(`Maximum of ${AUTHOR_LIMIT} queries`));
+    }
+    newAuthors.push({ name: '', photo: '', url: '' });
+    return dispatch(changeField(FORM_NAME, 'fields', { ...templateFields.value,
+      authors: newAuthors }));
+  }
+
   render() {
     const { fields: {
       name, subject, campaign,
-      htmlBody, components
-    }, handleSubmit } = this.props;
+      htmlBody, components, fields: templateFields
+    }, handleSubmit, activeTab, onTabSelect } = this.props;
+
+    const authors = templateFields.value && templateFields.value.authors || [];
 
     return (
       <Row>
@@ -75,29 +93,44 @@ export default class TemplateForm extends Component {
             <Col sm={12}>
               <Form horizontal onSubmit={handleSubmit}>
                 <Collapse in={!this.state.formCollapsed}>
-                  <div className="form-collapsible form-pale">
-                    <FormGroup>
-                      <Col xs={6}>
-                        <ControlLabel>Name</ControlLabel>
-                        <FormControl type="text" placeholder="Name" {...name} />
-                      </Col>
-                      <Col sm={6}>
-                        <ControlLabel>Briefing</ControlLabel>
-                        <CampaignPicker
-                          editable
-                          value={campaign && campaign.value}
-                          onSelect={(id) => this.handleCampaignSelect(id)}
-                        />
-                      </Col>
-                    </FormGroup>
+                  <Tabs
+                    id="template-fields"
+                    defaultActiveKey={'properties'}
+                    activeKey={activeTab}
+                    onSelect={onTabSelect}
+                  >
+                    <Tab eventKey="properties" title="Properties">
+                      <div className="form-collapsible form-pale">
+                        <FormGroup>
+                          <Col xs={6}>
+                            <ControlLabel>Name</ControlLabel>
+                            <FormControl type="text" placeholder="Name" {...name} />
+                          </Col>
+                          <Col sm={6}>
+                            <ControlLabel>Briefing</ControlLabel>
+                            <CampaignPicker
+                              editable
+                              value={campaign && campaign.value}
+                              onSelect={(id) => this.handleCampaignSelect(id)}
+                            />
+                          </Col>
+                        </FormGroup>
 
-                    <FormGroup>
-                      <Col xs={6}>
-                        <ControlLabel>Subject</ControlLabel>
-                        <FormControl type="text" placeholder="Subject" {...subject} />
-                      </Col>
-                    </FormGroup>
-                  </div>
+                        <FormGroup>
+                          <Col xs={6}>
+                            <ControlLabel>Subject</ControlLabel>
+                            <FormControl type="text" placeholder="Subject" {...subject} />
+                          </Col>
+                        </FormGroup>
+                      </div>
+                    </Tab>
+                    <Tab eventKey="authors" title="Authors">
+                      <TemplateAuthors
+                        authors={authors}
+                        onAuthorAdd={() => this.handleAddAuthor()}
+                      />
+                    </Tab>
+                  </Tabs>
                 </Collapse>
 
                 <FormGroup>

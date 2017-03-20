@@ -14,8 +14,6 @@ export default class Preview extends Component {
     plain: PropTypes.string,
     htmlFields: PropTypes.object,
     disableNonActiveTabs: PropTypes.bool,
-    substitutionEnabled: PropTypes.bool.isRequired,
-    substitutionData: PropTypes.object,
     activeTab: PropTypes.oneOf(['html', 'plain']),
     onTabSelect: PropTypes.func
   }
