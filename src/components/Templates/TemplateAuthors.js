@@ -5,12 +5,12 @@ export default class Capi extends Component {
   static propTypes = {
     onAuthorAdd: PropTypes.func.isRequired,
     onAuthorRemove: PropTypes.func.isRequired,
-    onAuthorChange: PropTypes.func.isRequired,
+    onAuthorUpdate: PropTypes.func.isRequired,
     fields: PropTypes.object.isRequired
   }
 
   render() {
-    const { authors = [], onAuthorChange, onAuthorAdd, onAuthorRemove } = this.props;
+    const { authors = [], onAuthorUpdate, onAuthorAdd, onAuthorRemove } = this.props;
 
     return (
       <Col sm={12}>
@@ -23,7 +23,7 @@ export default class Capi extends Component {
                   type="text"
                   placeholder="Author name..."
                   value={a.name}
-                  onChange={(e) => onAuthorChange(i, { name: e.target.value })}
+                  onChange={(e) => onAuthorUpdate(i, { name: e.target.value })}
                 />
               </Col>
               <Col sm={4}>
@@ -32,7 +32,7 @@ export default class Capi extends Component {
                   type="text"
                   placeholder="Photo URL..."
                   value={a.photo}
-                  onChange={(e) => onAuthorChange(i, { photo: e.target.value })}
+                  onChange={(e) => onAuthorUpdate(i, { photo: e.target.value })}
                 />
               </Col>
               <Col sm={4}>
@@ -40,8 +40,8 @@ export default class Capi extends Component {
                 <FormControl
                   type="text"
                   placeholder="Author URL..."
-                  value={a.url}
-                  onSelect={(val) => onAuthorChange(i, { url: val })}
+                  value={a.authorURL}
+                  onChange={(e) => onAuthorUpdate(i, { authorURL: e.target.value })}
                 />
               </Col>
               <Col sm={1}>

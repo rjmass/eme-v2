@@ -58,11 +58,28 @@ export default class TemplateForm extends Component {
     const { fields: templateFields } = this.props.fields;
     const authors = templateFields.value && templateFields.value.authors || [];
     const newAuthors = authors.slice();
+    console.log(newAuthors);
     if (newAuthors.length === AUTHOR_LIMIT) {
       return dispatch(notifications.danger(`Maximum of ${AUTHOR_LIMIT} queries`));
     }
-    newAuthors.push({ name: '', photo: '', url: '' });
+    newAuthors.push({ name: '', photo: '', authorURL: '' });
     return dispatch(changeField(FORM_NAME, 'fields', { ...templateFields.value,
+      authors: newAuthors }));
+  }
+
+  handleUpdateAuthor(i, q) {
+    const { dispatch, fields: { fields: templateFields } } = this.props;
+    const newAuthors = templateFields.value.authors.slice();
+    newAuthors[i] = Object.assign({}, newAuthors[i], q);
+    dispatch(changeField(FORM_NAME, 'fields', { ...templateFields.value,
+      authors: newAuthors }));
+  }
+
+  handleRemoveAuthor(i) {
+    const { dispatch, fields: { fields: templateFields } } = this.props;
+    const newAuthors = templateFields.value.authors.slice();
+    newAuthors.splice(i, 1);
+    dispatch(changeField(FORM_NAME, 'fields', { ...templateFields.value,
       authors: newAuthors }));
   }
 
@@ -128,6 +145,8 @@ export default class TemplateForm extends Component {
                       <TemplateAuthors
                         authors={authors}
                         onAuthorAdd={() => this.handleAddAuthor()}
+                        onAuthorUpdate={(i, q) => this.handleUpdateAuthor(i, q)}
+                        onAuthorRemove={(i) => this.handleRemoveAuthor(i)}
                       />
                     </Tab>
                   </Tabs>
