@@ -38,6 +38,7 @@ export default class SnippetForm extends Component {
   }
 
   handleSnippetTypeSelect(snippet) {
+    const { dispatch } = this.props;
     const snippetFields = {};
     if (snippet) {
       for (const field of getLodashVars(snippet.body)) {
@@ -45,6 +46,7 @@ export default class SnippetForm extends Component {
       }
     }
     this.setState({ snippetType: snippet, snippetFields });
+    dispatch(changeField(FORM_NAME, 'body', snippet.body));
   }
 
   handleSnippetFieldChange(v, snip) {

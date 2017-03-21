@@ -77,7 +77,8 @@ export class EmailFieldForm extends Component {
       name, subject,
       htmlFields, segmentId,
       plainBody, htmlBody, autogeneratePlain },
-      onContentTabSelect, activeContentTab } = this.props;
+      onContentTabSelect, activeContentTab, email } = this.props;
+    const authors = email.template && email.template.fields && email.template.fields.authors || [];
     return (
       <Row>
         <Col sm={12}>
@@ -145,6 +146,7 @@ export class EmailFieldForm extends Component {
                     <Tab eventKey="html" title="HTML Fields">
                       <div className="help-block" />
                       <EmailFieldEditor
+                        authors={authors}
                         htmlFields={htmlFields.value}
                         onFieldChanged={(field, val) => this.handleFieldChange(field, val)}
                       />
