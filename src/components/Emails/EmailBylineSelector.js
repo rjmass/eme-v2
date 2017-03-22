@@ -20,14 +20,24 @@ export default class EmailBylineSelector extends Component {
     return dt >= (moment().startOf('day'));
   }
 
-  // handleDateSelect(dt) {
-  // }
-
-  handleAuthorChange(au) {
+  handleDateSelect(field, date) {
     const { onChange } = this.props;
+    const sendDate = date.format('LL');
+    const newValue = { ...field.selected.value, sendDate };
     const author = {
-      selected: au.value,
-      htmlBody: renderTemplate(bylineTemplate, au.value)
+      sendDate,
+      htmlBody: renderTemplate(bylineTemplate, newValue)
+    };
+    onChange(author);
+  }
+
+  handleAuthorChange(field, selected) {
+    const { onChange } = this.props;
+    const newValue = { ...selected.value };
+    newValue.sendDate = field.sendDate || '';
+    const author = {
+      selected,
+      htmlBody: renderTemplate(bylineTemplate, newValue)
     };
     onChange(author);
   }
@@ -35,7 +45,7 @@ export default class EmailBylineSelector extends Component {
   render() {
     const { value } = this.props;
     const selectedAuthor = {
-      label: value.selected && value.selected.name,
+      label: value.selected && value.selected.label,
       value: value.selected && value.selected
     };
     return (
@@ -48,7 +58,7 @@ export default class EmailBylineSelector extends Component {
             options={this.authors}
             autosize={false}
             value={selectedAuthor.value && selectedAuthor}
-            onChange={(a) => this.handleAuthorChange(a)}
+            onChange={(selected) => this.handleAuthorChange(value, selected)}
           />
         </Col>
         <Col sm={6}>
@@ -58,7 +68,7 @@ export default class EmailBylineSelector extends Component {
             dateFormat="LL"
             timeFormat={false}
             isValidDate={this.isValidDate}
-            onChange={(_date) => this.handleDateSelect(_date)}
+            onChange={(_date) => this.handleDateSelect(value, _date)}
           />
         </Col>
       </FormGroup>
