@@ -42,7 +42,9 @@ export default class EmailFieldEditor extends Component {
 
               {activeField === field.key && field.key.toLowerCase() === 'byline' &&
                 <EmailBylineSelector
+                  value={field}
                   authors={authors}
+                  onChange={(author) => onFieldChanged(field.key, { ...field, ...author })}
                 />
                 }
             </Panel>

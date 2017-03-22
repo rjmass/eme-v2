@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import template from 'lodash/template';
 import { reduxForm, change as changeField } from 'redux-form';
 import {
   Form, FormGroup, Row, Col, FormControl, Button,
@@ -10,6 +9,7 @@ import { RichEditor } from 'components/Editor';
 import debounce from 'lodash/debounce';
 import SnippetTypeSelector from './SnippetTypeSelector';
 import getLodashVars from 'helpers/getLodashVars';
+import renderTemplate from 'helpers/renderTemplate';
 
 const FORM_NAME = 'snippetForm';
 
@@ -52,8 +52,7 @@ export default class SnippetForm extends Component {
   handleSnippetFieldChange(v, snip) {
     const { dispatch } = this.props;
     const snippetFields = { ...this.state.snippetFields, [snip]: v };
-    const templateFunc = template(this.state.snippetType.body);
-    const newBody = templateFunc(snippetFields);
+    const newBody = renderTemplate(this.state.snippetType.body, snippetFields);
     this.setState({ snippetFields });
     dispatch(changeField(FORM_NAME, 'body', newBody));
   }

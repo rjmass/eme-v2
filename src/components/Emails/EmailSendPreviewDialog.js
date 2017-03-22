@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import TagsInput from 'react-tagsinput';
+import { connect } from 'react-redux';
 import AutosizeInput from 'react-input-autosize';
 import { Modal, Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
 import { sendEmailPreviewThunk } from 'redux/modules/send';
@@ -45,7 +46,7 @@ class EmailSendPreviewDialog extends Component {
 
   get sendDisabled() {
     const { emails } = this.state;
-    return !emails.length || !this.areEmailsInSelectedList();
+    return !emails.length;
   }
 
   render() {
@@ -100,4 +101,5 @@ class EmailSendPreviewDialog extends Component {
   }
 }
 
+@connect()
 export default class ConnectedEmailSendPreviewDialog extends EmailSendPreviewDialog {}

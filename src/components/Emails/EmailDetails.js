@@ -184,7 +184,6 @@ class EmailDetails extends BaseComponent {
               <Row>
                 <Col xs={8}>
                   <h4>Editing: {email.name}</h4>
-                  <p>
                     {email.campaignName ?
                       <div>
                         <h4>
@@ -196,7 +195,6 @@ class EmailDetails extends BaseComponent {
                         </h4>
                       </div>
                       : ''}
-                  </p>
                 </Col>
                 <Col xs={4}>
                   <EmailActions
