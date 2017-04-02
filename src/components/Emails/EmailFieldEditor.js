@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Accordion, Panel } from 'react-bootstrap';
-import { RichEditor } from 'components/Editor';
+import { RichEditor } from 'components/Editor2';
 import EmailBylineSelector from './EmailBylineSelector';
 import { getOrderedHtmlFields, emailContentPanelChanged } from 'redux/modules/emails';
 

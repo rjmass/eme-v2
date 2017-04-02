@@ -61,16 +61,18 @@ export default class EmailBylineSelector extends Component {
             onChange={(selected) => this.handleAuthorChange(value, selected)}
           />
         </Col>
-        <Col sm={6}>
-          <ControlLabel>Send Date</ControlLabel>
-          <DateTime
-            defaultValue={new Date()}
-            dateFormat="LL"
-            timeFormat={false}
-            isValidDate={this.isValidDate}
-            onChange={(_date) => this.handleDateSelect(value, _date)}
-          />
-        </Col>
+        {selectedAuthor.label &&
+          <Col sm={6}>
+            <ControlLabel>Send Date</ControlLabel>
+            <DateTime
+              defaultValue={new Date()}
+              dateFormat="LL"
+              timeFormat={false}
+              isValidDate={this.isValidDate}
+              onChange={(_date) => this.handleDateSelect(value, _date)}
+            />
+          </Col>
+        }
       </FormGroup>
     );
   }
