@@ -39,7 +39,6 @@ export default class FtFormat {
           for (var i = 0; i < tags.length; i++) {
             var tag = tags[i];
             var style = new CKEDITOR.style(config['ftFormat_' + tag]);
-            console.log(style);
             if (!editor.filter.customConfig || editor.filter.check(style)) {
               stylesCount++;
               styles[tag] = style;
