@@ -2,3 +2,5 @@ webpack/*
 tests.webpack.js
 src/test/helpers/*
 src/components/Analytics/popover.js
+src/components/Editor2/plugins/*
+src/components/Editor2/editorConfig.js
