@@ -12,6 +12,9 @@ export default class HtmlEditor extends Component {
     const conf = editorConfig(config);
     this._editor = window.CKEDITOR;
     const instance = this._editor.replace('editor', conf);
+    instance.on('instanceReady', () => {
+      this.ready(instance);
+    });
     instance.on('change', () => {
       const data = instance.getData();
       this.props.onChange(data);
@@ -21,6 +24,25 @@ export default class HtmlEditor extends Component {
 
   componentWillUnmount() {
     this._editor.instances.editor.destroy();
+  }
+
+  ready(instance) {
+    let canChange = true;
+    const initIfEmpty = () => {
+      const EMPTY_DATA = '<p><br></p>';
+      // eslint-disable-next-line
+      const NORMAL_DATA = '<p style="font-family:Arial;margin:0px 0px 30px;font-size:16px;line-height:23px;"></p>';
+      const data = instance.getSnapshot();
+      if (data === EMPTY_DATA && canChange) {
+        canChange = false;
+        instance.setData(NORMAL_DATA, () => {
+          canChange = true;
+        });
+      }
+    };
+
+    instance.on('change', initIfEmpty);
+    instance.on('focus', initIfEmpty);
   }
 
   applyAddons(instance) {

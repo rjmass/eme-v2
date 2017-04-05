@@ -7,7 +7,7 @@ const TOOLBAR = [
 
 module.exports = (config) => {
   return {
-    allowedContent: 'p{margin,font-weight,font-size,line-height,font-family,adding,border-width,border-top-style,border-bottom-style,border-top-color,border-bottom-color,text-align,color,font-style,padding}; b i blockquote ol ul li; a[!href,target]; img[!src,alt,width]{vertical-align,margin,float}',
+    allowedContent: 'p{margin,font-weight,font-size,line-height,font-family,padding,border-width,border-top-style,border-bottom-style,border-top-color,border-bottom-color,text-align,color,font-style}; b i blockquote ol ul li; a[!href,target]; img[!src,alt,width]{vertical-align,margin,float}',
     pasteFilter: 'p b{*}; i{*}; ol ul li a[!href,target]; img[!src,alt,width]',
     coreStyles_bold: { element: 'b', overrides: 'strong' },
     coreStyles_italic: { element: 'i', overrides: 'em' },
