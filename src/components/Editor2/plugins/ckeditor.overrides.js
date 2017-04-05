@@ -63,19 +63,19 @@ export default class EditorOverrides {
 
 	static alwaysBlankLinkOnPaste(editor) {
 		editor.on('paste', (event) => {
-			let $div = $('<div/>');
-			$div.html(event.data.dataValue);
-			$div.find('a').attr("target", "_blank");
-			event.data.dataValue = $div.html();
+			let $div = document.createElement('div');
+			$div.innerHTML = event.data.dataValue;
+			$div.getElementsByTagName('a')[0].setAttribute("target", "_blank");
+			event.data.dataValue = $div.innerHTML;
 		});
 	}
 
 	static alwaysNormalParagraphOnPaste(editor) {
 		editor.on('paste', (event) => {
-			let $div = $('<div/>');
-			$div.html(event.data.dataValue);
-			$div.find('p').attr("style", "font-family:arial;font-size:16px;line-height:23px;margin:0px 0px 30px;");
-			event.data.dataValue = $div.html();
+			let $div = document.createElement('div');
+			$div.innerHTML = event.data.dataValue;
+			$div.getElementsByTagName('p')[0].setAttribute("style", "font-family:arial;font-size:16px;line-height:23px;margin:0px 0px 30px;");
+			event.data.dataValue = $div.innerHTML;
 		});
 	}
 
@@ -91,24 +91,22 @@ export default class EditorOverrides {
     return url;
 	}
 
-	static proxifyHtml(html) {
+  static proxifyHtml(html) {
     const VISIBLE_WIDTH = EditorOverrides.IMG_VISIBLE_WIDTH;
-		let $div = $('<div/>');
-		$div.html(html);
-
-		$div.find('img').each((index, img) => {
-			const $img = $(img);
-			const src = $img.attr('src');
+    const $div = document.createElement('div');
+    $div.innerHTML = html;
+    for (const img of $div.getElementsByTagName('img')) {
+      const src = img.getAttribute('src');
       const newSrc = EditorOverrides.proxifyUrl(src);
       const width = Math.min(img.naturalWidth, VISIBLE_WIDTH);
-			$img.attr('src', newSrc)
-				.width(width)
-				.css('vertical-align', 'middle')
-				.css('margin', '0 4px');
-		});
+      img.setAttribute('src', newSrc);
+      img.setAttribute('width', width);
+      img.style.verticleAlign = 'middle';
+      img.style.margin = '0 4px';
+    }
 
-		return $div.html();
-	}
+    return $div.innerHTML;
+  }
 
   static addImageProxy(editor) {
     // for dialog
