@@ -41,8 +41,8 @@ class ImagePickDialog extends Component {
     const widthAttr = width ? `width="${width}"` : '';
     const heightAttr = height ? `height="${height}"` : '';
     const styleAttr = 'style="margin:0; padding:0; border:none; display:block;"';
-    const snippet = `\n<img src="${wrappedUrl}" ${widthAttr} ${heightAttr} ${styleAttr} 
-      border="0" alt="${image.alt}">\n`;
+    // eslint-disable-next-line
+    const snippet = `\n<img src="${wrappedUrl}" ${widthAttr} ${heightAttr} ${styleAttr} border="0" alt="${image.alt}">\n`;
     onInsert(snippet);
     onHide();
   }

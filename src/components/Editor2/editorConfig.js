@@ -2,7 +2,7 @@ const TOOLBAR = [
   { name: 'styles', items: ['Bold', 'Italic', 'Format', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight'] },
   { name: 'clipboard', items: ['Undo', 'Redo'] },
   { name: 'paragraph', items: ['NumberedList', 'BulletedList', 'Blockquote'] },
-  { name: 'insert', items: ['Link', 'Unlink', 'Image', 'addImage'] }
+  { name: 'insert', items: ['Link', 'Unlink'] }
 ];
 
 module.exports = (config) => {
@@ -18,7 +18,7 @@ module.exports = (config) => {
     toolbar: TOOLBAR,
     fullPage: false,
     startupFocus: false,
-    removePlugins: 'format,language,tableresize,liststyle,tabletools,scayt,menubutton,contextmenu',
+    removePlugins: 'filebrowser,image,format,language,tableresize,liststyle,tabletools,scayt,menubutton,contextmenu',
     //extraPlugins: 'ftFormat,justify,simpleuploads',
     extraPlugins: 'ftFormat,justify',
     ftFormat_tags: 'p;h1;h2;h3',
@@ -33,10 +33,5 @@ module.exports = (config) => {
     ftFormat_h3: { element: 'p', styles: { color: 'rgb(64,32,2)', 'font-weight': 'bold', 'font-size': '16px',
       'line-height': '23px', 'font-family': 'Arial,sans-serif', 'margin': '0px 0px 10px', 'padding': '6px 0px'}
     },
-    filebrowserImageBrowseLinkUrl: null,
-    filebrowserImageBrowseUrl: `${config.urlInfix}/#/gallery`,
-    filebrowserWindowWidth: '1000',
-    filebrowserWindowHeight: '600',
-    filebrowserImageUploadUrl: `${config.baseUrl}/upload-image`
   };
 };

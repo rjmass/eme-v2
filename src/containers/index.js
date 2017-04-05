@@ -6,6 +6,7 @@ export Templates from './Templates/Templates';
 export Snippets from './Snippets/Snippets';
 export NotFound from './NotFound/NotFound';
 export Images from './Images/Images';
+export ImageGallery from './Images/ImageGallery';
 export Account from './Account/Account';
 export Users from './Users/Users';
 export Campaigns from './Campaigns/Campaigns';

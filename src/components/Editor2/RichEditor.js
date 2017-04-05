@@ -3,6 +3,7 @@ import editorConfig from './editorConfig';
 import config from 'config';
 import EditorOverrides from './plugins/ckeditor.overrides';
 import FtFormat from './plugins/ckeditor.ftformat';
+import InsertImage from './InsertImage';
 
 export default class HtmlEditor extends Component {
 
@@ -10,20 +11,19 @@ export default class HtmlEditor extends Component {
     EditorOverrides.load();
     FtFormat.load();
     const conf = editorConfig(config);
-    this._editor = window.CKEDITOR;
-    const instance = this._editor.replace('editor', conf);
-    instance.on('instanceReady', () => {
-      this.ready(instance);
+    this._editor = window.CKEDITOR.replace('editor', conf);
+    this._editor.on('instanceReady', () => {
+      this.ready(this._editor);
     });
-    instance.on('change', () => {
-      const data = instance.getData();
+    this._editor.on('change', () => {
+      const data = this._editor.getData();
       this.props.onChange(data);
     });
-    this.applyAddons(instance);
+    this.applyAddons(this._editor);
   }
 
   componentWillUnmount() {
-    this._editor.instances.editor.destroy();
+    this._editor.destroy();
   }
 
   ready(instance) {
@@ -48,12 +48,28 @@ export default class HtmlEditor extends Component {
   applyAddons(instance) {
     EditorOverrides.alwaysBlankLinkOnPaste(instance);
     EditorOverrides.alwaysNormalParagraphOnPaste(instance);
-    EditorOverrides.addImageProxy(instance);
+  }
+
+  handleImageSelect(img) {
+    if (!this._editor.focusManager.hasFocus) {
+      this._editor.focus();
+      // to allow cursor to set in editor
+      setTimeout(() => {
+        this._editor.insertHtml(img);
+      }, 100);
+    } else {
+      this._editor.insertHtml(img);
+    }
   }
 
   render() {
     return (
-      <textarea name="editor" cols="50" rows="50" defaultValue={this.props.value}></textarea>
+      <div>
+        <InsertImage
+          onInsert={(img) => this.handleImageSelect(img.body)}
+        />
+        <textarea name="editor" cols="50" rows="50" defaultValue={this.props.value}></textarea>
+      </div>
     );
   }
 }
