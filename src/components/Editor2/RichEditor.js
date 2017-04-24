@@ -65,9 +65,13 @@ export default class HtmlEditor extends Component {
   render() {
     return (
       <div>
-        <InsertImage
-          onInsert={(img) => this.handleImageSelect(img.body)}
-        />
+        <div className="cke_1 cke cke_chrome cke_editor_editor cke_ltr cke_browser_webkit">
+          <div className="cke_top">
+            <InsertImage
+              onInsert={(img) => this.handleImageSelect(img.body)}
+            />
+          </div>
+        </div>
         <textarea name="editor" cols="50" rows="50" defaultValue={this.props.value}></textarea>
       </div>
     );

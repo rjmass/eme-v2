@@ -20,13 +20,16 @@ class InsertImage extends Component {
     );
     return (
       <div>
-        <OverlayTrigger placement="top" overlay={tooltip}>
-          <Button
-            onClick={() => this.openDialog('insert')}
-          >
-            <i className="fa fa-picture-o" />
-          </Button>
-        </OverlayTrigger>
+        <div className="cke_toolgroup">
+          <OverlayTrigger placement="top" overlay={tooltip}>
+            <Button
+              className="cke_button"
+              onClick={() => this.openDialog('insert')}
+            >
+              <i className="fa fa-picture-o" />
+            </Button>
+          </OverlayTrigger>
+        </div>
         {insert &&
           <ImagePickDialog
             show={insert}

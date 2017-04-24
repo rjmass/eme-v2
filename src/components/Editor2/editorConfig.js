@@ -19,7 +19,6 @@ module.exports = (config) => {
     fullPage: false,
     startupFocus: false,
     removePlugins: 'filebrowser,image,format,language,tableresize,liststyle,tabletools,scayt,menubutton,contextmenu',
-    //extraPlugins: 'ftFormat,justify,simpleuploads',
     extraPlugins: 'ftFormat,justify',
     ftFormat_tags: 'p;h1;h2;h3',
     ftFormat_p: { element: 'p', styles: { 'font-family': 'Arial', 'margin': '0px 0px 30px', 'font-size': '16px', 'line-height': '23px' } },
