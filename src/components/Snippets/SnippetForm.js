@@ -6,8 +6,10 @@ import {
 } from 'react-bootstrap';
 import fields from './snippet.fields';
 import { RichEditor } from 'components/Editor';
-import Switch from 'react-bootstrap-switch';
 import debounce from 'lodash/debounce';
+import SnippetTypeSelector from './SnippetTypeSelector';
+import getLodashVars from 'helpers/getLodashVars';
+import renderTemplate from 'helpers/renderTemplate';
 
 const FORM_NAME = 'snippetForm';
 
@@ -17,7 +19,7 @@ export default class SnippetForm extends Component {
     super(...params);
     this.bodyUpdateHandler = debounce((body) => this._bodyUpdateHandler(body), 100);
     this.isHtmlUpdateHandler = debounce((v) => this._isHtmlUpdateHandler(v), 100);
-    this.state = {};
+    this.state = { snippetType: null, snippetFields: {} };
   }
 
   componentDidMount() {
@@ -35,9 +37,49 @@ export default class SnippetForm extends Component {
     dispatch(changeField(FORM_NAME, 'isHtml', val));
   }
 
+  handleSnippetTypeSelect(snippet) {
+    const { dispatch } = this.props;
+    const snippetFields = {};
+    if (snippet) {
+      for (const field of getLodashVars(snippet.body)) {
+        snippetFields[field] = '';
+      }
+    }
+    this.setState({ snippetType: snippet, snippetFields });
+    dispatch(changeField(FORM_NAME, 'body', snippet.body));
+  }
+
+  handleSnippetFieldChange(v, snip) {
+    const { dispatch } = this.props;
+    const snippetFields = { ...this.state.snippetFields, [snip]: v };
+    const newBody = renderTemplate(this.state.snippetType.body, snippetFields);
+    this.setState({ snippetFields });
+    dispatch(changeField(FORM_NAME, 'body', newBody));
+  }
+
+  get snippetFields() {
+    return Object.keys(this.state.snippetFields).map((snip, i) => {
+      const snipDisplay = snip.replace(/_/g, ' ');
+      return (
+        <FormGroup key={i}>
+          <Col sm={6}>
+            <ControlLabel>{snipDisplay}</ControlLabel>
+            <FormControl
+              type="text"
+              placeholder={snipDisplay}
+              onChange={(v) => this.handleSnippetFieldChange(v.target.value, snip)}
+            />
+          </Col>
+        </FormGroup>
+      );
+    });
+  }
+
   render() {
     const { fields: { name, description, body, isHtml },
       handleSubmit } = this.props;
+    const { snippetType } = this.state;
+
     return (
       <Row>
         <Col sm={12}>
@@ -65,18 +107,16 @@ export default class SnippetForm extends Component {
                       <FormControl type="text" placeholder="Description" {...description} />
                     </Col>
                   </FormGroup>
-
                   <FormGroup>
-                    <Col sm={12}>
-                      <ControlLabel>Is HTML</ControlLabel>
-                      <div>
-                        <Switch
-                          state={isHtml.value}
-                          onChange={this.isHtmlUpdateHandler}
-                        />
-                      </div>
+                    <Col sm={6}>
+                      <ControlLabel>Snippet Type</ControlLabel>
+                      <SnippetTypeSelector
+                        onSelect={(s) => this.handleSnippetTypeSelect(s)}
+                        value={snippetType}
+                      />
                     </Col>
                   </FormGroup>
+                  {this.snippetFields}
                 </div>
 
               </Collapse>
@@ -110,5 +150,4 @@ export default class SnippetForm extends Component {
 
     );
   }
-
 }

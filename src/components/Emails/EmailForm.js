@@ -10,11 +10,9 @@ import { RichEditor } from 'components/Editor';
 import EmailFieldEditor from './EmailFieldEditor';
 import { Message } from 'components/Message';
 import debounce from 'lodash/debounce';
-import { notifications } from 'redux/modules/notifications';
 import './EmailPanel.css';
 
 const FORM_NAME = 'emailForm';
-const QUERY_LIMIT = 20;
 
 export default class EmailForm extends Component {
   render() {
@@ -59,40 +57,6 @@ export class EmailFieldForm extends Component {
       { ...htmlFields.value, [fieldName]: fieldValue }));
   }
 
-  handleRemoveQuery(i) {
-    const { dispatch, fields: { queries } } = this.props;
-    const newQuery = queries.value.list.slice();
-    newQuery.splice(i, 1);
-    if (!newQuery.length) {
-      return dispatch(changeField(FORM_NAME, 'queries',
-        { ...queries.value, activated: false, list: newQuery }));
-    }
-    return dispatch(changeField(FORM_NAME, 'queries', { ...queries.value, list: newQuery }));
-  }
-
-  handleUpdateQuery(i, q) {
-    const { dispatch, fields: { queries } } = this.props;
-    const newQuery = queries.value.list.slice();
-    newQuery[i] = Object.assign({}, newQuery[i], q);
-    dispatch(changeField(FORM_NAME, 'queries', { ...queries.value, list: newQuery }));
-  }
-
-  handleActivateQuery(val) {
-    const { dispatch, fields: { queries } } = this.props;
-    dispatch(changeField(FORM_NAME, 'queries', { ...queries.value, activated: val }));
-  }
-
-  handleAddQuery() {
-    const { dispatch } = this.props;
-    const { fields: { queries } } = this.props;
-    const newQuery = queries.value.list.slice();
-    if (newQuery.length === QUERY_LIMIT) {
-      return dispatch(notifications.danger(`Maximum of ${QUERY_LIMIT} queries`));
-    }
-    newQuery.push({ type: 'CAPI', variableName: '', query: '', limit: '1DAYS' });
-    return dispatch(changeField(FORM_NAME, 'queries', { ...queries.value, list: newQuery }));
-  }
-
   handleCampaignSelect(campaignId) {
     const { dispatch } = this.props;
     dispatch(changeField(FORM_NAME, 'campaign', campaignId));
@@ -111,9 +75,10 @@ export class EmailFieldForm extends Component {
   render() {
     const { handleSubmit, fields: {
       name, subject,
-      htmlFields, segmentId, queries,
+      htmlFields, segmentId,
       plainBody, htmlBody, autogeneratePlain },
-      onContentTabSelect, activeContentTab } = this.props;
+      onContentTabSelect, activeContentTab, email } = this.props;
+    const authors = email.template && email.template.fields && email.template.fields.authors || [];
     return (
       <Row>
         <Col sm={12}>
@@ -181,6 +146,7 @@ export class EmailFieldForm extends Component {
                     <Tab eventKey="html" title="HTML Fields">
                       <div className="help-block" />
                       <EmailFieldEditor
+                        authors={authors}
                         htmlFields={htmlFields.value}
                         onFieldChanged={(field, val) => this.handleFieldChange(field, val)}
                       />

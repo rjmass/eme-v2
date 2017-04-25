@@ -1,0 +1,31 @@
+<table>
+  <tbody>
+    <tr>
+      <% if (photo) {%>
+      <td valign="middle" style="width:80px;">
+        <img src="<%= photo %>" style="max-width:80px;">
+      </td>
+      <% } %>
+      <td valign="middle" style="text-align:left;font-family:Arial,sans-serif;font-size:14px">
+        <% if (!photo) { %>
+        <br>
+        <% } %>
+        <strong>
+          By
+          <% if (authorURL) { %>
+          <a href="<%= authorURL %>" style="text-decoration:none;color:#2e6e9e;font-family:Arial,sans-serif" target="_blank">
+            <%- name%>
+          </a>
+          <% } else { %>
+          <%- name%>
+          <% } %>
+        </strong>
+        <br><font color="#505050"><%- sendDate %></font>
+        <% if (!photo) { %>
+        <br><br>
+        <% } %>
+      </td>
+    </tr>
+  </tbody>
+</table>
+

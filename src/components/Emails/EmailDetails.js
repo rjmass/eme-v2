@@ -12,7 +12,6 @@ import { replaceCustomTags } from '../Preview/previewContent';
 import plainTextConverter from 'helpers/plainTextConverter';
 import { accountUpdateThunk } from 'redux/modules/auth';
 import { tabs, dirtycheck, dialogs } from 'decorators';
-import { validate as queryValidator } from 'components/Validator/queryValidator';
 import validator from 'components/Validator/validator';
 import { initialize, getValues } from 'redux-form';
 import EmailSendDialog from './EmailSendDialog';
@@ -91,10 +90,6 @@ class EmailDetails extends BaseComponent {
     if (!emailValid) {
       dispatch(emailValidationErrorThunk(validator.error));
       return false;
-    }
-    const [queryValid, queryErr] = queryValidator(email.queries.list);
-    if (!queryValid) {
-      return dispatch(emailValidationErrorThunk(queryErr));
     }
     await dispatch(emailUpdateThunk(id, email));
     dispatch(initialize(FORM_NAME, email, fields));
@@ -189,7 +184,6 @@ class EmailDetails extends BaseComponent {
               <Row>
                 <Col xs={8}>
                   <h4>Editing: {email.name}</h4>
-                  <p>
                     {email.campaignName ?
                       <div>
                         <h4>
@@ -201,7 +195,6 @@ class EmailDetails extends BaseComponent {
                         </h4>
                       </div>
                       : ''}
-                  </p>
                 </Col>
                 <Col xs={4}>
                   <EmailActions

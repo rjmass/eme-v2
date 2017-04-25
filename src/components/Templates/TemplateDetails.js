@@ -120,12 +120,14 @@ export class TemplateDetails extends TemplateBase {
   }
 
   async handleFormSave(template) {
+    const newTemplate = { ...template,
+      components: template.components.map(t => ({ _id: t._id, snippet: t.snippet._id })) };
     const { dispatch } = this.props;
-    const valid = validator.validate(template, schema);
+    const valid = validator.validate(newTemplate, schema);
     if (valid) {
       const { params: { id } } = this.props;
-      await dispatch(templateUpdateThunk(id, template));
-      return this.props.dispatch(initialize(FORM_NAME, template, fields));
+      const updated = await dispatch(templateUpdateThunk(id, newTemplate));
+      return this.props.dispatch(initialize(FORM_NAME, updated, fields));
     }
     return dispatch(templateValidationError(validator.error));
   }
@@ -184,7 +186,7 @@ export class TemplateDetails extends TemplateBase {
             <Col xs={12} sm={12} md={6} lg={6}>
               {error ? <Message text={error.message} type="danger" /> : null}
               <TemplateForm
-                activeTab={this.state.tab}
+                activeTab={this.state.activeTab}
                 onTabSelect={(key) => this.handleTabSelect(key)}
                 template={template}
                 onSubmit={(templateData) => this.handleFormSave(templateData)}
@@ -192,8 +194,8 @@ export class TemplateDetails extends TemplateBase {
             </Col>
             <Col xs={12} sm={12} md={6} lg={6}>
               <Preview
-                activeTab={this.state.tab}
-                onTabSelect={(key) => this.handleTabSelect(key)}
+                activeTab={'html'}
+                onTabSelect={() => { }}
                 html={templateForm.htmlBody.value}
                 plain={templateForm.plainBody.value}
               />

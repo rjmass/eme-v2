@@ -19,6 +19,7 @@ import SnippetActions from './SnippetActions';
 import SnippetConfirmDeleteDialog from './SnippetConfirmDeleteDialog';
 import SnippetConfirmCloneDialog from './SnippetConfirmCloneDialog';
 import validator from 'components/Validator/validator';
+import 'react-bootstrap-switch/dist/css/bootstrap3/react-bootstrap-switch.min.css';
 
 const FORM_NAME = 'snippetForm';
 

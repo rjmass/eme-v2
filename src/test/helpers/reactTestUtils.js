@@ -9,6 +9,7 @@ export function expectComponentsToExist(parentComponent, ...childComponents) {
     try {
       return expect(wrapper.find(component)).to.exist;
     } catch (error) {
+      console.log(wrapper.debug());
       throw error;
     }
   });

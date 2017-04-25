@@ -10,3 +10,5 @@ export TemplateDetails from './TemplateDetails';
 export TemplateConfirmCloneDialog from './TemplateConfirmCloneDialog';
 export TemplateConfirmDeleteDialog from './TemplateConfirmDeleteDialog';
 export TemplateConfirmGenerateEmailDialog from './TemplateConfirmGenerateEmailDialog';
+export TemplateDragContainer from './TemplateDragContainer';
+export TemplateDragCard from './TemplateDragCard';

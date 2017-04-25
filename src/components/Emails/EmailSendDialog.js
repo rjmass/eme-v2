@@ -80,7 +80,6 @@ class EmailSendDialog extends Component {
   }
 
   render() {
-    // adddd onConfirm
     const { show, onHide } = this.props;
     const { now, date, tz } = this.state;
     return (

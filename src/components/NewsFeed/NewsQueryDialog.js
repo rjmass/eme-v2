@@ -22,7 +22,6 @@ class NewsQueryDialog extends Component {
     super(props);
     this.state = {
       queryToSave: null,
-      automate: false,
       snippet: null,
       query: null,
       filterSummary: false,
@@ -35,11 +34,7 @@ class NewsQueryDialog extends Component {
   }
 
   get insertEnabled() {
-    const { snippet, automate, query, limit } = this.state;
-    if (automate) {
-      return snippet && query && limit;
-    }
-
+    const { snippet } = this.state;
     const { selectedArticles } = this.props;
     return selectedArticles.length && snippet;
   }
@@ -59,16 +54,6 @@ class NewsQueryDialog extends Component {
     return { error: new Error('Select snippet and some articles') };
   }
 
-  get automationSnippet() {
-    const { query, limit, snippet, filterSummary } = this.state;
-    const filter = filterSummary ? 'summary' : '';
-    const encodedQuery = encodeURIComponent(query);
-    return (
-      // eslint-disable-next-line
-      `\n<div>\n\t<newsfeed query="${encodedQuery}" limit="${limit}days" filter="${filter}">\n${snippet.body}\n</newsfeed>\n</div>`
-    );
-  }
-
   handleItemClick({ query }) {
     this.setState({ query });
     this.handleTabSelect('find');
@@ -78,10 +63,7 @@ class NewsQueryDialog extends Component {
   }
 
   handleInsert() {
-    const { automate } = this.state;
-    const body = automate
-      ? this.automationSnippet
-      : this.preview.body;
+    const body = this.preview.body;
     const { onSubmit, onHide } = this.props;
     onSubmit({ body });
     onHide();
@@ -108,7 +90,7 @@ class NewsQueryDialog extends Component {
     const { show, onHide, articles, dispatch, newsfeed } = this.props;
     const { body, error } = this.preview;
     const {
-      tab: activeTab, query, limit, snippet, queryToSave, automate, filterSummary
+      tab: activeTab, query, limit, snippet, queryToSave, filterSummary
     } = this.state;
 
     return (
@@ -150,15 +132,6 @@ class NewsQueryDialog extends Component {
                     value={snippet}
                     onSelect={(s) => this.setState({ snippet: s })}
                   />
-                </Col>
-                <Col xs={3}>
-                  <ControlLabel>Automate</ControlLabel>
-                  <div>
-                    <Switch
-                      state={automate}
-                      onChange={(auto) => this.setState({ automate: auto })}
-                    />
-                  </div>
                 </Col>
                 <Col xs={3}>
                   <ControlLabel>Filter Summary</ControlLabel>

@@ -6,7 +6,7 @@ import { createSelector } from 'reselect';
 import 'react-select/dist/react-select.css';
 import './SnippetPicker.css';
 
-class SnippetPicker extends Component {
+class SnippetTypeSelector extends Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
@@ -14,18 +14,17 @@ class SnippetPicker extends Component {
   }
 
   render() {
-    const { onSelect, list, html = true, value } = this.props;
-    const filter = s => { return !s.isTemplate && (html ? s.isHtml : !s.isHtml); };
+    const { onSelect, list, value } = this.props;
     const options = list
-      .filter(filter)
+      .filter(s => s.isTemplate)
       .map((snippet) => ({
         label: snippet.name,
         value: snippet
       }));
     return (
       <Select
-        name="snippet-picker"
-        placeholder={`Select a snippet.. (${options.length})`}
+        name="snippet-type-selector"
+        placeholder={`Select a snippet type.. (${options.length})`}
         value={value}
         options={options}
         valueRenderer={(option) => option.name}
@@ -40,4 +39,4 @@ const snippets = state => state.snippets;
 const list = createSelector(snippets, () => '', getSnippets);
 
 @connect((state) => ({ list: list(state) }))
-export default class SnippetPickerConnected extends SnippetPicker { }
+export default class SnippetTypeSelectorConnected extends SnippetTypeSelector { }
