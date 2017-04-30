@@ -8,7 +8,10 @@ import './NewsFeedDragCard.scss';
 const style = {
   border: '1px dashed grey',
   padding: '0.5rem 1rem',
-  backgroundColor: 'white',
+  backgroundColor: 'white'
+};
+
+const handleStyle = {
   cursor: 'move'
 };
 
@@ -77,14 +80,18 @@ export class Card extends Component {
   };
 
   render() {
-    const { item, isDragging, connectDragSource, connectDropTarget } = this.props;
+    const { item, isDragging, connectDragSource,
+      connectDragPreview, connectDropTarget
+    } = this.props;
     const opacity = isDragging ? 0 : 1;
 
-    return connectDragSource(connectDropTarget(
+    return connectDragPreview(connectDropTarget(
       <div
         style={{ ...style, opacity }}
       >
-        <i className="fa fa-bars" />
+        {connectDragSource(
+          <i style={handleStyle} className="fa fa-bars" />
+          )}
         <span className="news-header news-header-baseline">{item.title}</span>
         <i className="fa fa-trash-o pull-right" title="Remove item" />
         <i className="fa fa-pencil pull-right" title="Edit item" />
@@ -98,6 +105,7 @@ export class Card extends Component {
 }))
 @DragSource(ItemTypes.CARD, cardSource, (connect, monitor) => ({
   connectDragSource: connect.dragSource(),
+  connectDragPreview: connect.dragPreview(),
   isDragging: monitor.isDragging()
 }))
 export default class CardConnected extends Card { }
