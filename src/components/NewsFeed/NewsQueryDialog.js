@@ -44,7 +44,10 @@ class NewsQueryDialog extends Component {
     const { selectedArticles } = this.props;
     if (snippet && selectedArticles.length) {
       try {
-        const body = convertSparkpostSyntax(snippet.body, { newsfeed_result: selectedArticles });
+        const body = convertSparkpostSyntax(snippet.body,
+          { newsfeed_result: selectedArticles,
+            title: 'Further reading...'
+          });
         return { body };
       } catch (error) {
         return { error };
@@ -64,8 +67,8 @@ class NewsQueryDialog extends Component {
 
   handleInsert() {
     const body = this.preview.body;
-    const { onSubmit, onHide } = this.props;
-    onSubmit({ body });
+    const { onSubmit, onHide, selectedArticles: selected } = this.props;
+    onSubmit({ body, selected });
     onHide();
   }
 

@@ -1,0 +1,14 @@
+.news-header {
+  line-height: 1.1;
+  /*@include ellipsify(80%);*/
+  &-baseline {
+    vertical-align: baseline;
+    padding-left: 4px;
+  }
+  &-label {
+    line-height: 1.6;
+    font-weight: normal;
+    vertical-align: top;
+  }
+}
+
