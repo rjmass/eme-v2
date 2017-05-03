@@ -12,7 +12,7 @@ class NewsPicker extends Component {
   }
 
   render() {
-    const { htmlBody, cards, onInsert } = this.props;
+    const { onInsert } = this.props;
     const { insert } = this.state.dialogs;
 
     const tooltip = (

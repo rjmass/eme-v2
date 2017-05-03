@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import update from 'react/lib/update';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
+import convertSparkpostSyntax from 'helpers/convertSparkpostSyntax';
 import Card from './NewsFeedDragCard';
 
 const style = {
@@ -17,15 +18,9 @@ export default class NewsFeedDragContainer extends Component {
   };
 
   insertContent(components) {
-    const { htmlBody, onChange } = this.props;
-    const parser = new DOMParser();
-    const componentString = components.reduce((acc, card) => {
-      acc += (card.snippet.body || '');
-      return acc;
-    }, '');
-    const html = parser.parseFromString(htmlBody, 'text/html');
-    html.getElementById('email-body').innerHTML = componentString;
-    onChange(html.documentElement.innerHTML, components);
+    const { snippet, onChange } = this.props;
+    const body = convertSparkpostSyntax(snippet.body, { newsfeed_result: components });
+    onChange(body, components, snippet);
   }
 
   handleMoveComponent(dragIndex, hoverIndex) {

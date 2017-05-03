@@ -44,9 +44,10 @@ export default class EmailFieldEditor extends Component {
               {activeField === field.key && field.key.toLowerCase().includes('newsfeed') &&
                 <NewsFeedForm
                   htmlBody={field.htmlBody}
-                  cards={field.selected || [{ _id: '123', title: 'something' }]}
-                  onChange={(htmlBody, selected) => {
-                    onFieldChanged(field.key, { ...field, htmlBody, selected });
+                  cards={field.articles || []}
+                  snippet={field.snippet}
+                  onChange={(htmlBody, articles, snippet) => {
+                    onFieldChanged(field.key, { ...field, htmlBody, articles, snippet });
                   }}
                 />}
 
