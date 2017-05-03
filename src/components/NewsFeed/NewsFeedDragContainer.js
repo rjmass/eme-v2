@@ -35,6 +35,12 @@ export default class NewsFeedDragContainer extends Component {
     this.insertContent(components);
   }
 
+  handleDeleteComponent(idx) {
+    const { cards } = this.props;
+    const components = update(cards, { $splice: [[idx, 1]] });
+    this.insertContent(components);
+  }
+
   render() {
     const { cards = [] } = this.props;
 
@@ -47,6 +53,7 @@ export default class NewsFeedDragContainer extends Component {
             _id={card._id}
             item={card}
             moveCard={(dragIdx, hoverIdx) => this.handleMoveComponent(dragIdx, hoverIdx)}
+            onDeleteCard={(idx) => this.handleDeleteComponent(idx)}
           />
         ))}
       </div>

@@ -61,8 +61,8 @@ export class Card extends Component {
   static propTypes = {
     connectDragSource: PropTypes.func.isRequired,
     connectDropTarget: PropTypes.func.isRequired,
-    onSnippetSelect: PropTypes.func.isRequired,
     moveCard: PropTypes.func.isRequired,
+    onDeleteCard: PropTypes.func.isRequired,
     index: PropTypes.number.isRequired,
     isDragging: PropTypes.bool.isRequired,
     _id: PropTypes.any.isRequired,
@@ -70,8 +70,8 @@ export class Card extends Component {
   };
 
   render() {
-    const { item, isDragging, connectDragSource,
-      connectDragPreview, connectDropTarget
+    const { item, isDragging, connectDragSource, index,
+      connectDragPreview, connectDropTarget, onDeleteCard
     } = this.props;
     const opacity = isDragging ? 0 : 1;
 
@@ -87,6 +87,7 @@ export class Card extends Component {
         <i
           className="fa fa-trash-o pull-right newsfeed-item newsfeed-item-remove"
           title="Remove item"
+          onClick={() => onDeleteCard(index)}
         />
         <i
           className="fa fa-pencil pull-right newsfeed-item newsfeed-item-edit"
