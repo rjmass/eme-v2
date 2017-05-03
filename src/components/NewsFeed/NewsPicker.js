@@ -1,12 +1,16 @@
 import React, { Component, PropTypes } from 'react';
-import { Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
+import { FormGroup, Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import NewsQueryDialog from './NewsQueryDialog';
 import { dialogs } from 'decorators';
+
+import './NewsPicker.css';
 
 @dialogs()
 class NewsPicker extends Component {
   static propTypes = {
-    onInsert: PropTypes.func
+    onInsert: PropTypes.func,
+    htmlBody: PropTypes.string,
+    cards: PropTypes.array
   }
 
   render() {
@@ -20,18 +24,24 @@ class NewsPicker extends Component {
     );
     return (
       <div>
-        {insert && <NewsQueryDialog
-          show={insert}
-          onHide={() => this.closeDialog('insert')}
-          onSubmit={onInsert}
-        />}
-        <OverlayTrigger placement="top" overlay={tooltip}>
-          <Button
-            onClick={() => this.openDialog('insert')}
-          >
-            <i className="fa fa-list" />
+        <FormGroup className="list-group-item list-group-item-info newspicker-header">
+          {insert && <NewsQueryDialog
+            show={insert}
+            onHide={() => this.closeDialog('insert')}
+            onSubmit={onInsert}
+          />}
+          <Button>
+            Remove all
           </Button>
-        </OverlayTrigger>
+          <OverlayTrigger placement="top" overlay={tooltip}>
+            <Button
+              className="pull-right"
+              onClick={() => this.openDialog('insert')}
+            >
+              <i className="fa fa-list" />
+            </Button>
+          </OverlayTrigger>
+        </FormGroup>
       </div>
     );
   }

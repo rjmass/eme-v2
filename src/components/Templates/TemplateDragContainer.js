@@ -19,14 +19,21 @@ export default class TemplateDragContainer extends Component {
 
   insertContent(components) {
     const { htmlString, onChange } = this.props;
-    let areaCount = 0;
+    let commentCount = 0;
+    let newsfeedCount = 0;
     const parser = new DOMParser();
-    const contentReplacer = () => {
-      ++areaCount;
-      return `Comment ${areaCount}`;
+    const commentReplacer = () => {
+      ++commentCount;
+      return `Comment ${commentCount}`;
+    };
+    const newsfeedReplacer = () => {
+      ++newsfeedCount;
+      return `Newsfeed ${newsfeedCount}`;
     };
     const componentString = components.reduce((acc, card) => {
-      acc += (card.snippet.body || '').replace(/COMMENT_AREA/g, contentReplacer);
+      acc += (card.snippet.body || '')
+        .replace(/COMMENT_AREA/g, commentReplacer)
+        .replace(/NEWSFEED_AREA/g, newsfeedReplacer);
       return acc;
     }, '');
     const html = parser.parseFromString(htmlString, 'text/html');

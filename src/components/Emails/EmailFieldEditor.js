@@ -3,6 +3,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Accordion, Panel } from 'react-bootstrap';
 import { RichEditor } from 'components/Editor2';
+import { NewsFeedForm } from 'components/NewsFeed';
 import EmailBylineSelector from './EmailBylineSelector';
 import { getOrderedHtmlFields, emailContentPanelChanged } from 'redux/modules/emails';
 
@@ -33,11 +34,21 @@ export default class EmailFieldEditor extends Component {
               data-key={field.key}
               header={`${field.key}`}
             >
-              {activeField === field.key && field.key.toLowerCase() !== 'byline' &&
+              {activeField === field.key && field.key.toLowerCase().includes('comment') &&
                 <RichEditor
                   value={field.htmlBody}
                   onChange={(htmlBody) => onFieldChanged(field.key, { ...field, htmlBody })}
                   name={`field-html-editor-${field.key}`}
+                />}
+
+              {activeField === field.key && field.key.toLowerCase().includes('newsfeed') &&
+                <NewsFeedForm
+                  htmlBody={field.htmlBody}
+                  cards={field.articles || []}
+                  snippet={field.snippet}
+                  onChange={(htmlBody, articles, snippet) => {
+                    onFieldChanged(field.key, { ...field, htmlBody, articles, snippet });
+                  }}
                 />}
 
               {activeField === field.key && field.key.toLowerCase() === 'byline' &&

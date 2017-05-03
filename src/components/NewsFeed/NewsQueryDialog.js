@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { tabs } from 'decorators';
+import { Modal, Button, Tabs, Tab, Row, Col, ControlLabel } from 'react-bootstrap';
+import Switch from 'react-bootstrap-switch';
+import pick from 'lodash/pick';
 import QueryManager from './QueryManager';
 import { Message } from 'components/Message';
 import { HtmlPreview } from 'components/Preview';
 import ArticleSearchForm from './ArticleSearchForm';
 import ArticleList from './ArticleList';
-import { Modal, Button, Tabs, Tab, Row, Col, ControlLabel } from 'react-bootstrap';
 import { getArticles, articlesQueryThunk, articlesToggleSelection,
   articlesSelectNone, articlesSelectAll, articlesLoaded } from 'redux/modules/newsfeed';
 import convertSparkpostSyntax from 'helpers/convertSparkpostSyntax';
 import { SnippetPicker } from 'components/Snippets';
-import Switch from 'react-bootstrap-switch';
 
 import './NewsQueryDialog.css';
 
@@ -64,8 +65,12 @@ class NewsQueryDialog extends Component {
 
   handleInsert() {
     const body = this.preview.body;
-    const { onSubmit, onHide } = this.props;
-    onSubmit({ body });
+    const snippet = pick(this.state.snippet, 'body');
+    const { onSubmit, onHide, selectedArticles } = this.props;
+    const selected = selectedArticles.map(art => {
+      return pick(art, ['id', 'title', 'summary', 'url', 'images']);
+    });
+    onSubmit(body, selected, snippet);
     onHide();
   }
 

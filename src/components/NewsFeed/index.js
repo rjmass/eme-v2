@@ -3,6 +3,7 @@ export QueryForm from './QueryForm';
 export QueryItem from './QueryItem';
 export QueryList from './QueryList';
 export NewsPicker from './NewsPicker';
+export NewsFeedForm from './NewsFeedForm';
 export QueryPicker from './QueryPicker';
 export ArticleList from './ArticleList';
 export QueryManager from './QueryManager';

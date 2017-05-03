@@ -247,7 +247,6 @@ export const getTemplates = (state, campaigns = {}) => {
       if (cId) {
         template.campaignDetails = campaigns[cId] || {};
       }
-      console.log(template);
       return template;
     })
     .filter((item) => item.name.toLowerCase().includes(name.toLowerCase()))
