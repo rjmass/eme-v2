@@ -1,9 +1,12 @@
 .news-header {
   line-height: 1.1;
-  /*@include ellipsify(80%);*/
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 80%;
   &-baseline {
     vertical-align: baseline;
-    padding-left: 4px;
+    padding-left: 6px;
   }
   &-label {
     line-height: 1.6;
@@ -12,3 +15,30 @@
   }
 }
 
+.newsfeed-item {
+  cursor: pointer;
+  opacity: 0.3;
+  font-size: 1.5em;
+  padding-left: 6px;
+  &-edit {
+    color: navy;
+  }
+  &-remove {
+    color: red;
+  }
+}
+
+.news-feed-item {
+  cursor: default;
+  &:hover {
+    background-color: #eee;
+  }
+}
+
+.as-sortable-item-handle {
+  vertical-align: bottom;
+  cursor: move;
+  opacity: 0.5;
+  color:#ccc;
+  font-size: 1.5em;
+}

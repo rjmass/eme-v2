@@ -5,16 +5,6 @@ import ItemTypes from './NewsFeedDragItemTypes';
 
 import './NewsFeedDragCard.scss';
 
-const style = {
-  border: '1px dashed grey',
-  padding: '0.5rem 1rem',
-  backgroundColor: 'white'
-};
-
-const handleStyle = {
-  cursor: 'move'
-};
-
 const cardSource = {
   beginDrag(props) {
     return {
@@ -87,14 +77,21 @@ export class Card extends Component {
 
     return connectDragPreview(connectDropTarget(
       <div
-        style={{ ...style, opacity }}
+        style={{ opacity }}
+        className="list-group-item news-feed-item"
       >
         {connectDragSource(
-          <i style={handleStyle} className="fa fa-bars" />
+          <i className="fa fa-bars as-sortable-item-handle" />
           )}
         <span className="news-header news-header-baseline">{item.title}</span>
-        <i className="fa fa-trash-o pull-right" title="Remove item" />
-        <i className="fa fa-pencil pull-right" title="Edit item" />
+        <i
+          className="fa fa-trash-o pull-right newsfeed-item newsfeed-item-remove"
+          title="Remove item"
+        />
+        <i
+          className="fa fa-pencil pull-right newsfeed-item newsfeed-item-edit"
+          title="Edit item"
+        />
       </div>
     ));
   }

@@ -3,6 +3,8 @@ import { FormGroup, Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import NewsQueryDialog from './NewsQueryDialog';
 import { dialogs } from 'decorators';
 
+import './NewsPicker.css';
+
 @dialogs()
 class NewsPicker extends Component {
   static propTypes = {
@@ -22,7 +24,7 @@ class NewsPicker extends Component {
     );
     return (
       <div>
-        <FormGroup className="list-group-item list-group-item-info">
+        <FormGroup className="list-group-item list-group-item-info newspicker-header">
           {insert && <NewsQueryDialog
             show={insert}
             onHide={() => this.closeDialog('insert')}
