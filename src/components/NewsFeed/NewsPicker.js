@@ -30,7 +30,7 @@ class NewsPicker extends Component {
             onHide={() => this.closeDialog('insert')}
             onSubmit={onInsert}
           />}
-          <Button>
+          <Button onClick={() => onInsert('', [], {})}>
             Remove all
           </Button>
           <OverlayTrigger placement="top" overlay={tooltip}>
