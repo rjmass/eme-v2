@@ -26,12 +26,14 @@ export default class NewsFeedItemEditModal extends Component {
           <div>
             <FormControl
               type="text"
+              placeholder="Article title..."
               defaultValue={title}
               onChange={(e) => this.handleChange('title', e.target.value)}
             />
             <div className="help-block" />
             <FormControl
               componentClass="textarea"
+              placeholder="Article summary..."
               defaultValue={summary}
               onChange={(e) => this.handleChange('summary', e.target.value)}
             />
