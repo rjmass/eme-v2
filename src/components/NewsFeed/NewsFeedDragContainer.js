@@ -12,7 +12,6 @@ const style = {
 @DragDropContext(HTML5Backend)
 export default class NewsFeedDragContainer extends Component {
   static propTypes = {
-    htmlBody: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
     cards: PropTypes.array
   };
