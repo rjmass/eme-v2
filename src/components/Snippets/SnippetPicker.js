@@ -14,10 +14,10 @@ class SnippetPicker extends Component {
   }
 
   render() {
-    const { onSelect, list, html = true, value } = this.props;
-    const filter = s => { return !s.isTemplate && (html ? s.isHtml : !s.isHtml); };
+    const { onSelect, list, html = true, filter, value } = this.props;
+    const defaultFilter = s => { return !s.isTemplate && (html ? s.isHtml : !s.isHtml); };
     const options = list
-      .filter(filter)
+      .filter(filter || defaultFilter)
       .map((snippet) => ({
         label: snippet.name,
         value: snippet

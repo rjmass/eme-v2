@@ -148,6 +148,7 @@ export class EmailFieldForm extends Component {
                       <EmailFieldEditor
                         authors={authors}
                         htmlFields={htmlFields.value}
+                        templateFields={email.template.fields}
                         onFieldChanged={(field, val) => this.handleFieldChange(field, val)}
                       />
                     </Tab>

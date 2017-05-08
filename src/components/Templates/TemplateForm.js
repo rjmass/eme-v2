@@ -58,7 +58,6 @@ export default class TemplateForm extends Component {
     const { fields: templateFields } = this.props.fields;
     const authors = templateFields.value && templateFields.value.authors || [];
     const newAuthors = authors.slice();
-    console.log(newAuthors);
     if (newAuthors.length === AUTHOR_LIMIT) {
       return dispatch(notifications.danger(`Maximum of ${AUTHOR_LIMIT} queries`));
     }

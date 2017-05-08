@@ -13,19 +13,19 @@ import './NewsPicker.css';
 class NewsPicker extends Component {
   static propTypes = {
     onInsert: PropTypes.func,
-    snippet: PropTypes.object,
+    newsfeedStyle: PropTypes.object,
     cards: PropTypes.array
   }
 
   async insertDefaultNews() {
-    const { dispatch, snippet, onInsert } = this.props;
+    const { dispatch, newsfeedStyle, onInsert } = this.props;
     const newsfeedRes = await dispatch(articlesQueryThunk(''));
     const articles = getArticles({ list: newsfeedRes });
     const selected = articles.map(art => {
       return pick(art, ['id', 'title', 'summary', 'url', 'images']);
     });
-    const body = convertSparkpostSyntax(snippet.body, { newsfeed_result: selected });
-    onInsert(body, selected, snippet);
+    const body = convertSparkpostSyntax(newsfeedStyle.body, { newsfeed_result: selected });
+    onInsert(body, selected, newsfeedStyle);
   }
 
   render() {

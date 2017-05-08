@@ -5,12 +5,12 @@ import NewsFeedDragContainer from './NewsFeedDragContainer';
 
 export default class NewsFeedForm extends Component {
   render() {
-    const { cards, snippet, onChange } = this.props;
+    const { cards, snippet, newsfeedStyle, onChange } = this.props;
     return (
       <div>
         <NewsPicker
           cards={cards}
-          snippet={snippet}
+          newsfeedStyle={newsfeedStyle}
           onInsert={(body, selected, snip) => onChange(body, selected, snip)}
         />
         <FormGroup>
