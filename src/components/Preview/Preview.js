@@ -4,17 +4,15 @@ import { replaceCustomTags } from './previewContent';
 import { Tabs, Tab } from 'react-bootstrap';
 import { Message } from 'components/Message';
 import ClickableHtmlPreview from './ClickableHtmlPreview';
-import PlainPreview from './PlainPreview';
 import './Preview.css';
 
 export default class Preview extends Component {
 
   static propTypes = {
     html: PropTypes.string,
-    plain: PropTypes.string,
     htmlFields: PropTypes.object,
     disableNonActiveTabs: PropTypes.bool,
-    activeTab: PropTypes.oneOf(['html', 'plain']),
+    activeTab: PropTypes.oneOf(['html']),
     onTabSelect: PropTypes.func
   }
 
@@ -22,17 +20,11 @@ export default class Preview extends Component {
     super(...args);
     this.errors = {};
     this.substituteHtmlBody = this.substituteBody.bind(this, 'html');
-    this.substitutePlainBody = this.substituteBody.bind(this, 'plain');
   }
 
   getHtmlBody() {
     const { html = '', substitutionData } = this.props;
     return this.substituteHtmlBody(html, substitutionData);
-  }
-
-  getPlainBody() {
-    const { plain = '', substitutionData } = this.props;
-    return this.substitutePlainBody(plain, substitutionData);
   }
 
   substituteBody(type, content, substitutionData) {
@@ -67,7 +59,6 @@ export default class Preview extends Component {
       substitutionData
     } = this.props;
     const htmlBody = this.getHtmlBody();
-    const plainBody = this.getPlainBody();
     const errors = this.errors;
     return (
       <Tabs
@@ -84,16 +75,6 @@ export default class Preview extends Component {
           {errors.html
             ? <Message text={errors.html.message} type="danger" />
             : <ClickableHtmlPreview body={htmlBody} />}
-        </Tab>
-        <Tab eventKey={'plain'} title="Plain Text Preview">
-          <div className="help-block" />
-          {(substitutionEnabled && !substitutionData) ?
-            <Message text={'Please select a recipient.'} type="info" />
-            : null
-          }
-          {errors.plain
-            ? <Message text={errors.plain.message} type="danger" />
-            : <PlainPreview body={plainBody} />}
         </Tab>
       </Tabs>
     );

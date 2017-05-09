@@ -2,11 +2,10 @@ import React, { Component, PropTypes } from 'react';
 import { reduxForm, change as changeField } from 'redux-form';
 import {
   Tabs, Tab, Form, FormGroup, Row,
-  Col, FormControl, Button, Checkbox,
+  Col, FormControl, Button,
   ControlLabel, Collapse
 } from 'react-bootstrap';
 import baseFields from './email.fields';
-import { RichEditor } from 'components/Editor';
 import EmailFieldEditor from './EmailFieldEditor';
 import { Message } from 'components/Message';
 import debounce from 'lodash/debounce';
@@ -40,8 +39,6 @@ export class EmailFieldForm extends Component {
     super(props);
     this.handleFieldChange
       = debounce((fieldName, fieldValue) => this._handleFieldChange(fieldName, fieldValue), 100);
-    this.plainTextUpdateHandler
-      = debounce((plainText) => this._plainTextUpdateHandler(plainText), 100);
     this.state = { formCollapsed: false };
   }
 
@@ -62,11 +59,6 @@ export class EmailFieldForm extends Component {
     dispatch(changeField(FORM_NAME, 'campaign', campaignId));
   }
 
-  _plainTextUpdateHandler(newPlainText) {
-    const { dispatch } = this.props;
-    dispatch(changeField(FORM_NAME, 'plainBody', newPlainText));
-  }
-
   handleCategorySelect(domain) {
     const { dispatch } = this.props;
     dispatch(changeField(FORM_NAME, 'from.address', domain));
@@ -75,8 +67,7 @@ export class EmailFieldForm extends Component {
   render() {
     const { handleSubmit, fields: {
       name, subject,
-      htmlFields, segmentId,
-      plainBody, htmlBody, autogeneratePlain },
+      htmlFields, segmentId },
       onContentTabSelect, activeContentTab, email } = this.props;
     const authors = email.template && email.template.fields && email.template.fields.authors || [];
     const defaultNewsfeedStyle = email.template && email.template.defaultNewsfeedStyle || {};
@@ -119,18 +110,6 @@ export class EmailFieldForm extends Component {
                           <FormControl type="text" placeholder="Segment Id" {...segmentId} />
                         </Col>
                       </FormGroup>
-
-                      <FormGroup>
-                        <Col xs={12}>
-                          <Checkbox
-                            type="checkbox"
-                            checked={autogeneratePlain}
-                            {...autogeneratePlain}
-                          >
-                            Autogenerate plain text from html
-                          </Checkbox>
-                        </Col>
-                      </FormGroup>
                     </div>
                   </Collapse>
 
@@ -144,25 +123,13 @@ export class EmailFieldForm extends Component {
                     activeKey={activeContentTab}
                     onSelect={onContentTabSelect}
                   >
-                    <Tab eventKey="html" title="HTML Fields">
+                    <Tab eventKey="html" title="Email Fields">
                       <div className="help-block" />
                       <EmailFieldEditor
                         authors={authors}
                         defaultNewsfeedStyle={defaultNewsfeedStyle}
                         htmlFields={htmlFields.value}
                         onFieldChanged={(field, val) => this.handleFieldChange(field, val)}
-                      />
-                    </Tab>
-                    <Tab eventKey="plain" title="Plain Text">
-                      <RichEditor
-                        html={false}
-                        images={false}
-                        articles={false}
-                        name="plainBodyEditor"
-                        value={plainBody.value}
-                        fromHtmlSource={htmlBody.value}
-                        fromHtmlFields={htmlFields.value}
-                        onChange={this.plainTextUpdateHandler}
                       />
                     </Tab>
                   </Tabs>
