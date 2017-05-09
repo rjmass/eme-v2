@@ -83,11 +83,6 @@ export class Card extends Component {
     onSnippetSelect(snippet);
   }
 
-  handleOnNewsfeedSelect(newsfeedStyle) {
-    const { onNewsfeedSelect } = this.props;
-    onNewsfeedSelect(newsfeedStyle);
-  }
-
   render() {
     const { card, isNewsfeed, isDragging, connectDragSource, connectDropTarget } = this.props;
     const { snippet, meta = {} } = card;

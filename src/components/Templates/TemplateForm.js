@@ -7,6 +7,7 @@ import {
 import fields from './template.fields';
 import { RichEditor } from 'components/Editor';
 import { notifications } from 'redux/modules/notifications';
+import { SnippetPicker } from 'components/Snippets';
 import { CampaignPicker } from 'components/Campaigns';
 import TemplateDragContainer from './TemplateDragContainer';
 import TemplateAuthors from './TemplateAuthors';
@@ -48,6 +49,11 @@ export default class TemplateForm extends Component {
     dispatch(changeField(FORM_NAME, 'campaign', campaignId));
   }
 
+  handleNewsfeedStyleSelect(newsfeedStyle) {
+    const { dispatch } = this.props;
+    dispatch(changeField(FORM_NAME, 'defaultNewsfeedStyle', newsfeedStyle));
+  }
+
   handleComponentChange(components) {
     const { dispatch } = this.props;
     dispatch(changeField(FORM_NAME, 'components', components));
@@ -84,7 +90,7 @@ export default class TemplateForm extends Component {
 
   render() {
     const { fields: {
-      name, subject, campaign,
+      name, subject, campaign, from, defaultNewsfeedStyle,
       htmlBody, components, fields: templateFields
     }, handleSubmit, activeTab, onTabSelect } = this.props;
 
@@ -136,6 +142,21 @@ export default class TemplateForm extends Component {
                           <Col xs={6}>
                             <ControlLabel>Subject</ControlLabel>
                             <FormControl type="text" placeholder="Subject" {...subject} />
+                          </Col>
+                          <Col xs={6}>
+                            <ControlLabel>Default Newsfeed Template</ControlLabel>
+                            <SnippetPicker
+                              html
+                              value={defaultNewsfeedStyle.value}
+                              filter={(s) => s.isNewsfeedStyle}
+                              onSelect={(s) => this.handleNewsfeedStyleSelect(s)}
+                            />
+                          </Col>
+                        </FormGroup>
+                        <FormGroup>
+                          <Col xs={6}>
+                            <ControlLabel>From Name</ControlLabel>
+                            <FormControl type="text" placeholder="Subject" {...from.name} />
                           </Col>
                         </FormGroup>
                       </div>

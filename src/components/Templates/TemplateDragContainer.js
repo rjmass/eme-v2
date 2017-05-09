@@ -71,14 +71,6 @@ export default class TemplateDragContainer extends Component {
     this.insertContent(components);
   }
 
-  handleNewsfeedSelect(snippet, idx) {
-    const components = this.props.cards.slice();
-    const updated = { newsfeedStyle: snippet };
-    const newComponent = { ...components[idx], meta: updated };
-    components.splice(idx, 1, newComponent);
-    this.insertContent(components);
-  }
-
   render() {
     const { cards = [] } = this.props;
 
@@ -90,11 +82,9 @@ export default class TemplateDragContainer extends Component {
             index={i}
             _id={card._id}
             card={card}
-            isNewsfeed={card.snippet.isNewsfeed}
             value={card.snippet.body}
             moveCard={(dragIdx, hoverIdx) => this.handleMoveComponent(dragIdx, hoverIdx)}
             onSnippetSelect={(snippet) => this.handleSnippetSelect(snippet, i)}
-            onNewsfeedSelect={(snippet) => this.handleNewsfeedSelect(snippet, i)}
           />
         ))}
         <div className="pull-right">

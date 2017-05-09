@@ -79,6 +79,7 @@ export class EmailFieldForm extends Component {
       plainBody, htmlBody, autogeneratePlain },
       onContentTabSelect, activeContentTab, email } = this.props;
     const authors = email.template && email.template.fields && email.template.fields.authors || [];
+    const defaultNewsfeedStyle = email.template && email.template.defaultNewsfeedStyle || {};
     return (
       <Row>
         <Col sm={12}>
@@ -147,8 +148,8 @@ export class EmailFieldForm extends Component {
                       <div className="help-block" />
                       <EmailFieldEditor
                         authors={authors}
+                        defaultNewsfeedStyle={defaultNewsfeedStyle}
                         htmlFields={htmlFields.value}
-                        templateFields={email.template.fields}
                         onFieldChanged={(field, val) => this.handleFieldChange(field, val)}
                       />
                     </Tab>

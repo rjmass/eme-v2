@@ -17,7 +17,9 @@ export default class EmailFieldEditor extends Component {
   }
 
   render() {
-    const { htmlFields, onFieldChanged, activeField, dispatch, authors } = this.props;
+    const { htmlFields, onFieldChanged,
+      activeField, dispatch, authors, defaultNewsfeedStyle,
+    } = this.props;
     const fields = getOrderedHtmlFields({ htmlFields });
     const onSelect = compose(dispatch, emailContentPanelChanged);
 
@@ -44,7 +46,8 @@ export default class EmailFieldEditor extends Component {
               {activeField === field.key && field.key.toLowerCase().includes('newsfeed') &&
                 <NewsFeedForm
                   cards={field.articles || []}
-                  newsfeedStyle={field.newsfeedStyle}
+                  newsfeedStyle={defaultNewsfeedStyle}
+                  snippet={field.snippet}
                   onChange={(htmlBody, articles, snippet) => {
                     onFieldChanged(field.key, { ...field, htmlBody, articles, snippet });
                   }}
