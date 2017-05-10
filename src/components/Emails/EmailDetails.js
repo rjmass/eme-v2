@@ -271,8 +271,23 @@ class EmailDetails extends BaseComponent {
               </Row>
               <div className="help-block" />
             </Col>
-            <Col xs={12} sm={12} md={6} lg={6}>
-              Placeholder
+            <Col xs={6} sm={6} md={3} lg={3}>
+              <div>
+                <i className="fa fa-floppy-o" /> Saved {email.updatedAt}
+              </div>
+              <div className="help-block" />
+              <div>
+                <i className="fa fa-check-circle" /> Everything looks fine
+              </div>
+            </Col>
+            <Col xs={6} sm={6} md={3} lg={3}>
+              <div>
+                <i className="fa fa-user-times" /> Not submitted for subediting
+              </div>
+              <div className="help-block" />
+              <div>
+                <i className="fa fa-paper-plane-o" /> Sent {email.updatedAt}
+              </div>
             </Col>
           </Row>
           <Row>
@@ -291,7 +306,6 @@ class EmailDetails extends BaseComponent {
                 }}
                 email={email}
                 onSubmit={(emailToSave) => this.handleFormSave(emailToSave)}
-                onPlainChange={() => { }}
               />
             </Col>
             <Col xs={12} sm={12} md={6} lg={6}>
@@ -299,7 +313,6 @@ class EmailDetails extends BaseComponent {
                 activeTab={tab.content}
                 onTabSelect={(key) => this.handleTabSelect({ content: key, field: tab.field })}
                 html={email.htmlBody}
-                plain={plainBody.value}
                 htmlFields={htmlFields.value}
               />
             </Col>

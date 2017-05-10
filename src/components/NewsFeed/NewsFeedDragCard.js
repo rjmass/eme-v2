@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { findDOMNode } from 'react-dom';
 import { DragSource, DropTarget } from 'react-dnd';
 import ItemTypes from './NewsFeedDragItemTypes';
+import EditDialog from './NewsFeedEditDialog';
+import { dialogs } from 'decorators';
 
 import './NewsFeedDragCard.scss';
 
@@ -57,17 +59,30 @@ const cardTarget = {
   }
 };
 
+@dialogs()
 export class Card extends Component {
   static propTypes = {
     connectDragSource: PropTypes.func.isRequired,
     connectDropTarget: PropTypes.func.isRequired,
     moveCard: PropTypes.func.isRequired,
     onDeleteCard: PropTypes.func.isRequired,
+    onUpdateCard: PropTypes.func.isRequired,
     index: PropTypes.number.isRequired,
     isDragging: PropTypes.bool.isRequired,
     _id: PropTypes.any.isRequired,
     item: PropTypes.object.isRequired,
   };
+
+  handleEditOpen() {
+    this.openDialog('edit');
+  }
+
+  handleEditSave(title, summary) {
+    this.closeDialog('edit');
+    const { item, onUpdateCard } = this.props;
+    const updated = { ...item, title, summary };
+    onUpdateCard(item.index, updated);
+  }
 
   render() {
     const { item, isDragging, connectDragSource, index,
@@ -92,7 +107,16 @@ export class Card extends Component {
         <i
           className="fa fa-pencil pull-right newsfeed-item newsfeed-item-edit"
           title="Edit item"
+          onClick={() => this.handleEditOpen()}
         />
+        {this.state.dialogs.edit &&
+          <EditDialog
+            title={item.title}
+            summary={item.summary}
+            show={this.state.dialogs.edit}
+            onCancel={() => this.closeDialog('edit')}
+            onConfirm={(title, summary) => this.handleEditSave(title, summary)}
+          />}
       </div>
     ));
   }

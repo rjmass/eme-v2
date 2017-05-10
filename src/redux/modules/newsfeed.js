@@ -121,17 +121,20 @@ export const articlesSelectAll = () => {
 
 export const articlesQueryThunk = (query, limit = '1DAY') => (dispatch) => {
   return (async () => {
+    let articles;
     dispatch(articlesQuery());
     try {
       query = encodeURIComponent(query);
       const resArticles =
         await fetcher(`${config.baseUrl}/news?q=${query}&limit=${limit}`, Schemas.ARTICLE_ARRAY);
-      const articles = resArticles.entities.articles;
+      articles = resArticles.entities.articles;
       dispatch(articlesLoaded(articles));
       dispatch(articlesSelectAll());
+      return articles;
     } catch (error) {
       dispatch(notifications.danger('Could not load articles'));
       dispatch(articlesServerError(error));
+      return {};
     }
   })();
 };

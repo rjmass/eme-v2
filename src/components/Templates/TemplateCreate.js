@@ -69,7 +69,7 @@ export default class TemplateCreate extends TemplateBase {
                 : null
               }
               <TemplateForm
-                activeTab={this.state.tab}
+                activeTab={this.state.activeTab}
                 onTabSelect={(key) => this.handleTabSelect(key)}
                 template={template}
                 onSubmit={(subTemplate) => this.submitHandler(subTemplate)}
@@ -77,7 +77,7 @@ export default class TemplateCreate extends TemplateBase {
             </Col>
             <Col xs={12} sm={12} md={6} lg={6}>
               <Preview
-                activeTab={this.state.tab}
+                activeTab={'html'}
                 onTabSelect={(key) => this.handleTabSelect(key)}
                 html={templateForm.htmlBody.value}
                 plain={templateForm.plainBody.value}

@@ -12,7 +12,6 @@ const style = {
 @DragDropContext(HTML5Backend)
 export default class NewsFeedDragContainer extends Component {
   static propTypes = {
-    htmlBody: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
     cards: PropTypes.array
   };
@@ -41,6 +40,12 @@ export default class NewsFeedDragContainer extends Component {
     this.insertContent(components);
   }
 
+  handleUpdateComponent(idx, newCard) {
+    const { cards } = this.props;
+    const components = update(cards, { $splice: [[idx, 1, newCard]] });
+    this.insertContent(components);
+  }
+
   render() {
     const { cards = [] } = this.props;
 
@@ -48,12 +53,13 @@ export default class NewsFeedDragContainer extends Component {
       <div style={style}>
         {cards && cards.map((card, i) => (
           <Card
-            key={card._id}
+            key={card.id}
             index={i}
-            _id={card._id}
+            _id={card.id}
             item={card}
             moveCard={(dragIdx, hoverIdx) => this.handleMoveComponent(dragIdx, hoverIdx)}
             onDeleteCard={(idx) => this.handleDeleteComponent(idx)}
+            onUpdateCard={(idx, updated) => this.handleUpdateComponent(idx, updated)}
           />
         ))}
       </div>

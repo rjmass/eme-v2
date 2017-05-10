@@ -120,8 +120,11 @@ export class TemplateDetails extends TemplateBase {
   }
 
   async handleFormSave(template) {
+    console.log(template);
     const newTemplate = { ...template,
-      components: template.components.map(t => ({ _id: t._id, snippet: t.snippet._id })) };
+      components: template.components.map(t => (
+        { meta: t.meta, _id: t._id, snippet: t.snippet._id }
+      )) };
     const { dispatch } = this.props;
     const valid = validator.validate(newTemplate, schema);
     if (valid) {

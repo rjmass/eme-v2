@@ -1,7 +1,11 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import pick from 'lodash/pick';
 import { FormGroup, Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import NewsQueryDialog from './NewsQueryDialog';
 import { dialogs } from 'decorators';
+import convertSparkpostSyntax from 'helpers/convertSparkpostSyntax';
+import { articlesQueryThunk, getArticles } from 'redux/modules/newsfeed';
 
 import './NewsPicker.css';
 
@@ -9,8 +13,19 @@ import './NewsPicker.css';
 class NewsPicker extends Component {
   static propTypes = {
     onInsert: PropTypes.func,
-    htmlBody: PropTypes.string,
+    newsfeedStyle: PropTypes.object,
     cards: PropTypes.array
+  }
+
+  async insertDefaultNews() {
+    const { dispatch, newsfeedStyle, onInsert } = this.props;
+    const newsfeedRes = await dispatch(articlesQueryThunk(''));
+    const articles = getArticles({ list: newsfeedRes });
+    const selected = articles.map(art => {
+      return pick(art, ['id', 'title', 'summary', 'url', 'images']);
+    });
+    const body = convertSparkpostSyntax(newsfeedStyle.body, { newsfeed_result: selected });
+    onInsert(body, selected, newsfeedStyle);
   }
 
   render() {
@@ -30,8 +45,14 @@ class NewsPicker extends Component {
             onHide={() => this.closeDialog('insert')}
             onSubmit={onInsert}
           />}
-          <Button>
+          <Button onClick={() => onInsert('', [], {})}>
             Remove all
+          </Button>
+          <Button
+            className="pull-right"
+            onClick={() => this.insertDefaultNews()}
+          >
+            Default News
           </Button>
           <OverlayTrigger placement="top" overlay={tooltip}>
             <Button
@@ -47,4 +68,5 @@ class NewsPicker extends Component {
   }
 }
 
-export default NewsPicker;
+@connect()
+export default class NewsPickerConnected extends NewsPicker { }

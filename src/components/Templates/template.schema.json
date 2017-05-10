@@ -27,6 +27,17 @@
       "description": "Plain text body",
       "type": "string",
       "minLength": 1
+    },
+    "from": {
+      "description": "Name and Address used in `from` field",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "From friendly name",
+          "type": "string"
+        }
+      },
+      "required": ["name"]
     }
   },
   "required": [

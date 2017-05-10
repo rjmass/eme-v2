@@ -69,8 +69,10 @@ export class Card extends Component {
     connectDragSource: PropTypes.func.isRequired,
     connectDropTarget: PropTypes.func.isRequired,
     onSnippetSelect: PropTypes.func.isRequired,
+    onNewsfeedStyleSelect: PropTypes.func.isRequired,
     moveCard: PropTypes.func.isRequired,
     index: PropTypes.number.isRequired,
+    isNewsfeed: PropTypes.bool,
     isDragging: PropTypes.bool.isRequired,
     _id: PropTypes.any.isRequired,
     name: PropTypes.string.isRequired,
@@ -82,19 +84,32 @@ export class Card extends Component {
   }
 
   render() {
-    const { name, isDragging, connectDragSource, connectDropTarget } = this.props;
+    const { card, isNewsfeed, isDragging, connectDragSource, connectDropTarget } = this.props;
+    const { snippet, meta = {} } = card;
     const opacity = isDragging ? 0 : 1;
     const handleSnippetSelect = (s) => this.handleOnSnippetSelect(s);
+    const handleNewsfeedSelect = (s) => this.handleOnNewsfeedSelect(s);
 
     return connectDragSource(connectDropTarget(
       <div style={{ ...style, opacity }}>
-        <strong>{name}</strong>
+        <strong>{snippet.name}</strong>
         <div className="help-block" />
         <SnippetPicker
           html
-          value={name}
+          value={snippet.name}
           onSelect={handleSnippetSelect}
         />
+        {isNewsfeed &&
+          <div className="help-block">
+            <strong>Newsfeed Style:</strong><br />
+            <strong>{meta.newsfeedStyle && meta.newsfeedStyle.name}</strong>
+            <SnippetPicker
+              html
+              filter={s => s.isNewsfeedStyle}
+              value={name}
+              onSelect={handleNewsfeedSelect}
+            />
+          </div>}
       </div>
     ));
   }

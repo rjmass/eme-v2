@@ -5,6 +5,8 @@
   "campaign",
   "plainBody",
   "htmlFields",
+  "from.name",
   "components",
+  "defaultNewsfeedStyle",
   "fields"
 ]

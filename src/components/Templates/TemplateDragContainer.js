@@ -81,7 +81,7 @@ export default class TemplateDragContainer extends Component {
             key={card._id}
             index={i}
             _id={card._id}
-            name={card.snippet.name}
+            card={card}
             value={card.snippet.body}
             moveCard={(dragIdx, hoverIdx) => this.handleMoveComponent(dragIdx, hoverIdx)}
             onSnippetSelect={(snippet) => this.handleSnippetSelect(snippet, i)}
