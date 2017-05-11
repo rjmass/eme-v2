@@ -174,11 +174,12 @@ class EmailDetails extends BaseComponent {
   }
 
   render() {
-    const { params: { id }, error, form, emailLoading } = this.props;
+    const { params: { id }, error, form, emailLoading, user } = this.props;
     const email = this.props.list[id] || {};
     const { tab } = this.state;
     const { emailForm: { htmlFields = {} } = {} } = form;
     const isSpinning = !email.htmlBody && emailLoading;
+    const isLocked = email.lock && email.lock.username !== user.username;
     return (
       <Row>
         <Spinner text={"Loading email..."} isVisible={isSpinning} />
@@ -301,6 +302,12 @@ class EmailDetails extends BaseComponent {
               {error
                   ? <Message type="danger" text={error.message} />
                   : null}
+              {email.lock
+                ? <Message
+                  type="warning"
+                  text={`Email is currently locked by ${email.lock.username}`}
+                />
+                : null}
               <EmailForm
                 activeFieldTab={tab.field}
                 activeContentTab={tab.content}

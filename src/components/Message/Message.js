@@ -5,7 +5,7 @@ export default class Message extends Component {
 
   static propTypes = {
     text: PropTypes.string.isRequired,
-    type: PropTypes.oneOf(['danger', 'info']).isRequired
+    type: PropTypes.oneOf(['danger', 'info', 'warning']).isRequired
   }
 
   constructor(...params) {
