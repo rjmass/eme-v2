@@ -205,6 +205,7 @@ class EmailDetails extends BaseComponent {
                 <Col xs={4}>
                   <EmailActions
                     className="pull-right"
+                    isLocked={isLocked}
                     onLockEmail={() => this.handleLockEmailAction()}
                     onClone={() => this.handleCloneAction()}
                     onSendPreview={() => this.handleSendPreviewAction()}
@@ -308,18 +309,20 @@ class EmailDetails extends BaseComponent {
                   text={`Email is currently locked by ${email.lock.username}`}
                 />
                 : null}
-              <EmailForm
-                activeFieldTab={tab.field}
-                activeContentTab={tab.content}
-                onContentTabSelect={(key) => {
-                  this.handleTabSelect({ content: key, field: tab.field });
-                }}
-                onFieldTabSelect={(key) => {
-                  this.handleTabSelect({ content: tab.content, field: key });
-                }}
-                email={email}
-                onSubmit={(emailToSave) => this.handleFormSave(emailToSave)}
-              />
+                {isLocked
+                  ? null
+                  : <EmailForm
+                    activeFieldTab={tab.field}
+                    activeContentTab={tab.content}
+                    onContentTabSelect={(key) => {
+                      this.handleTabSelect({ content: key, field: tab.field });
+                    }}
+                    onFieldTabSelect={(key) => {
+                      this.handleTabSelect({ content: tab.content, field: key });
+                    }}
+                    email={email}
+                    onSubmit={(emailToSave) => this.handleFormSave(emailToSave)}
+                  />}
             </Col>
             <Col xs={12} sm={12} md={6} lg={6}>
               <Preview

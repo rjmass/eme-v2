@@ -304,9 +304,9 @@ export const emailLoadThunk = (id) => (dispatch) => {
         fetcher(`${config.baseUrl}/emails/lock/${id}`, null)
       ]);
       email = emailRes.entities.emails[id];
-      dispatch(emailLoaded(email));
-      if (lock) {
-        dispatch(emailLocked(lock));
+      await dispatch(emailLoaded(email));
+      if (lock && lock.emailId) {
+        await dispatch(emailLocked(lock));
       }
     } catch (err) {
       dispatch(notifications.danger('Could not load email'));
