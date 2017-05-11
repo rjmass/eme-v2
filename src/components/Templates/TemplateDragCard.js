@@ -69,7 +69,6 @@ export class Card extends Component {
     connectDragSource: PropTypes.func.isRequired,
     connectDropTarget: PropTypes.func.isRequired,
     onSnippetSelect: PropTypes.func.isRequired,
-    onNewsfeedStyleSelect: PropTypes.func.isRequired,
     moveCard: PropTypes.func.isRequired,
     index: PropTypes.number.isRequired,
     isNewsfeed: PropTypes.bool,

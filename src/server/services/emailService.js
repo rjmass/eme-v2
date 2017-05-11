@@ -25,6 +25,10 @@ function* reimportEmailTemplate(emailId) {
   return yield fetcher.putResource('/emails', emailId);
 }
 
+function* fetchEmailLock(emailId) {
+  return yield fetcher.fetchResourceSingle('/emails/lock', emailId);
+}
+
 function* createEmailLock(emailId, username) {
   return yield fetcher.createResource('/emails/lock', { emailId, username });
 }
@@ -36,5 +40,6 @@ module.exports = {
   reimportEmailTemplate,
   patchEmail,
   deleteEmail,
+  fetchEmailLock,
   createEmailLock
 };

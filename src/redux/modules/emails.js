@@ -11,6 +11,7 @@ export const EMAILS_FILTER = 'meme/emails/EMAILS_FILTER';
 export const EMAILS_SORT = 'meme/emails/EMAILS_SORT';
 export const EMAIL_LOAD = 'meme/emails/EMAIL_LOAD';
 export const EMAIL_LOADED = 'meme/emails/EMAIL_LOADED';
+export const EMAIL_LOCKED = 'meme/emails/EMAIL_LOCKED';
 export const EMAIL_UPDATED = 'meme/emails/EMAIL_UPDATED';
 export const EMAIL_DELETE = 'meme/emails/EMAIL_DELETE';
 export const EMAIL_DELETED = 'meme/emails/EMAIL_DELETED';
@@ -68,6 +69,14 @@ export default function reducer(state = initialState, action = {}) {
       return { ...state,
         list: omit(state.list, action.id),
         error: null
+      };
+    }
+    case EMAIL_LOCKED: {
+      const lockedEmail = { ...state.list[action.lock.emailId], lock: action.lock };
+      return {
+        ...state,
+        list: { ...state.list, [action.lock.emailId]: lockedEmail },
+        error: null,
       };
     }
     case EMAILS_FILTER: {
@@ -178,6 +187,11 @@ export const emailDeleted = (id) => {
   return { type, id };
 };
 
+export const emailLocked = (lock) => {
+  const type = EMAIL_LOCKED;
+  return { type, lock };
+};
+
 export const emailValidationErrorThunk = (error = null) => (dispatch) => {
   dispatch(emailValidationError(error));
   dispatch(notifications.danger(`Could not save email: ${error.message}`));
@@ -195,7 +209,8 @@ export const emailLockCreateThunk = (emailId) => (dispatch) => {
     let lock;
     try {
       lock = await fetcher(`${config.baseUrl}/emails/lock`, null, options);
-      await dispatch(notifications.success('Email locked'));
+      dispatch(emailLocked(lock));
+      dispatch(notifications.success('Email locked'));
     } catch (err) {
       dispatch(notifications.danger('Could not lock email'));
     }
@@ -284,9 +299,15 @@ export const emailLoadThunk = (id) => (dispatch) => {
   return (async () => {
     let email;
     try {
-      const emailRes = await fetcher(`${config.baseUrl}/emails/${id}`, Schemas.EMAIL);
+      const [emailRes, lock] = await Promise.all([
+        fetcher(`${config.baseUrl}/emails/${id}`, Schemas.EMAIL),
+        fetcher(`${config.baseUrl}/emails/lock/${id}`, null)
+      ]);
       email = emailRes.entities.emails[id];
       dispatch(emailLoaded(email));
+      if (lock) {
+        dispatch(emailLocked(lock));
+      }
     } catch (err) {
       dispatch(notifications.danger('Could not load email'));
       dispatch(emailServerError(err));

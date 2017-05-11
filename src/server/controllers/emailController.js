@@ -69,6 +69,16 @@ function* reimportEmailTemplate(req, res, next) {
   }
 }
 
+function* readEmailLock(req, res, next) {
+  const emailId = req.params.emailId;
+  try {
+    const lock = yield emailService.fetchEmailLock(emailId);
+    res.json(lock);
+  } catch (err) {
+    next(handleError(err.message, err.status));
+  }
+}
+
 function* createEmailLock(req, res, next) {
   const emailId = req.body.emailId;
   try {
@@ -86,5 +96,6 @@ module.exports = {
   patch,
   deleteEmail,
   reimportEmailTemplate,
+  readEmailLock,
   createEmailLock
 };

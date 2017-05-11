@@ -18,9 +18,4 @@ describe('<Preview />', () => {
     const wrapper = shallow(preview);
     expect(wrapper.find(Tab).first()).to.have.prop('eventKey', 'html');
   });
-
-  it('contains a plaintext tab', () => {
-    const wrapper = shallow(preview);
-    expect(wrapper.find(Tab).last()).to.have.prop('eventKey', 'plain');
-  });
 });
