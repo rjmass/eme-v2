@@ -6,7 +6,7 @@ export default class EmailActions extends Component {
   render() {
     const { onDelete, onClone,
       onSendPreview, onSendEmail,
-      onTemplateReimport } = this.props;
+      onTemplateReimport, onLockEmail } = this.props;
     return (
       <div className={this.props.className}>
         <DropdownButton
@@ -14,9 +14,13 @@ export default class EmailActions extends Component {
           title="Actions"
           id="template-actions"
         >
+          <MenuItem eventKey="lock" onClick={onLockEmail}>
+            <span className="fa fa-lock" />&nbsp;&nbsp;
+            Lock Email
+          </MenuItem>
           <MenuItem eventKey="clone" onClick={onClone}>
             <span className="fa fa-files-o" />&nbsp;
-            Clone
+            Clone Email
           </MenuItem>
           <MenuItem eventKey="clone" onClick={onTemplateReimport}>
             <span className="fa fa-repeat" />&nbsp;

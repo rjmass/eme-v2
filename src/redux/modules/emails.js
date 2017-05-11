@@ -183,6 +183,26 @@ export const emailValidationErrorThunk = (error = null) => (dispatch) => {
   dispatch(notifications.danger(`Could not save email: ${error.message}`));
 };
 
+export const emailLockCreateThunk = (emailId) => (dispatch) => {
+  const body = JSON.stringify({ emailId });
+  const options = {
+    headers,
+    method: 'POST',
+    body
+  };
+
+  return (async () => {
+    let lock;
+    try {
+      lock = await fetcher(`${config.baseUrl}/emails/lock`, null, options);
+      await dispatch(notifications.success('Email locked'));
+    } catch (err) {
+      dispatch(notifications.danger('Could not lock email'));
+    }
+    return lock;
+  })();
+};
+
 export const emailsLoadThunk = () => (dispatch) => {
   dispatch(emailsLoad());
   return (async () => {

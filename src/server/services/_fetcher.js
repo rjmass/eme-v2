@@ -8,7 +8,7 @@ module.exports = (host) => {
     return `Basic ${auth.toString('base64')}`;
   }
 
-  function generateOptions(method = 'GET', body) {
+  function generateOptions(method = 'GET', body, headers = {}) {
     const options = {
       method,
       headers: {
@@ -17,6 +17,7 @@ module.exports = (host) => {
         Authorization: setAuth()
       }
     };
+    Object.assign(options.headers, headers);
     if (body) {
       options.body = JSON.stringify(body);
     }
@@ -73,9 +74,9 @@ module.exports = (host) => {
     return json;
   }
 
-  function* patchResource(pathname, resourceId, reqBody) {
+  function* patchResource(pathname, resourceId, reqBody, headers) {
     const res = yield fetch(`${host}${pathname}/${resourceId}`,
-      generateOptions('PATCH', reqBody));
+      generateOptions('PATCH', reqBody, headers));
     const json = yield res.json();
     if (res.status >= 300) {
       throw handleError(json.message, res.status);

@@ -24,6 +24,9 @@ module.exports = (app) => {
     .route('/scheduled')
     .get(coExpress(scheduledEmail.list));
   router
+    .route('/lock')
+    .post(coExpress(email.createEmailLock));
+  router
     .route('/')
     .get(coExpress(email.list))
     .post(coExpress(email.create));

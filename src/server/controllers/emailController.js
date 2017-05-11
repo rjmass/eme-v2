@@ -42,7 +42,7 @@ function* patch(req, res, next) {
   const emailId = req.params.emailId;
   const body = Object.assign({}, req.body, { type: 'EME' });
   try {
-    const email = yield emailService.patchEmail(emailId, body);
+    const email = yield emailService.patchEmail(emailId, body, req.user.username);
     res.json(email);
   } catch (err) {
     next(handleError(err.message, err.status));
@@ -69,11 +69,22 @@ function* reimportEmailTemplate(req, res, next) {
   }
 }
 
+function* createEmailLock(req, res, next) {
+  const emailId = req.body.emailId;
+  try {
+    const lock = yield emailService.createEmailLock(emailId, req.user.username);
+    res.json(lock);
+  } catch (err) {
+    next(handleError(err.message, err.status));
+  }
+}
+
 module.exports = {
   list,
   read,
   create,
   patch,
   deleteEmail,
-  reimportEmailTemplate
+  reimportEmailTemplate,
+  createEmailLock
 };

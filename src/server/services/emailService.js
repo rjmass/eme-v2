@@ -13,8 +13,8 @@ function* createEmail(emailBody) {
   return yield fetcher.createResource('/emails', emailBody);
 }
 
-function* patchEmail(emailId, emailBody) {
-  return yield fetcher.patchResource('/emails', emailId, emailBody);
+function* patchEmail(emailId, emailBody, username) {
+  return yield fetcher.patchResource('/emails', emailId, emailBody, { 'X-USER': username });
 }
 
 function* deleteEmail(emailId) {
@@ -25,11 +25,16 @@ function* reimportEmailTemplate(emailId) {
   return yield fetcher.putResource('/emails', emailId);
 }
 
+function* createEmailLock(emailId, username) {
+  return yield fetcher.createResource('/emails/lock', { emailId, username });
+}
+
 module.exports = {
   fetchEmails,
   fetchEmail,
   createEmail,
   reimportEmailTemplate,
   patchEmail,
-  deleteEmail
+  deleteEmail,
+  createEmailLock
 };
