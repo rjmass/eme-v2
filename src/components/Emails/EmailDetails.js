@@ -212,6 +212,7 @@ class EmailDetails extends BaseComponent {
                     className="pull-right"
                     lock={email.lock}
                     lockedByOther={isLocked}
+                    adminUser={user.admin}
                     onLockEmail={() => this.handleLockEmailAction()}
                     onUnlockEmail={() => this.handleUnlockEmailAction()}
                     onClone={() => this.handleCloneAction()}

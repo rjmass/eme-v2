@@ -4,9 +4,10 @@ import { DropdownButton, MenuItem } from 'react-bootstrap';
 export default class EmailActions extends Component {
 
   render() {
-    const { onDelete, onClone,
+    const { onDelete, onClone, adminUser,
       onSendPreview, onSendEmail, onUnlockEmail,
       onTemplateReimport, onLockEmail, lockedByOther, lock } = this.props;
+    const canUnlock = !lockedByOther || adminUser;
     return (
       <div className={this.props.className}>
         <DropdownButton
@@ -15,7 +16,7 @@ export default class EmailActions extends Component {
           id="template-actions"
         >
           {lock
-            ? <MenuItem eventKey="lock" disabled={lockedByOther} onSelect={onUnlockEmail}>
+            ? <MenuItem eventKey="lock" disabled={!canUnlock} onSelect={onUnlockEmail}>
               <span className="fa fa-unlock" />&nbsp;&nbsp;
               Unlock Email
             </MenuItem>
