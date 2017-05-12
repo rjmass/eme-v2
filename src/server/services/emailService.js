@@ -33,6 +33,10 @@ function* createEmailLock(emailId, username) {
   return yield fetcher.createResource('/emails/lock', { emailId, username });
 }
 
+function* deleteEmailLock(emailId, username) {
+  return yield fetcher.deleteResource('/emails/lock', emailId, { 'X-USER': username });
+}
+
 module.exports = {
   fetchEmails,
   fetchEmail,
@@ -41,5 +45,6 @@ module.exports = {
   patchEmail,
   deleteEmail,
   fetchEmailLock,
-  createEmailLock
+  createEmailLock,
+  deleteEmailLock
 };

@@ -89,6 +89,23 @@ function* createEmailLock(req, res, next) {
   }
 }
 
+function* deleteEmailLock(req, res, next) {
+  const emailId = req.params.emailId;
+  try {
+    const lock = yield emailService.fetchEmailLock(emailId);
+    if (!lock) {
+      return next(handleError('Lock not found', 404));
+    }
+    // let admin turn off locks for others
+    const username = req.user.admin ? lock.username : req.user.username;
+
+    yield emailService.deleteEmailLock(emailId, username);
+    return res.status(204).json();
+  } catch (err) {
+    return next(handleError(err.message, err.status));
+  }
+}
+
 module.exports = {
   list,
   read,
@@ -97,5 +114,6 @@ module.exports = {
   deleteEmail,
   reimportEmailTemplate,
   readEmailLock,
-  createEmailLock
+  createEmailLock,
+  deleteEmailLock
 };

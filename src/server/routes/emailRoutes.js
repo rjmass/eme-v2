@@ -25,7 +25,8 @@ module.exports = (app) => {
     .get(coExpress(scheduledEmail.list));
   router
     .route('/lock/:emailId')
-    .get(coExpress(email.readEmailLock));
+    .get(coExpress(email.readEmailLock))
+    .delete(coExpress(email.deleteEmailLock));
   router
     .route('/lock')
     .post(coExpress(email.createEmailLock));

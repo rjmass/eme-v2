@@ -12,6 +12,7 @@ export const EMAILS_SORT = 'meme/emails/EMAILS_SORT';
 export const EMAIL_LOAD = 'meme/emails/EMAIL_LOAD';
 export const EMAIL_LOADED = 'meme/emails/EMAIL_LOADED';
 export const EMAIL_LOCKED = 'meme/emails/EMAIL_LOCKED';
+export const EMAIL_UNLOCKED = 'meme/emails/EMAIL_UNLOCKED';
 export const EMAIL_UPDATED = 'meme/emails/EMAIL_UPDATED';
 export const EMAIL_DELETE = 'meme/emails/EMAIL_DELETE';
 export const EMAIL_DELETED = 'meme/emails/EMAIL_DELETED';
@@ -76,6 +77,14 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         list: { ...state.list, [action.lock.emailId]: lockedEmail },
+        error: null,
+      };
+    }
+    case EMAIL_UNLOCKED: {
+      const unlockedEmail = omit(state.list[action.id], 'lock');
+      return {
+        ...state,
+        list: { ...state.list, [action.id]: unlockedEmail },
         error: null,
       };
     }
@@ -192,6 +201,11 @@ export const emailLocked = (lock) => {
   return { type, lock };
 };
 
+export const emailUnlocked = (id) => {
+  const type = EMAIL_UNLOCKED;
+  return { type, id };
+};
+
 export const emailValidationErrorThunk = (error = null) => (dispatch) => {
   dispatch(emailValidationError(error));
   dispatch(notifications.danger(`Could not save email: ${error.message}`));
@@ -215,6 +229,23 @@ export const emailLockCreateThunk = (emailId) => (dispatch) => {
       dispatch(notifications.danger('Could not lock email'));
     }
     return lock;
+  })();
+};
+
+export const emailLockDeleteThunk = (id) => (dispatch) => {
+  const options = {
+    method: 'DELETE',
+  };
+
+  return (async () => {
+    try {
+      await fetcher(`${config.baseUrl}/emails/lock/${id}`, Schemas.EMAIL, options);
+      await dispatch(emailUnlocked(id));
+      dispatch(notifications.success('Email Unlocked'));
+    } catch (err) {
+      dispatch(notifications.danger('Could not unlock email'));
+      dispatch(emailServerError(err));
+    }
   })();
 };
 
@@ -306,7 +337,7 @@ export const emailLoadThunk = (id) => (dispatch) => {
       email = emailRes.entities.emails[id];
       await dispatch(emailLoaded(email));
       if (lock && lock.emailId) {
-        await dispatch(emailLocked(lock));
+        dispatch(emailLocked(lock));
       }
     } catch (err) {
       dispatch(notifications.danger('Could not load email'));

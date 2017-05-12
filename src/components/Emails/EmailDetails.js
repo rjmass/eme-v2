@@ -1,5 +1,5 @@
 import { emailLoadThunk, emailUpdateThunk,
-  emailValidationErrorThunk, emailDeleteThunk,
+  emailValidationErrorThunk, emailDeleteThunk, emailLockDeleteThunk,
   emailCloneThunk, emailReimportThunk, emailLockCreateThunk
 } from 'redux/modules/emails';
 import EmailConfirmDeleteDialog from './EmailConfirmDeleteDialog';
@@ -134,6 +134,11 @@ class EmailDetails extends BaseComponent {
     await dispatch(emailLockCreateThunk(id));
   }
 
+  async handleUnlockEmailAction() {
+    const { dispatch, params: { id } } = this.props;
+    await dispatch(emailLockDeleteThunk(id));
+  }
+
   async handleCloneAction() {
     if (this.isEmailDirty()) {
       return this.openDialog('clone');
@@ -205,8 +210,10 @@ class EmailDetails extends BaseComponent {
                 <Col xs={4}>
                   <EmailActions
                     className="pull-right"
-                    isLocked={isLocked}
+                    lock={email.lock}
+                    lockedByOther={isLocked}
                     onLockEmail={() => this.handleLockEmailAction()}
+                    onUnlockEmail={() => this.handleUnlockEmailAction()}
                     onClone={() => this.handleCloneAction()}
                     onSendPreview={() => this.handleSendPreviewAction()}
                     onSendEmail={() => this.handleSendAction()}
