@@ -8,7 +8,7 @@ module.exports = (host) => {
     return `Basic ${auth.toString('base64')}`;
   }
 
-  function generateOptions(method = 'GET', body) {
+  function generateOptions(method = 'GET', body, headers = {}) {
     const options = {
       method,
       headers: {
@@ -17,6 +17,7 @@ module.exports = (host) => {
         Authorization: setAuth()
       }
     };
+    Object.assign(options.headers, headers);
     if (body) {
       options.body = JSON.stringify(body);
     }
@@ -48,7 +49,7 @@ module.exports = (host) => {
       `${host}${pathname}/${resourceId}`;
     const res = yield fetch(path, generateOptions());
     const json = yield res.json();
-    if (res.status >= 300) {
+    if (!res.ok) {
       throw handleError(json.message, res.status);
     }
     return json;
@@ -57,7 +58,7 @@ module.exports = (host) => {
   function* fetchResourceStream(pathname, query) {
     const path = query ? `${host}${pathname}/${query}` : `${host}${pathname}`;
     const res = yield fetch(path, generateOptions());
-    if (res.status >= 300) {
+    if (!res.ok) {
       throw handleError(res.statusText, res.status);
     }
     return res;
@@ -67,17 +68,17 @@ module.exports = (host) => {
     const res = yield fetch(`${host}${pathname}`,
       generateOptions('POST', reqBody));
     const json = yield res.json();
-    if (res.status >= 300) {
+    if (!res.ok) {
       throw handleError(json.message, res.status);
     }
     return json;
   }
 
-  function* patchResource(pathname, resourceId, reqBody) {
+  function* patchResource(pathname, resourceId, reqBody, headers) {
     const res = yield fetch(`${host}${pathname}/${resourceId}`,
-      generateOptions('PATCH', reqBody));
+      generateOptions('PATCH', reqBody, headers));
     const json = yield res.json();
-    if (res.status >= 300) {
+    if (!res.ok) {
       throw handleError(json.message, res.status);
     }
     return json;
@@ -87,17 +88,17 @@ module.exports = (host) => {
     const res = yield fetch(`${host}${pathname}/${resourceId}`,
       generateOptions('PUT', reqBody));
     const json = yield res.json();
-    if (res.status >= 300) {
+    if (!res.ok) {
       throw handleError(json.message, res.status);
     }
     return json;
   }
 
-  function* deleteResource(pathname, resourceId) {
+  function* deleteResource(pathname, resourceId, headers) {
     const res = yield fetch(`${host}${pathname}/${resourceId}`,
-      generateOptions('DELETE'));
+      generateOptions('DELETE', null, headers));
     const json = yield res.json();
-    if (res.status >= 300) {
+    if (!res.ok) {
       throw handleError(json.message, res.status);
     }
     return json;

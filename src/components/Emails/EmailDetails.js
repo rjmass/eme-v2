@@ -1,6 +1,6 @@
 import { emailLoadThunk, emailUpdateThunk,
-  emailValidationErrorThunk, emailDeleteThunk,
-  emailCloneThunk, emailReimportThunk
+  emailValidationErrorThunk, emailDeleteThunk, emailLockDeleteThunk,
+  emailCloneThunk, emailReimportThunk, emailLockCreateThunk
 } from 'redux/modules/emails';
 import EmailConfirmDeleteDialog from './EmailConfirmDeleteDialog';
 import EmailConfirmCloneDialog from './EmailConfirmCloneDialog';
@@ -129,6 +129,16 @@ class EmailDetails extends BaseComponent {
     return dispatch(emailValidationErrorThunk(validator.error));
   }
 
+  async handleLockEmailAction() {
+    const { dispatch, params: { id } } = this.props;
+    await dispatch(emailLockCreateThunk(id));
+  }
+
+  async handleUnlockEmailAction() {
+    const { dispatch, params: { id } } = this.props;
+    await dispatch(emailLockDeleteThunk(id));
+  }
+
   async handleCloneAction() {
     if (this.isEmailDirty()) {
       return this.openDialog('clone');
@@ -169,11 +179,12 @@ class EmailDetails extends BaseComponent {
   }
 
   render() {
-    const { params: { id }, error, form, emailLoading } = this.props;
+    const { params: { id }, error, form, emailLoading, user } = this.props;
     const email = this.props.list[id] || {};
     const { tab } = this.state;
-    const { emailForm: { htmlFields = {}, plainBody = {} } = {} } = form;
+    const { emailForm: { htmlFields = {} } = {} } = form;
     const isSpinning = !email.htmlBody && emailLoading;
+    const isLocked = email.lock && email.lock.username !== user.username;
     return (
       <Row>
         <Spinner text={"Loading email..."} isVisible={isSpinning} />
@@ -199,6 +210,11 @@ class EmailDetails extends BaseComponent {
                 <Col xs={4}>
                   <EmailActions
                     className="pull-right"
+                    lock={email.lock}
+                    lockedByOther={isLocked}
+                    adminUser={user.admin}
+                    onLockEmail={() => this.handleLockEmailAction()}
+                    onUnlockEmail={() => this.handleUnlockEmailAction()}
                     onClone={() => this.handleCloneAction()}
                     onSendPreview={() => this.handleSendPreviewAction()}
                     onSendEmail={() => this.handleSendAction()}
@@ -295,18 +311,26 @@ class EmailDetails extends BaseComponent {
               {error
                   ? <Message type="danger" text={error.message} />
                   : null}
-              <EmailForm
-                activeFieldTab={tab.field}
-                activeContentTab={tab.content}
-                onContentTabSelect={(key) => {
-                  this.handleTabSelect({ content: key, field: tab.field });
-                }}
-                onFieldTabSelect={(key) => {
-                  this.handleTabSelect({ content: tab.content, field: key });
-                }}
-                email={email}
-                onSubmit={(emailToSave) => this.handleFormSave(emailToSave)}
-              />
+              {email.lock
+                ? <Message
+                  type="warning"
+                  text={`Email is currently locked by ${email.lock.username}`}
+                />
+                : null}
+                {isLocked
+                  ? null
+                  : <EmailForm
+                    activeFieldTab={tab.field}
+                    activeContentTab={tab.content}
+                    onContentTabSelect={(key) => {
+                      this.handleTabSelect({ content: key, field: tab.field });
+                    }}
+                    onFieldTabSelect={(key) => {
+                      this.handleTabSelect({ content: tab.content, field: key });
+                    }}
+                    email={email}
+                    onSubmit={(emailToSave) => this.handleFormSave(emailToSave)}
+                  />}
             </Col>
             <Col xs={12} sm={12} md={6} lg={6}>
               <Preview

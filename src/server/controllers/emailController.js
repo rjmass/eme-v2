@@ -42,7 +42,7 @@ function* patch(req, res, next) {
   const emailId = req.params.emailId;
   const body = Object.assign({}, req.body, { type: 'EME' });
   try {
-    const email = yield emailService.patchEmail(emailId, body);
+    const email = yield emailService.patchEmail(emailId, body, req.user.username);
     res.json(email);
   } catch (err) {
     next(handleError(err.message, err.status));
@@ -69,11 +69,51 @@ function* reimportEmailTemplate(req, res, next) {
   }
 }
 
+function* readEmailLock(req, res, next) {
+  const emailId = req.params.emailId;
+  try {
+    const lock = yield emailService.fetchEmailLock(emailId);
+    res.json(lock);
+  } catch (err) {
+    next(handleError(err.message, err.status));
+  }
+}
+
+function* createEmailLock(req, res, next) {
+  const emailId = req.body.emailId;
+  try {
+    const lock = yield emailService.createEmailLock(emailId, req.user.username);
+    res.json(lock);
+  } catch (err) {
+    next(handleError(err.message, err.status));
+  }
+}
+
+function* deleteEmailLock(req, res, next) {
+  const emailId = req.params.emailId;
+  try {
+    const lock = yield emailService.fetchEmailLock(emailId);
+    if (!lock) {
+      return next(handleError('Lock not found', 404));
+    }
+    // let admin turn off locks for others
+    const username = req.user.admin ? lock.username : req.user.username;
+
+    yield emailService.deleteEmailLock(emailId, username);
+    return res.status(204).json();
+  } catch (err) {
+    return next(handleError(err.message, err.status));
+  }
+}
+
 module.exports = {
   list,
   read,
   create,
   patch,
   deleteEmail,
-  reimportEmailTemplate
+  reimportEmailTemplate,
+  readEmailLock,
+  createEmailLock,
+  deleteEmailLock
 };
