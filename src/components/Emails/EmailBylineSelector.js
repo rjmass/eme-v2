@@ -33,12 +33,13 @@ export default class EmailBylineSelector extends Component {
 
   handleAuthorChange(field, selected) {
     const { onChange } = this.props;
-    const newValue = { ...selected.value };
-    newValue.sendDate = field.sendDate || '';
-    const author = {
-      selected,
-      htmlBody: renderTemplate(bylineTemplate, newValue)
-    };
+    const author = { selected: null, htmlBody: '' };
+    if (selected) {
+      const newValue = { ...selected.value };
+      newValue.sendDate = field.sendDate || '';
+      author.selected = selected;
+      author.htmlBody = renderTemplate(bylineTemplate, newValue);
+    }
     onChange(author);
   }
 
