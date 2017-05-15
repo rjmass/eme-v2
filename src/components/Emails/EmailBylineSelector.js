@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { Col, ControlLabel, FormGroup } from 'react-bootstrap';
+import Switch from 'react-bootstrap-switch';
 import DateTime from 'react-datetime';
 import moment from 'moment';
 import Select from 'react-select';
 import renderTemplate from 'helpers/renderTemplate';
 
 import bylineTemplate from './templates/byline.html';
+import './EmailBylineSelector.css';
 
 export default class EmailBylineSelector extends Component {
   get authors() {
@@ -51,7 +53,15 @@ export default class EmailBylineSelector extends Component {
     };
     return (
       <FormGroup>
-        <Col sm={6}>
+        <Col sm={2} md={3} lg={3}>
+          <ControlLabel>Default</ControlLabel>
+          <Switch
+            wrapperClass="bootstrap-switch-byline"
+            state
+            onChange={() => {}}
+          />
+        </Col>
+        <Col sm={5} md={5} lg={5}>
           <ControlLabel>Author</ControlLabel>
           <Select
             name="author-select"
@@ -63,7 +73,7 @@ export default class EmailBylineSelector extends Component {
           />
         </Col>
         {selectedAuthor.label &&
-          <Col sm={6}>
+          <Col sm={5} md={4} lg={4}>
             <ControlLabel>Send Date</ControlLabel>
             <DateTime
               defaultValue={new Date()}
