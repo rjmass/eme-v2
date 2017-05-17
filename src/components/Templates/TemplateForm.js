@@ -152,6 +152,27 @@ export default class TemplateForm extends Component {
                             <FormControl type="text" placeholder="Subject" {...from.name} />
                           </Col>
                         </FormGroup>
+                        <FormGroup>
+                          <Col sm={12}>
+                            <ControlLabel />
+                            <TemplateDragContainer
+                              htmlString={htmlBody.value}
+                              cards={components.value || []}
+                              onChange={(newHTML, newComponents) => {
+                                this.htmlUpdateHandler(newHTML);
+                                this.handleComponentChange(newComponents);
+                              }}
+                            />
+                            <ControlLabel />
+                            <RichEditor
+                              name="htmlBodyEditor"
+                              articles={false}
+                              contentArea
+                              value={htmlBody.value}
+                              onChange={(newHTML) => this.htmlUpdateHandler(newHTML)}
+                            />
+                          </Col>
+                        </FormGroup>
                       </div>
                     </Tab>
                     <Tab eventKey="authors" title="Authors">
@@ -164,29 +185,6 @@ export default class TemplateForm extends Component {
                     </Tab>
                   </Tabs>
                 </Collapse>
-
-                <FormGroup>
-                  <Col sm={12}>
-                    <ControlLabel />
-                    <TemplateDragContainer
-                      htmlString={htmlBody.value}
-                      cards={components.value || []}
-                      onChange={(newHTML, newComponents) => {
-                        this.htmlUpdateHandler(newHTML);
-                        this.handleComponentChange(newComponents);
-                      }}
-                    />
-
-                    <ControlLabel />
-                    <RichEditor
-                      name="htmlBodyEditor"
-                      articles={false}
-                      contentArea
-                      value={htmlBody.value}
-                      onChange={(newHTML) => this.htmlUpdateHandler(newHTML)}
-                    />
-                  </Col>
-                </FormGroup>
 
                 <FormGroup>
                   <Col sm={8}>
