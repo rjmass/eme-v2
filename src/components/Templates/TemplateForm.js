@@ -23,8 +23,6 @@ export default class TemplateForm extends Component {
 
     this.htmlUpdateHandler
       = debounce((html) => this._htmlUpdateHandler(html), 100);
-    this.plainTextUpdateHandler
-      = debounce((plainText) => this._plainTextUpdateHandler(plainText), 100);
 
     this.state = {};
   }
@@ -37,11 +35,6 @@ export default class TemplateForm extends Component {
   _htmlUpdateHandler(newHtml) {
     const { dispatch } = this.props;
     dispatch(changeField(FORM_NAME, 'htmlBody', newHtml));
-  }
-
-  _plainTextUpdateHandler(newPlainText) {
-    const { dispatch } = this.props;
-    dispatch(changeField(FORM_NAME, 'plainBody', newPlainText));
   }
 
   handleCampaignSelect(campaignId) {
@@ -177,7 +170,7 @@ export default class TemplateForm extends Component {
                     <ControlLabel />
                     <TemplateDragContainer
                       htmlString={htmlBody.value}
-                      cards={components.value}
+                      cards={components.value || []}
                       onChange={(newHTML, newComponents) => {
                         this.htmlUpdateHandler(newHTML);
                         this.handleComponentChange(newComponents);
@@ -190,7 +183,7 @@ export default class TemplateForm extends Component {
                       articles={false}
                       contentArea
                       value={htmlBody.value}
-                      onChange={() => {}}
+                      onChange={(newHTML) => this.htmlUpdateHandler(newHTML)}
                     />
                   </Col>
                 </FormGroup>
