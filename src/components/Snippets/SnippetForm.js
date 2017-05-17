@@ -126,9 +126,8 @@ export default class SnippetForm extends Component {
                   <ControlLabel>Body</ControlLabel>
                   <RichEditor
                     html={Boolean(isHtml.value)}
-                    articles={false}
-                    name="plainBodyEditor"
-                    images={isHtml.value}
+                    name="htmlBodyEditor"
+                    snippets={false}
                     value={body.value}
                     onChange={this.bodyUpdateHandler}
                   />

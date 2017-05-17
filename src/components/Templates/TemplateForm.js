@@ -107,14 +107,14 @@ export default class TemplateForm extends Component {
           <Row>
             <Col sm={12}>
               <Form horizontal onSubmit={handleSubmit}>
-                <Collapse in={!this.state.formCollapsed}>
-                  <Tabs
-                    id="template-fields"
-                    defaultActiveKey={'properties'}
-                    activeKey={activeTab}
-                    onSelect={onTabSelect}
-                  >
-                    <Tab eventKey="properties" title="Properties">
+                <Tabs
+                  id="template-fields"
+                  defaultActiveKey={'properties'}
+                  activeKey={activeTab}
+                  onSelect={onTabSelect}
+                >
+                  <Tab eventKey="properties" title="Properties">
+                    <Collapse in={!this.state.formCollapsed}>
                       <div className="form-collapsible form-pale">
                         <FormGroup>
                           <Col xs={6}>
@@ -152,39 +152,39 @@ export default class TemplateForm extends Component {
                             <FormControl type="text" placeholder="Subject" {...from.name} />
                           </Col>
                         </FormGroup>
-                        <FormGroup>
-                          <Col sm={12}>
-                            <ControlLabel />
-                            <TemplateDragContainer
-                              htmlString={htmlBody.value}
-                              cards={components.value || []}
-                              onChange={(newHTML, newComponents) => {
-                                this.htmlUpdateHandler(newHTML);
-                                this.handleComponentChange(newComponents);
-                              }}
-                            />
-                            <ControlLabel />
-                            <RichEditor
-                              name="htmlBodyEditor"
-                              articles={false}
-                              contentArea
-                              value={htmlBody.value}
-                              onChange={(newHTML) => this.htmlUpdateHandler(newHTML)}
-                            />
-                          </Col>
-                        </FormGroup>
                       </div>
-                    </Tab>
-                    <Tab eventKey="authors" title="Authors">
-                      <TemplateAuthors
-                        authors={authors}
-                        onAuthorAdd={() => this.handleAddAuthor()}
-                        onAuthorUpdate={(i, q) => this.handleUpdateAuthor(i, q)}
-                        onAuthorRemove={(i) => this.handleRemoveAuthor(i)}
-                      />
-                    </Tab>
-                  </Tabs>
-                </Collapse>
+                    </Collapse>
+                    <FormGroup>
+                      <Col sm={12}>
+                        <ControlLabel />
+                        <TemplateDragContainer
+                          htmlString={htmlBody.value}
+                          cards={components.value || []}
+                          onChange={(newHTML, newComponents) => {
+                            this.htmlUpdateHandler(newHTML);
+                            this.handleComponentChange(newComponents);
+                          }}
+                        />
+                        <ControlLabel />
+                        <RichEditor
+                          name="htmlBodyEditor"
+                          articles={false}
+                          contentArea
+                          value={htmlBody.value}
+                          onChange={(newHTML) => this.htmlUpdateHandler(newHTML)}
+                        />
+                      </Col>
+                    </FormGroup>
+                  </Tab>
+                  <Tab eventKey="authors" title="Authors">
+                    <TemplateAuthors
+                      authors={authors}
+                      onAuthorAdd={() => this.handleAddAuthor()}
+                      onAuthorUpdate={(i, q) => this.handleUpdateAuthor(i, q)}
+                      onAuthorRemove={(i) => this.handleRemoveAuthor(i)}
+                    />
+                  </Tab>
+                </Tabs>
 
                 <FormGroup>
                   <Col sm={8}>

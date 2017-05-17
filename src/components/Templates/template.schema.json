@@ -15,16 +15,10 @@
     },
     "subject": {
       "description": "Subject",
-      "type": "string",
-      "minLength": 1
+      "type": "string"
     },
     "htmlBody": {
       "description": "Html body",
-      "type": "string",
-      "minLength": 1
-    },
-    "plainBody": {
-      "description": "Plain text body",
       "type": "string",
       "minLength": 1
     },
@@ -42,7 +36,6 @@
   },
   "required": [
     "name",
-    "htmlBody",
-    "plainBody"
+    "htmlBody"
   ]
 }
