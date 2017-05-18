@@ -47,7 +47,7 @@ export default class EmailBylineSelector extends Component {
   _handleToggleGuest(field) {
     const { onChange } = this.props;
     const author = {};
-    const guestVal = { ...field.selected.value };
+    const guestVal = field.selected && { ...field.selected.value } || {};
     guestVal.sendDate = field.sendDate || '';
     if (!field.guest) {
       guestVal.photo = '';
@@ -135,11 +135,21 @@ export default class EmailBylineSelector extends Component {
             </FormGroup>
           </Col>
         </Row>
-        <Row>
-          <Col>
-            Hello
+        {!defaultAuthors && <Row>
+          <Col xs={12}>
+            <FormGroup>
+              <Col xs={8}>
+                <ControlLabel>Author URL</ControlLabel>
+                <FormControl
+                  type="text"
+                  placeholder="Author URL"
+                  onChange={() => {}}
+                />
+              </Col>
+            </FormGroup>
           </Col>
         </Row>
+        }
       </div>
     );
   }
