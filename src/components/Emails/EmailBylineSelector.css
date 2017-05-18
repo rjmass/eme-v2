@@ -1,0 +1,4 @@
+/*Override for switch in Byline Selector*/
+.bootstrap-switch.bootstrap-switch-byline {
+  display: block;
+}

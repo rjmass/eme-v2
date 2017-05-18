@@ -1,11 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import Editor from './Editor';
-import InsertContentArea from './InsertContentArea';
 import { SnippetPicker } from 'components/Snippets';
-import { NewsPicker } from 'components/NewsFeed';
-import HtmlToPlain from './HtmlToPlain';
-import InsertImage from './InsertImage';
 
 class RichEditor extends Component {
 
@@ -38,11 +34,6 @@ class RichEditor extends Component {
       onChange,
       html = true,
       snippets = true,
-      articles = true,
-      contentArea = false,
-      fromHtmlSource = false,
-      fromHtmlFields = {},
-      images = true,
     } = this.props;
 
     const editorProps = {
@@ -61,33 +52,6 @@ class RichEditor extends Component {
             <SnippetPicker
               html={html}
               onSelect={(snippet) => this.handleOnSnippetSelect(snippet)}
-            />
-          </Col>}
-
-          {images && <Col xs={1}>
-            <InsertImage
-              onInsert={(snippet) => this.handleOnSnippetSelect(snippet)}
-            />
-          </Col>}
-
-          {contentArea && <Col xs={1}>
-            <InsertContentArea
-              currentHTMLBody={value}
-              onInsert={(snippet) => this.handleOnSnippetSelect(snippet)}
-            />
-          </Col>}
-
-          {articles && <Col xs={1}>
-            <NewsPicker
-              onInsert={(snippet) => this.handleOnSnippetSelect(snippet)}
-            />
-          </Col>}
-
-          {fromHtmlSource && <Col xs={1}>
-            <HtmlToPlain
-              html={fromHtmlSource}
-              fields={fromHtmlFields}
-              onInsert={(plain) => this.handleBodyReplace(plain)}
             />
           </Col>}
         </Row>

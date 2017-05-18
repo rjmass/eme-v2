@@ -142,8 +142,8 @@ class NewsQueryDialog extends Component {
                   <ControlLabel>Filter Summary</ControlLabel>
                   <div>
                     <Switch
-                      state={filterSummary}
-                      onChange={(val) => this.setState({ filterSummary: val })}
+                      value={filterSummary}
+                      onChange={(_, val) => this.setState({ filterSummary: val })}
                     />
                   </div>
                 </Col>

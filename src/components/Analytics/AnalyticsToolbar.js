@@ -15,8 +15,8 @@ export default class AnalyticsToolbar extends Toolbar {
         <div>
           <ControlLabel>Isolate Rows</ControlLabel>
           <Switch
-            state={this.props.isolationEnabled}
-            onChange={(event) => this.props.onIsolateRows(event)}
+            value={this.props.isolationEnabled}
+            onChange={(_, event) => this.props.onIsolateRows(event)}
           />
         </div>
       );

@@ -95,8 +95,8 @@ class EmailSendDialog extends Component {
                   <ControlLabel>Send immediately</ControlLabel>
                   <div>
                     <Switch
-                      state={now}
-                      onChange={(_now) => this.handleSwitchToggle(_now)}
+                      value={now}
+                      onChange={(_, state) => this.handleSwitchToggle(state)}
                     />
                   </div>
                 </Col>

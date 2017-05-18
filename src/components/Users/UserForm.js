@@ -54,8 +54,8 @@ export default class UserForm extends Component {
                   <ControlLabel>Admin</ControlLabel>
                   <div>
                     <Switch
-                      state={admin.value}
-                      onChange={(v) => this.isAdminUpdateHandler(v)}
+                      value={admin.value}
+                      onChange={(_, v) => this.isAdminUpdateHandler(v)}
                     />
                   </div>
                 </Col>

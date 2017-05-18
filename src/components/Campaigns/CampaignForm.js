@@ -47,8 +47,8 @@ export default class CampaignForm extends Component {
           <Col xs={7}>
             <div>
               <Switch
-                state={archived.value}
-                onChange={(v) => this.campaignUpdateHandler(v)}
+                value={archived.value}
+                onChange={(_, v) => this.campaignUpdateHandler(v)}
               />
             </div>
           </Col>
