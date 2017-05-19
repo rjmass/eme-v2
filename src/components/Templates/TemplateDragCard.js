@@ -83,11 +83,10 @@ export class Card extends Component {
   }
 
   render() {
-    const { card, isNewsfeed, isDragging, connectDragSource, connectDropTarget } = this.props;
-    const { snippet, meta = {} } = card;
+    const { card, isDragging, connectDragSource, connectDropTarget } = this.props;
+    const { snippet } = card;
     const opacity = isDragging ? 0 : 1;
     const handleSnippetSelect = (s) => this.handleOnSnippetSelect(s);
-    const handleNewsfeedSelect = (s) => this.handleOnNewsfeedSelect(s);
 
     return connectDragSource(connectDropTarget(
       <div style={{ ...style, opacity }}>
@@ -98,17 +97,6 @@ export class Card extends Component {
           value={snippet.name}
           onSelect={handleSnippetSelect}
         />
-        {isNewsfeed &&
-          <div className="help-block">
-            <strong>Newsfeed Style:</strong><br />
-            <strong>{meta.newsfeedStyle && meta.newsfeedStyle.name}</strong>
-            <SnippetPicker
-              html
-              filter={s => s.isNewsfeedStyle}
-              value={name}
-              onSelect={handleNewsfeedSelect}
-            />
-          </div>}
       </div>
     ));
   }

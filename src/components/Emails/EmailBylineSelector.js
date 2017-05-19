@@ -36,7 +36,8 @@ export default class EmailBylineSelector extends Component {
   handleDateSelect(field, date) {
     const { onChange } = this.props;
     const sendDate = date.format('LL');
-    const newValue = { ...field.selected.value, sendDate };
+    const newValue = field.guest ? { ...field.guest } : { ...field.selected.value };
+    newValue.sendDate = sendDate;
     const author = {
       sendDate,
       htmlBody: renderTemplate(bylineTemplate, newValue)
@@ -53,6 +54,7 @@ export default class EmailBylineSelector extends Component {
       guestVal.photo = '';
       guestVal.authorURL = '';
       author.guest = { name: guestVal.name, photo: '', authorURL: '' };
+      author.selected = null;
       author.htmlBody = renderTemplate(bylineTemplate, guestVal);
     } else {
       author.guest = null;
@@ -73,12 +75,12 @@ export default class EmailBylineSelector extends Component {
     onChange(author);
   }
 
-  handleGuestChange(field, guest) {
+  handleGuestChange(field, guest = {}) {
     const { onChange } = this.props;
     const author = {};
     const newValue = { ...field.guest, ...guest };
+    author.guest = { ...newValue };
     newValue.sendDate = field.sendDate || '';
-    author.guest = guest;
     author.htmlBody = renderTemplate(bylineTemplate, newValue);
     onChange(author);
   }
@@ -117,10 +119,10 @@ export default class EmailBylineSelector extends Component {
                   : <FormControl
                     type="text"
                     placeholder="Name"
-                    onChange={(e) => this.handleGuestChange(value, e.target.value)}
+                    onChange={(e) => this.handleGuestChange(value, { name: e.target.value })}
                   />}
               </Col>
-                {!defaultAuthors || selectedAuthor.label &&
+                {((!defaultAuthors && value.guest.name) || selectedAuthor.label) &&
                   <Col sm={5} md={4} lg={4}>
                     <ControlLabel>Send Date</ControlLabel>
                     <DateTime
@@ -143,7 +145,7 @@ export default class EmailBylineSelector extends Component {
                 <FormControl
                   type="text"
                   placeholder="Author URL"
-                  onChange={() => {}}
+                  onChange={(e) => this.handleGuestChange(value, { authorURL: e.target.value })}
                 />
               </Col>
             </FormGroup>
