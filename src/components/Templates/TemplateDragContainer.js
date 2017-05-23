@@ -4,6 +4,7 @@ import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import Card from './TemplateDragCard';
 import { Button, ControlLabel } from 'react-bootstrap';
+let cheerio = require('cheerio')
 
 const style = {
   width: '100%'
@@ -19,23 +20,43 @@ export default class TemplateDragContainer extends Component {
 
   insertContent(components) {
     const { htmlString, onChange } = this.props;
-    let commentCount = 0;
-    let newsfeedCount = 0;
     const parser = new DOMParser();
-    const commentReplacer = () => {
-      ++commentCount;
-      return `Comment ${commentCount}`;
-    };
-    const newsfeedReplacer = () => {
-      ++newsfeedCount;
-      return `Newsfeed ${newsfeedCount}`;
-    };
-    const componentString = components.reduce((acc, card) => {
-      acc += (card.snippet.body || '')
-        .replace(/COMMENT_AREA/g, commentReplacer)
-        .replace(/NEWSFEED_AREA/g, newsfeedReplacer);
-      return acc;
-    }, '');
+    let typeRegister = {};
+    const placeHolderPattern = /<!--mdPlaceholder::\d{1,5}-->+/g;
+    const markDownPattern = /{{\s*([^}]|(}?[^}]*)\s)*\s*}}/g; // match handlebar style markdown
+    const typeReplacer = (fieldType) => {
+      if(typeof typeRegister[fieldType] === 'undefined') {
+        typeRegister[fieldType] = 0;
+      }
+      typeRegister[fieldType]++;
+      const fieldTypeProperCase =
+        fieldType.charAt(0).toUpperCase() + fieldType.slice(1).toLowerCase();
+      return `${fieldTypeProperCase} ${typeRegister[fieldType]}`;
+    }
+
+    let componentString = '';
+    for (let component of components) {
+      if(component.snippet.body){
+        let markDowns = []; // used to store markdown for later reinsertion after dom manipulation
+        const componentBody = component.snippet.body.replace(placeHolderPattern, (match, name) => {
+          return ''; // prevent hack attempts from false placeholders (a bit paranoid)
+        });
+        const htmlSanitised = componentBody.replace(markDownPattern, (match, name) => {
+          markDowns.push(match); // save match for later, this will get reinstated
+          return `<!--mdPlaceholder::${markDowns.length-1}-->`;
+        });
+        let htmlObj = cheerio.load(htmlSanitised);
+        for (let ce of htmlObj('content').toArray()) {  // itterate for each contentElement
+          const fieldType = ce.attribs.name.toUpperCase();  // be case insensitive
+          ce.attribs.name = typeReplacer(fieldType);
+          ce.attribs['data-eme-type'] = fieldType;
+        }
+        // look for markDown placeholders and reinstate the removed markdown
+        componentString += htmlObj.html().replace(placeHolderPattern, (match, name) => {
+          return markDowns[new RegExp(/\d{1,5}/).exec(match)];
+        });
+      }
+    }
     const html = parser.parseFromString(htmlString, 'text/html');
     html.getElementById('email-body').innerHTML = componentString;
     onChange(html.documentElement.innerHTML, components);
