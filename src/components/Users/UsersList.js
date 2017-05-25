@@ -20,6 +20,6 @@ export default class UsersList extends BaseList {
   }
 
   get headers() {
-    return ['Userame', 'Name', 'Admin', 'Active'];
+    return ['Username', 'Name', 'Admin', 'Active'];
   }
 }
