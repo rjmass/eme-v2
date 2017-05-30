@@ -93,6 +93,74 @@
             },
             "required": ["attrs", "index"]
           }]
+        },
+
+        "^Newsfeed": {
+          "anyOf": [{
+            "type": "object",
+            "properties": {
+              "attrs": {
+                "type": "object",
+
+                "properties": {
+                  "data-eme-type": {
+                    "description": "Sets the type of HTML component",
+                    "type": "string"
+                  },
+                  "data-eme-required": {
+                    "description": "Sets if a HTML components content is required",
+                    "type": "string",
+                    "enum": ["true"]
+                  },
+                  "name": {
+                    "description": "The name of a HTML component",
+                    "type": "string"
+                  }
+                },
+                "required": ["data-eme-type", "name", "data-eme-required"]
+              },
+              "index": {
+                "type": "integer"
+              },
+              "articles": {
+                "description": "articles",
+                "type": "array",
+                "minItems": 1
+              }
+            },
+            "required": ["attrs", "index", "articles"]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "attrs": {
+                "type": "object",
+                  "properties": {
+                    "data-eme-type": {
+                      "description": "Sets the type of HTML component",
+                      "type": "string"
+                    },
+                    "data-eme-required": {
+                      "description": "Sets if a HTML components content is required",
+                      "enum": ["false", null]
+                    },
+                    "name": {
+                      "description": "The name of a HTML component",
+                      "type": "string"
+                    }
+                  },
+                "required": ["data-eme-type", "name"]
+              },
+              "index": {
+                "type": "integer"
+              },
+              "articles": {
+                "description": "articles",
+                "type": "array"
+              }
+            },
+            "required": ["attrs", "index"]
+          }]
         }
       }
     },
