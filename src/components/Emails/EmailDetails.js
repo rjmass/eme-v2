@@ -81,6 +81,7 @@ class EmailDetails extends BaseComponent {
       dispatch(accountUpdateThunk(user._id, { preferences: { confirmEmailSave: false } }));
     }
     let email = getValues(form.emailForm);
+
     if (email.autogeneratePlain) {
       const htmlWithFields = replaceCustomTags(email.htmlBody, email.htmlFields);
       email = Object.assign({}, email, { plainBody: plainTextConverter(htmlWithFields) });
@@ -91,6 +92,7 @@ class EmailDetails extends BaseComponent {
       dispatch(emailValidationErrorThunk(validator.error));
       return false;
     }
+
     await dispatch(emailUpdateThunk(id, email));
     dispatch(initialize(FORM_NAME, email, fields));
     return true;

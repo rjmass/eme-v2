@@ -23,6 +23,79 @@
       "type": "string",
       "minLength": 1
     },
+    "htmlFields": {
+      "description": "Additional Components for adding into a template",
+      "type": "object",
+      "minProperties": 1,
+      "patternProperties": {
+        "^Comment": {
+          "anyOf": [{
+            "type": "object",
+            "properties": {
+              "attrs": {
+                "type": "object",
+                "properties": {
+                  "data-eme-type": {
+                    "description": "Sets the type of HTML component",
+                    "type": "string"
+                  },
+                  "data-eme-required": {
+                    "description": "Sets if a HTML components content is required",
+                    "type": "string",
+                    "enum": ["true"]
+                  },
+                  "name": {
+                    "description": "The name of a HTML component",
+                    "type": "string"
+                  }
+                },
+                "required": ["data-eme-type", "name", "data-eme-required"]
+              },
+              "index": {
+                "type": "integer"
+              },
+              "htmlBody": {
+                "description": "A Comment",
+                "type": "string",
+                "format": "htmlComment"
+              }
+            },
+            "required": ["attrs", "index"]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "attrs": {
+                "type": "object",
+                  "properties": {
+                    "data-eme-type": {
+                      "description": "Sets the type of HTML component",
+                      "type": "string"
+                    },
+                    "data-eme-required": {
+                      "description": "Sets if a HTML components content is required",
+                      "enum": ["false", null]
+                    },
+                    "name": {
+                      "description": "The name of a HTML component",
+                      "type": "string"
+                    }
+                  },
+                "required": ["data-eme-type", "name"]
+              },
+              "index": {
+                "type": "integer"
+              },
+              "htmlBody": {
+                "description": "A Comment",
+                "type": "string"
+              }
+            },
+            "required": ["attrs", "index"]
+          }]
+        }
+      }
+    },
     "htmlBody": {
       "description": "HTML body",
       "type": "string",
@@ -96,6 +169,6 @@
   "required": [
     "name",
     "subject",
-    "description"
+    "htmlFields"
   ]
 }

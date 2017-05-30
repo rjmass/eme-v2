@@ -76,50 +76,5 @@ export default class EmailFieldEditor extends Component {
         </Accordion>
       </div> : null
     );
-
-/*
-    return (htmlFields ?
-      <div>
-        <Accordion
-          activeKey={activeField}
-          onSelect={(key) => onSelect(key)}
-        >
-          {fields.map((field) =>
-            <Panel
-              key={field.key}
-              eventKey={field.key}
-              data-key={field.key}
-              header={`${field.key}`}
-            >
-              {activeField === field.key && field.key.toLowerCase().includes('comment') &&
-                <RichEditor
-                  value={field.htmlBody}
-                  onChange={(htmlBody) => onFieldChanged(field.key, { ...field, htmlBody })}
-                  name={`field-html-editor-${field.key}`}
-                />}
-
-              {activeField === field.key && field.key.toLowerCase().includes('newsfeed') &&
-                <NewsFeedForm
-                  cards={field.articles || []}
-                  newsfeedStyle={defaultNewsfeedStyle}
-                  snippet={field.snippet}
-                  onChange={(htmlBody, articles, snippet) => {
-                    onFieldChanged(field.key, { ...field, htmlBody, articles, snippet });
-                  }}
-                />}
-
-              {field.key.toLowerCase() === 'byline' &&
-                <EmailBylineSelector
-                  value={field}
-                  authors={authors}
-                  onChange={(author) => onFieldChanged(field.key, { ...field, ...author })}
-                />
-                }
-            </Panel>
-          )}
-        </Accordion>
-      </div> : null
-    );
-*/
   }
 }

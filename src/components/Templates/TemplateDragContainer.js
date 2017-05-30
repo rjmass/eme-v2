@@ -4,7 +4,8 @@ import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import Card from './TemplateDragCard';
 import { Button, ControlLabel } from 'react-bootstrap';
-let cheerio = require('cheerio')
+let cheerio = require('cheerio');
+import { placeHolderPattern, markDownPattern } from '../../utils/regex';
 
 const style = {
   width: '100%'
@@ -22,8 +23,6 @@ export default class TemplateDragContainer extends Component {
     const { htmlString, onChange } = this.props;
     const parser = new DOMParser();
     let typeRegister = {};
-    const placeHolderPattern = /<!--mdPlaceholder::\d{1,5}-->+/g;
-    const markDownPattern = /{{\s*([^}]|(}?[^}]*)\s)*\s*}}/g; // match handlebar style markdown
     const typeReplacer = (fieldType) => {
       if(typeof typeRegister[fieldType] === 'undefined') {
         typeRegister[fieldType] = 0;

@@ -18,9 +18,11 @@
     "lint": "eslint -c .eslintrc src",
     "dev": "better-npm-run start-dev",
     "test": "npm run test-node && npm run test-browser && npm run lint",
+    "test-in-docker": "npm run test-node-docker && npm run test-browser && npm run lint",
     "test-browser": "better-npm-run start-browser-test",
     "test-browser-watch": "better-npm-run start-browser-test-watch",
     "test-node": "better-npm-run start-node-test",
+    "test-node-docker": "better-npm-run start-node-test-docker",
     "test-node-watch": "better-npm-run start-node-test-watch"
   },
   "betterScripts": {
@@ -45,6 +47,15 @@
         "NODE_PATH": "./src",
         "NODE_ENV": "test",
         "MONGOHQ_URL": "localhost:27017/ft-email-meme-frontend-test",
+        "PORT": 4444
+      }
+    },
+    "start-node-test-docker": {
+      "command": "./node_modules/mocha/bin/mocha $(find src/test -name '*.test.js')",
+      "env": {
+        "NODE_PATH": "./src",
+        "NODE_ENV": "test",
+        "MONGOHQ_URL": "email-meme-mongodb/ft-email-meme-dev",
         "PORT": 4444
       }
     },
@@ -217,6 +228,7 @@
     "node-sass": "^4.5.0",
     "react-a11y": "^0.3.3",
     "react-addons-test-utils": "^15.3.2",
+    "react-test-renderer": "^15.5.4",
     "react-transform-catch-errors": "^1.0.2",
     "react-transform-hmr": "^1.0.4",
     "redbox-react": "^1.2.10",
